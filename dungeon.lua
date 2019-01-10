@@ -24,9 +24,9 @@ function scene:create(event)
 	{
 		text = "Gained All these items --> <-- More items appear here!",
 		x = display.contentCenterX,
-		y = display.contentCenterY+72,
+		y = display.contentCenterY+92,
 		width = gWidth-15,
-		height = (gHeight-72)-((gHeight/2)+70),
+		height = (gHeight-92)-((gHeight/2)+70),
 		font = native.systemFont,
 		fontSize = 14,
 		align = "center"
@@ -49,10 +49,15 @@ function scene:create(event)
 	local fleeText = display.newText("FLEE", gWidth-(gWidth/6), gHeight-40, native.systemFontBold, 16)
 	
 	--[TextBox Logs]
-	local playerNameText = display.newText(tostring(Variables[9]) .. " (Lvl. " .. tostring(Variables[14]) .. ")", display.contentCenterX,display.contentCenterY+20, native.systemFont, 16)
-	local playerRollText = display.newText('Test', display.contentCenterX, display.contentCenterY+42, native.systemFont, 14)
-	local playerHitText = display.newText('Hit for 18 damage!', display.contentCenterX, display.contentCenterY+62, native.systemFont, 14)
+	local playerNameText = display.newText(tostring(Variables[9]).." (Lvl. "..tostring(Variables[13])..")", display.contentCenterX,display.contentCenterY+20, native.systemFont, 16)
+	local playerHealthText = display.newText(tostring(Variables[14]).." / "..tostring(Variables[15]).." HP", display.contentCenterX, display.contentCenterY+42, native.systemFont, 14)
+	local playerRollText = display.newText('Test', display.contentCenterX, display.contentCenterY+62, native.systemFont, 14)
+	local playerHitText = display.newText('Hit for 18 damage!', display.contentCenterX, display.contentCenterY+82, native.systemFont, 14)
 	local itemLog = display.newText(itemOptions)
+	local monsterNameText = display.newText(tostring(Variables[38]).." (Lvl. "..tostring(Variables[41])..")",display.contentCenterX, 130, native.systemFont, 16)
+	local monsterHealthText = display.newText(tostring(Variables[42]).." / "..tostring(Variables[43]).." HP", display.contentCenterX, 152, native.systemFont, 14)
+	local monsterRollText = display.newText("(1d20+2) = 8", display.contentCenterX, 172, native.systemFont, 14)
+	local monsterLog = display.newText("Monster's claw attack missed", display.contentCenterX, 192, native.systemFont, 14)
 	
 	--[Edit Buttons/Text/Objects]
 	centerRect:setFillColor(0.2)
@@ -66,10 +71,17 @@ function scene:create(event)
 	tText:setFillColor(0)
 	aText:setFillColor(0)
 	playerNameText:setFillColor(0)
+	playerHealthText:setFillColor(0)
 	playerRollText:setFillColor(0)
 	playerHitText:setFillColor(0)
 	itemLog:setFillColor(0)
 	itemLog.anchorY = 0
+	monsterNameText:setFillColor(0)
+	monsterHealthText:setFillColor(0)
+	monsterRollText:setFillColor(0)
+	monsterLog:setFillColor(0)
+	
+	--[Event Listeners]
 	tButton:addEventListener("touch", tButton)
 	aButton:addEventListener("touch", aButton)
 	
@@ -89,9 +101,14 @@ function scene:create(event)
 	sceneGroup:insert(healText)
 	sceneGroup:insert(fleeText)
 	sceneGroup:insert(playerNameText)
+	sceneGroup:insert(playerHealthText)
 	sceneGroup:insert(playerRollText)
 	sceneGroup:insert(playerHitText)
 	sceneGroup:insert(itemLog)
+	sceneGroup:insert(monsterNameText)
+	sceneGroup:insert(monsterHealthText)
+	sceneGroup:insert(monsterRollText)
+	sceneGroup:insert(monsterLog)
 	
 	--[[ Tavern Button Event ]]
 	function tButton:touch(event)
