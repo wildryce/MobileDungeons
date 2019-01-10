@@ -68,19 +68,17 @@ function scene:create(event)
 	fishButton:setFillColor(1,0.5,0)
 	
 	function tButton:touch(event)
-			if event.phase == "began" then
-				print("--Tavern Pressed--")
-				composer.removeScene( "activities" )
-				composer.gotoScene("tavern")
-			end
+		if event.phase == "began" then
+			composer.removeScene( "activities" )
+			composer.gotoScene("tavern")
 		end
-		function dButton:touch(event)
-			if event.phase == "began" then
-				print("--Dungeon Pressed--")
-				composer.removeScene( "activities" )
-				composer.gotoScene("dungeon")
-			end
+	end
+	function dButton:touch(event)
+		if event.phase == "began" then
+			composer.removeScene( "activities" )
+			composer.gotoScene("dungeon")
 		end
+	end
 end
 
 -- show()
