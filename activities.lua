@@ -7,12 +7,13 @@
 -- Scene Composer
 local composer = require("composer")
 local scene = composer.newScene()
+local widget = require("widget")
 
 -- create()
 function scene:create(event)
 	local aspectRatio = display.pixelHeight / display.pixelWidth
-	local width = aspectRatio > 1.5 and 320 or math.ceil( 480 / aspectRatio )
-	local height = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
+	local gWidth = aspectRatio > 1.5 and 320 or math.ceil( 480 / aspectRatio )
+	local gHeight = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
 	
 	local sceneGroup = self.view
 
@@ -20,21 +21,104 @@ function scene:create(event)
 	local newtitle = display.newText("Mobile Dungeons [ACTIVITIES]", display.contentCenterX, 150, native.systemFont, 15)
 	newtitle:setFillColor(0)
 	
-	local dButton = display.newRoundedRect(width/5.99, 95, width/3.1, 35, 7)
-	local tButton = display.newRoundedRect(display.contentCenterX, 95, width/3, 35, 7)
-	local aButton = display.newRoundedRect(width-(width/5.99), 95, width/3.1, 35, 7)
-	local dText = display.newText("DUNGEON", width/5.99, 95, native.systemFontBold, 16)
-	local tText = display.newText("TAVERN", display.contentCenterX, 95, native.systemFontBold, 16)
-	local aText = display.newText("ACTIVITIES", width-(width/5.99), 95, native.systemFontBold, 16)
+	--[Buttons]
+	dButton = widget.newButton({
+		id = "dungeon",
+		label = "DUNGEON",
+		shape = "roundedRect",
+		fillColor = {default={1,0,0,1}, over={1,0,0,1}},
+		labelColor = {default={0}, over={0}},
+		font = native.systemFontBold,
+		fontSize = 16,
+		x = gWidth/5.99, 
+		y = 95, 
+		width = gWidth/3.1, 
+		height = 35,
+		cornerRadius = 7,
+		onRelease = swapScene
+		})
+	tButton = widget.newButton({
+		id = "tavern",
+		label = "TAVERN",
+		shape = "roundedRect",
+		fillColor = {default={0,1,0,1}, over={0,1,0,1}},
+		labelColor = {default={0}, over={0}},
+		font = native.systemFontBold,
+		fontSize = 16,
+		x = display.contentCenterX, 
+		y = 95, 
+		width = gWidth/3, 
+		height = 35,
+		cornerRadius = 7,
+		onRelease = swapScene
+		})
+	aButton = widget.newButton({
+		id = "activities",
+		label = "ACTIVITIES",
+		shape = "roundedRect",
+		fillColor = {default={0,0,1,1}, over={0,0,1,1}},
+		labelColor = {default={0}, over={0}},
+		font = native.systemFontBold,
+		fontSize = 16,
+		x = gWidth-(gWidth/5.99), 
+		y = 95, 
+		width = gWidth/3.1, 
+		height = 35,
+		cornerRadius = 7
+	})
 	
-	local mineButton = display.newRect(width/4, height-70, width/2, 30)
-	local forageButton = display.newRect(width/4, height-40, width/2, 30)
-	local chopButton = display.newRect(width-(width/4), height-70, width/2, 30)
-	local fishButton = display.newRect(width-(width/4), height-40, width/2, 30)
-	local mineText = display.newText("M I N E", width/4, height-70, native.systemFontBold, 16)
-	local forageText = display.newText("F O R A G E", width/4, height-40, native.systemFontBold, 16)
-	local chopText = display.newText("C H O P", width-(width/4), height-70, native.systemFontBold, 16)
-	local fishText = display.newText("F I S H", width-(width/4), height-40, native.systemFontBold, 16)
+	local mineButton = widget.newButton({
+		id = "mine",
+		label = "M I N E",
+		shape = "rect",
+		x = gWidth/4, 
+		y = gHeight-70, 
+		width = gWidth/2, 
+		height = 30,
+		fillColor = {default={1,0.5,0,1}, over={1,0.5,0,1}},
+		font = native.systemFontBold,
+		labelColor = {default={1}},
+		onRelease = activityPress
+	})
+	local forageButton = widget.newButton({
+		id = "forage",
+		shape = "rect",
+		x = gWidth/4, 
+		y = gHeight-40, 
+		width = gWidth/2, 
+		height = 30,
+		label = "F O R A G E",
+		fillColor = {default={1,0,0,1},over={1,0,0,1}},
+		font = native.systemFontBold,
+		labelColor = {default={1}},
+		onRelease = activityPress
+	})
+	local chopButton = widget.newButton({
+		id = "chop",
+		shape = "rect",
+		x = gWidth-(gWidth/4), 
+		y = gHeight-70, 
+		width = gWidth/2, 
+		height = 30,
+		label = "C H O P",
+		fillColor = {default={1,0,0,1}, over={1,0,0,1}},
+		font = native.systemFontBold,
+		labelColor = {default={1}},
+		onRelease = activityPress
+	})
+	local fishButton = widget.newButton({
+	id = "fish",
+	shape = "rect",
+	x = gWidth-(gWidth/4), 
+	y = gHeight-40, 
+	width = gWidth/2, 
+	height = 30,
+	label = "F O R A G E",
+	fillColor = {default={1,0.5,0,1}, over={1,0.5,0,1}},
+	font = native.systemFontBold,
+	labelColor = {default={1}},
+	onRelease = activityPress
+	})
 	
 	sceneGroup:insert(background)
 	sceneGroup:insert(newtitle)
@@ -45,42 +129,36 @@ function scene:create(event)
 	sceneGroup:insert(forageButton)
 	sceneGroup:insert(fishButton)
 	sceneGroup:insert(chopButton)
-	sceneGroup:insert(dText)
-	sceneGroup:insert(tText)
-	sceneGroup:insert(aText)
-	sceneGroup:insert(mineText)
-	sceneGroup:insert(forageText)
-	sceneGroup:insert(fishText)
-	sceneGroup:insert(chopText)
 	
-	dButton:setFillColor(1, 0, 0)
-	dText:setFillColor(0)
-	dButton:addEventListener("touch", dButton)
-	tButton:setFillColor(0, 1, 0)
-	tText:setFillColor(0)
-	tButton:addEventListener("touch", tButton)
-	aButton:setFillColor(0, 0, 1)
-	aText:setFillColor(0)
-	
-	mineButton:setFillColor(1,0.5,0)
-	forageButton:setFillColor(1,0,0)
-	chopButton:setFillColor(1,0,0)
-	fishButton:setFillColor(1,0.5,0)
-	
-	function tButton:touch(event)
-		if event.phase == "began" then
-			composer.removeScene( "activities" )
-			composer.gotoScene("tavern")
-		end
-	end
-	function dButton:touch(event)
-		if event.phase == "began" then
-			composer.removeScene( "activities" )
-			composer.gotoScene("dungeon")
-		end
-	end
 end
 
+-- [[ Scene Switch Event]]
+function swapScene(event)
+	if event.phase == "ended" and event.target.id == "dungeon" then
+		composer.removeScene( "activities" )
+		composer.gotoScene("dungeon")
+	end
+	if event.phase == "ended" and event.target.id == "tavern" then
+		composer.removeScene( "activities" )
+		composer.gotoScene("tavern")
+	end
+end
+	
+	function activityPress(event)
+		if event.phase == "ended" and event.target.id == "chop" then
+			print("Chop Chop!")
+		end
+		if event.phase == "ended" and event.target.id == "forage" then
+			print("I'm Sleuthing...")
+		end
+		if event.phase == "ended" and event.target.id == "mine" then
+			print("I Am A Dwarf!")
+		end
+		if event.phase == "ended" and event.target.id == "fish" then
+			print("Sploosh!")
+		end
+	end
+	
 -- show()
 function scene:show(event)
 	local sceneGroup = self.view
@@ -93,7 +171,6 @@ function scene:show(event)
 		
 	end
 end
-
 
 -- hide()
 function scene:hide( event )

@@ -7,12 +7,13 @@
 -- Scene Composer
 local composer = require("composer")
 local scene = composer.newScene()
+local widget = require("widget")
 
 -- create()
 function scene:create(event)
 	local aspectRatio = display.pixelHeight / display.pixelWidth
-	local width = aspectRatio > 1.5 and 320 or math.ceil( 480 / aspectRatio )
-	local height = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
+	local gWidth = aspectRatio > 1.5 and 320 or math.ceil( 480 / aspectRatio )
+	local gHeight = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
 	
 	local sceneGroup = self.view
 
@@ -20,19 +21,58 @@ function scene:create(event)
 	local newtitle = display.newText("Mobile Dungeons [TAVERN]", display.contentCenterX, 150, native.systemFont, 15)
 	newtitle:setFillColor(0)
 	
-	local dButton = display.newRoundedRect(width/5.99, 95, width/3.1, 35, 7)
-	local tButton = display.newRoundedRect(display.contentCenterX, 95, width/3, 35, 7)
-	local aButton = display.newRoundedRect(width-(width/5.99), 95, width/3.1, 35, 7)
-	local dText = display.newText("DUNGEON", width/5.99, 95, native.systemFontBold, 16)
-	local tText = display.newText("TAVERN", display.contentCenterX, 95, native.systemFontBold, 16)
-	local aText = display.newText("ACTIVITIES", width-(width/5.99), 95, native.systemFontBold, 16)
+	--[Buttons]
+	dButton = widget.newButton({
+		id = "dungeon",
+		label = "DUNGEON",
+		shape = "roundedRect",
+		fillColor = {default={1,0,0,1}, over={1,0,0,1}},
+		labelColor = {default={0}, over={0}},
+		font = native.systemFontBold,
+		fontSize = 16,
+		x = gWidth/5.99, 
+		y = 95, 
+		width = gWidth/3.1, 
+		height = 35,
+		cornerRadius = 7,
+		onRelease = swapScene
+		})
+	tButton = widget.newButton({
+		id = "tavern",
+		label = "TAVERN",
+		shape = "roundedRect",
+		fillColor = {default={0,1,0,1}, over={0,1,0,1}},
+		labelColor = {default={0}, over={0}},
+		font = native.systemFontBold,
+		fontSize = 16,
+		x = display.contentCenterX, 
+		y = 95, 
+		width = gWidth/3, 
+		height = 35,
+		cornerRadius = 7,
+		})
+	aButton = widget.newButton({
+		id = "activities",
+		label = "ACTIVITIES",
+		shape = "roundedRect",
+		fillColor = {default={0,0,1,1}, over={0,0,1,1}},
+		labelColor = {default={0}, over={0}},
+		font = native.systemFontBold,
+		fontSize = 16,
+		x = gWidth-(gWidth/5.99), 
+		y = 95, 
+		width = gWidth/3.1, 
+		height = 35,
+		cornerRadius = 7,
+		onRelease = swapScene
+	})
 	
-	local statsButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY-90, width/1.5, 30, 7)
-	local chestButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY-45, width/1.5, 30, 7)
-	local innButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY, width/1.5, 30, 7)
-	local shopButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+45, width/1.5, 30, 7)
-	local marketButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+90, width/1.5, 30, 7)
-	local bountyButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+135, width/1.5, 30, 7)
+	local statsButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY-90, gWidth/1.5, 30, 7)
+	local chestButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY-45, gWidth/1.5, 30, 7)
+	local innButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY, gWidth/1.5, 30, 7)
+	local shopButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+45, gWidth/1.5, 30, 7)
+	local marketButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+90, gWidth/1.5, 30, 7)
+	local bountyButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+135, gWidth/1.5, 30, 7)
 	local statsText = display.newText("View Character Stats", display.contentCenterX, display.contentCenterY-90, native.systemFont, 14)
 	local chestText = display.newText("Open Personal Chest", display.contentCenterX, display.contentCenterY-45, native.systemFont, 14)
 	local innText = display.newText("Rest at the Inn", display.contentCenterX, display.contentCenterY, native.systemFont, 14)
@@ -51,9 +91,6 @@ function scene:create(event)
 	sceneGroup:insert(dButton)
 	sceneGroup:insert(tButton)
 	sceneGroup:insert(aButton)
-	sceneGroup:insert(dText)
-	sceneGroup:insert(tText)
-	sceneGroup:insert(aText)
 	sceneGroup:insert(statsButton)
 	sceneGroup:insert(chestButton)
 	sceneGroup:insert(innButton)
@@ -66,29 +103,17 @@ function scene:create(event)
 	sceneGroup:insert(shopText)
 	sceneGroup:insert(marketText)
 	sceneGroup:insert(bountyText)
-	
-	dButton:setFillColor(1, 0, 0)
-	dText:setFillColor(0)
-	dButton:addEventListener("touch", dButton)
-	tButton:setFillColor(0, 1, 0)
-	tText:setFillColor(0)
-	aButton:setFillColor(0, 0, 1)
-	aText:setFillColor(0)
-	aButton:addEventListener("touch", aButton)
-	
-	--[[ Dungeon Button Event ]]
-	function dButton:touch(event)
-		if event.phase == "began" then
-			composer.removeScene( "tavern" )
-			composer.gotoScene("dungeon")
-		end
+end
+
+-- [[ Scene Switch Event]]
+function swapScene(event)
+	if event.phase == "ended" and event.target.id == "dungeon" then
+		composer.removeScene( "tavern" )
+		composer.gotoScene("dungeon")
 	end
-	--[[ Activities Button Event ]]
-	function aButton:touch(event)
-		if event.phase == "began" then
-			composer.removeScene( "tavern" )
-			composer.gotoScene("activities")
-		end
+	if event.phase == "ended" and event.target.id == "activities" then
+		composer.removeScene( "tavern" )
+		composer.gotoScene("activities")
 	end
 end
 
