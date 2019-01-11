@@ -56,7 +56,7 @@ experience=0			--Players current Experience
 activityTime=20			--Length it takes to complete an Activity (ACTIVITIES)
 monstersKilled=0		--Players monster kill count
 expNeeded=0				--How much Experience the player need to level up
-DisplayedExp=0			--How much experience is required to reach the next level	
+DisplayedExp=0			--How much experience is required to reach the next level
 
 -- Monster Lists (Name, Health, Strength, Defense, Exp)
 kobold = {"Kobold", 5, 7, 12, 3}

@@ -18,8 +18,6 @@ function scene:create(event)
 	local sceneGroup = self.view
 
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.pixelWidth, display.pixelHeight)
-	local newtitle = display.newText("Mobile Dungeons [TAVERN]", display.contentCenterX, 150, native.systemFont, 15)
-	newtitle:setFillColor(0)
 	
 	--[Buttons]
 	dButton = widget.newButton({
@@ -67,19 +65,31 @@ function scene:create(event)
 		onRelease = swapScene
 	})
 	
-	local statsButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY-90, gWidth/1.5, 30, 7)
+	local statsButton = widget.newButton({
+	id = "stats",
+	shape = "roundedrect",
+	label= "View Character Stats",
+	fillColor = {default={0,0.75,1,1}, over={0,0.75,1,1}},
+	labelColor = {default={1}, over={1}},
+	x = display.contentCenterX,
+	y = display.contentCenterY-90, 
+	width = gWidth/1.5, 
+	height = 30, 
+	font = native.systemFont,
+	fontSize = 14,
+	cornerRadius = 7,
+	onRelease = swapScene
+	})
 	local chestButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY-45, gWidth/1.5, 30, 7)
 	local innButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY, gWidth/1.5, 30, 7)
 	local shopButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+45, gWidth/1.5, 30, 7)
 	local marketButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+90, gWidth/1.5, 30, 7)
 	local bountyButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+135, gWidth/1.5, 30, 7)
-	local statsText = display.newText("View Character Stats", display.contentCenterX, display.contentCenterY-90, native.systemFont, 14)
 	local chestText = display.newText("Open Personal Chest", display.contentCenterX, display.contentCenterY-45, native.systemFont, 14)
 	local innText = display.newText("Rest at the Inn", display.contentCenterX, display.contentCenterY, native.systemFont, 14)
 	local shopText = display.newText("Go to Local Shop", display.contentCenterX, display.contentCenterY+45, native.systemFont, 14)
 	local marketText = display.newText("Visit Traveling Merchants", display.contentCenterX, display.contentCenterY+90, native.systemFont, 14)
 	local bountyText = display.newText("Check the Bounty Board", display.contentCenterX, display.contentCenterY+135, native.systemFont, 14)
-	statsButton:setFillColor(0,0.75,1)
 	chestButton:setFillColor(0,0.75,1)
 	innButton:setFillColor(0,0.75,1)
 	shopButton:setFillColor(0,0.75,1)
@@ -87,7 +97,6 @@ function scene:create(event)
 	bountyButton:setFillColor(0,0.75,1)
 	
 	sceneGroup:insert(background)
-	sceneGroup:insert(newtitle)
 	sceneGroup:insert(dButton)
 	sceneGroup:insert(tButton)
 	sceneGroup:insert(aButton)
@@ -97,7 +106,6 @@ function scene:create(event)
 	sceneGroup:insert(shopButton)
 	sceneGroup:insert(marketButton)
 	sceneGroup:insert(bountyButton)
-	sceneGroup:insert(statsText)
 	sceneGroup:insert(chestText)
 	sceneGroup:insert(innText)
 	sceneGroup:insert(shopText)
@@ -114,6 +122,10 @@ function swapScene(event)
 	if event.phase == "ended" and event.target.id == "activities" then
 		composer.removeScene( "tavern" )
 		composer.gotoScene("activities")
+	end
+	if event.phase == "ended" and event.target.id == "stats" then
+		composer.removeScene( "tavern" )
+		composer.gotoScene("stats")
 	end
 end
 
@@ -163,4 +175,3 @@ scene:addEventListener( "destroy", scene )
 -- -----------------------------------------------------------------------------------
 
 return scene
-

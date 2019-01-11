@@ -36,9 +36,9 @@ function scene:create(event)
 	{
 		text = "",
 		x = display.contentCenterX,
-		y = display.contentCenterY-80,
+		y = display.contentCenterY-100,
 		width = gWidth-15,
-		height = 45,
+		height = 160,
 		font = native.systemFont,
 		fontSize = 14,
 		align = "center"
@@ -88,13 +88,35 @@ function scene:create(event)
 		onRelease = swapScene
 	})
 	
-	fightButton = display.newRect(gWidth/6, gHeight-40, gWidth/3, 30)
-	healButton = display.newRect(display.contentCenterX, gHeight-40, gWidth/3, 30)
+	fightButton = widget.newButton({
+		id = "fight",
+		shape = "rect",
+		label = "FIGHT",
+		font = native.systemFontBold,	
+		fontSize = 16,
+		x = gWidth/6, 
+		y = gHeight-40, 
+		width = gWidth/3, 
+		height = 30,
+		labelColor = {default={1}, over={1}},
+		fillColor = {default={1,0,0,1}, over={1,0,0,1}},
+		onRelease = fightButtonTap
+	})
+	healButton = widget.newButton({
+		label = "HEAL",
+		shape = "rect",
+		fontSize = 16,
+		labelColor = {default={1}, over={1}},
+		x = display.contentCenterX, 
+		y = gHeight-40,
+		width = gWidth/3,
+		height = 30,
+		fillColor = {default={1,0.5,0}, over={1,0.5,0}},
+		onRelease = healButtonTap
+	})
 	fleeButton = display.newRect(gWidth-(gWidth/6), gHeight-40, gWidth/3, 30)
 	
 	--[Button Texts]
-	fightText = display.newText("FIGHT", gWidth/6, gHeight-40, native.systemFontBold, 16)
-	healText = display.newText("HEAL", display.contentCenterX, gHeight-40, native.systemFontBold, 16)
 	fleeText = display.newText("FLEE", gWidth-(gWidth/6), gHeight-40, native.systemFontBold, 16)
 	
 	--[TextBox Logs]
@@ -102,7 +124,6 @@ function scene:create(event)
 	playerHealthText = display.newText("", display.contentCenterX, display.contentCenterY+42, native.systemFont, 14)
 	playerRollText = display.newText("", display.contentCenterX, display.contentCenterY+62, native.systemFont, 14)
 	playerHitText = display.newText("", display.contentCenterX, display.contentCenterY+82, native.systemFont, 14)
-	itemLog = display.newText(itemOptions)
 	monsterNameText = display.newText("",display.contentCenterX, 130, native.systemFont, 16)
 	monsterHealthText = display.newText("", display.contentCenterX, 152, native.systemFont, 14)
 	monsterRollText = display.newText("", display.contentCenterX, 172, native.systemFont, 14)
@@ -110,19 +131,16 @@ function scene:create(event)
 	
 	--[Edit Buttons/Text/Objects]
 	centerRect:setFillColor(0.2)
-	fightButton:setFillColor(1,0,0)
-	healButton:setFillColor(1,0.5,0)
 	fleeButton:setFillColor(1,0,0)
 	playerNameText:setFillColor(0)
 	playerHealthText:setFillColor(0)
 	playerRollText:setFillColor(0)
 	playerHitText:setFillColor(0)
-	itemLog:setFillColor(0)
-	itemLog.anchorY = 0
 	monsterNameText:setFillColor(0)
 	monsterHealthText:setFillColor(0)
 	monsterRollText:setFillColor(0)
 	monsterLog:setFillColor(0)
+	monsterLog.anchorY = 0
 	
 	--[Add Objects to SceneGroup]
 	sceneGroup:insert(background)
@@ -133,14 +151,11 @@ function scene:create(event)
 	sceneGroup:insert(fightButton)
 	sceneGroup:insert(healButton)
 	sceneGroup:insert(fleeButton)
-	sceneGroup:insert(fightText)
-	sceneGroup:insert(healText)
 	sceneGroup:insert(fleeText)
 	sceneGroup:insert(playerNameText)
 	sceneGroup:insert(playerHealthText)
 	sceneGroup:insert(playerRollText)
 	sceneGroup:insert(playerHitText)
-	sceneGroup:insert(itemLog)
 	sceneGroup:insert(monsterNameText)
 	sceneGroup:insert(monsterHealthText)
 	sceneGroup:insert(monsterRollText)
@@ -160,6 +175,67 @@ function swapScene(event)
 	end
 end
 
+-- [ Fight Button Action ]
+function fightButtonTap(event)
+	if event.phase == "ended" then
+		if isInFight==1 then		--If in fight and monster is alive
+			PlayerAttack()
+			MonsterAttack()
+		elseif isInFight ~= 1 then	--Check if not in a fight
+			monsterLevel = math.random(playerLevel-2, playerLevel+3)
+			if monsterLevel < 1 then
+				monsterLevel = 1
+			end
+			chooseMonster()
+			monsterRollText.text = ""
+			monsterLog.text = ""
+			playerRollText.text = ""
+			playerHitText.text = ""
+			isInFight = 1
+		end
+	Update()
+	listener()
+	end
+	return
+end
+
+-- [ Heal Button Action ]
+function healButtonTap(event)
+	if event.phase == "ended" then
+	    if playerMaxHP == playerHP then
+            playerAttackLog = "You are already at max HP."
+        elseif playerHP > 0 and playerMaxHP - playerHP >= 50 and potions ~= 0 then
+            healedHP = 50
+            playerHP = playerHP + healedHP
+            potions = potions - 1
+            playerAttackLog = "Healed "..healedHP.." HP."
+        elseif playerHP > 0 and playerMaxHP - playerHP < 50 and potions ~= 0 then
+            healedHP = playerMaxHP - playerHP
+            playerHP = playerHP + healedHP
+            potions = potions - 1
+            playerAttackLog = "Healed "..healedHP.." HP."
+        elseif playerHP > 0 and playerHP < playerMaxHP and potions == 0 then
+            playerAttackLog = "You do not have enough potions."
+        elseif playerHP <= 0 and revivalStone ~= 0 then
+            healedHP = playerMaxHP / 2
+            playerHP = playerHP + healedHP
+            playerAttackLog = "Revived with "..healedHP.." HP."
+            monsterAttackLog = ""
+            revivalStone = revivalStone - 1
+			healButton:setLabel("HEAL")
+            fightButton:setEnabled(true)
+			fightButton:setFillColor(1,0,0)
+        elseif playerHP <= 0 and revivalStone == 0 then
+            playerAttackLog = "You do not have enough revival stones."
+        end
+		playerHitText.text = playerAttackLog
+		Update()
+	end
+end
+
+-- [ Flee Button Action ] 
+	
+
 -- show()
 function scene:show(event)
 	local sceneGroup = self.view
@@ -167,89 +243,68 @@ function scene:show(event)
 	
 	--Variables	
 	isInFight = Variables[2]
+	zoulds = Variables[27]
 	player = Variables[9]
 	playerRollLog = Variables[10]
-	playerLog = Variables[11]
-	playerLevel = Variables[13]
-	playerHP = Variables[14]
-	playerMaxHP = Variables[15]
-	playerDef = Variables[16]
-	playerStr = Variables[17]
-	playCha = Variables[18]
-	playerCon = Variables[19]
-	playerSur = Variables[20]
-	playerStrMod = Variables[21]
-	playerConMod = Variables[23]
+	playerAttackLog = Variables[11]
+	playerLevel = tonumber(Variables[13])
+	playerHP = tonumber(Variables[14])
+	playerMaxHP = tonumber(Variables[15])
+	playerDef = tonumber(Variables[16])
+	playerStr = tonumber(Variables[17])
+	playCha = tonumber(Variables[18])
+	playerCon = tonumber(Variables[19])
+	playerSur = tonumber(Variables[20])
+	playerStrMod = tonumber(Variables[21])
+	playerConMod = tonumber(Variables[23])
 	playerDamage = 0
 	playerRoll = 0
 	playerHit = 0
-	experience = Variables[55]
-	expNeeded = Variables[58]
+	experience = tonumber(Variables[55])
+	expNeeded = tonumber(Variables[58])
 	monster = Variables[38]
 	monsterRollLog = Variables[39]
 	monsterAttackLog = Variables[40]
-	monsterLevel = Variables[41]
-	monsterHP = Variables[42]
-	monsterMaxHP = Variables[43]
-	monsterDef = Variables[44]
-	monsterStr = Variables[45]
-	monsterStrMod = Variables[46]
-	monsterBaseExp = Variables[49]
-	gainedExp = Variables[50]
-	monstersKilled = Variables[57]
-	displayedExperience = Variables[59]
-	monsterExp = 0
+	monsterLevel = tonumber(Variables[41])
+	monsterHP = tonumber(Variables[42])
+	monsterMaxHP = tonumber(Variables[43])
+	monsterDef = tonumber(Variables[44])
+	monsterStr = tonumber(Variables[45])
+	monsterStrMod = tonumber(Variables[46])
+	monsterBaseExp = tonumber(Variables[49])
+	gainedExp = tonumber(Variables[50])
+	monstersKilled = tonumber(Variables[57])
+	displayedExperience = tonumber(Variables[59])
 	monsterDamage = 0
 	monsterRoll = 0
 	monsterHit = 0
-	itemLogText = ""
-	mLogText = ""
-
 	playerNameText.text = tostring(player).." (Lvl. "..tostring(playerLevel)..")"
 	playerHealthText.text = tostring(playerHP).." / "..tostring(playerMaxHP).." HP"
+	playerHitText.text = playerAttackLog
+	playerRollText.text = playerRollLog
 	
 	if monster ~= "" then
 		monsterNameText.text = tostring(monster).." (Lvl. "..tostring(monsterLevel)..")"
 		monsterHealthText.text = tostring(monsterHP).." / "..tostring(monsterMaxHP).." HP"
-		monsterLog.text = ""
+		monsterLog.text = monsterAttackLog
+		monsterRollText.text = monsterRollLog
 	else
 		monsterNameText.text = "??????"
 		monsterHealthText.text = "?? / ?? HP"
 		monsterLog.text = ""
+		monsterRollText.text = ""
 	end
 	
-	
-	
-	-- [ Fight Button Action ]
-	function fightButtonTap(event)
-		--if event.phase == "ended" then
-			print("Tap event on: " .. event.name)
-			if isInFight==1 then		--If in fight and monster is alive
-				PlayerAttack()
-				MonsterAttack()
-				Update()
-			elseif isInFight ~= 1 then	--Check if not in a fight
-				monsterLevel = math.random(playerLevel-2, playerLevel+3)
-				if monsterLevel < 1 then
-					monsterLevel = 1
-				end
-				chooseMonster()
-				monsterRollText.text = ""
-				monsterLog.text = ""
-				playerRollText.text = ""
-				playerHitText.text = ""
-				itemLog.text = ""
-				isInFight = 1
-			end
-		--end
-		return
+	if playerHP <= 0 then
+		playerHP = 0
+		healButton:setLabel("REVIVE")
+		fightButton:setEnabled(false)
+		fightButton:setFillColor(0.5)
+	else
+		healButton:setLabel("HEAL")
+		fightButton:setEnabled(true)
+		fightButton:setFillColor(1,0,0)
 	end
-	
-	fightButton:addEventListener("tap", fightButtonTap)
-	
-	-- [ Heal Button Action ]
-	
-	-- [ Flee Button Action ] 
 	
 	-- [ Select Monster ]
 	function chooseMonster()
@@ -265,27 +320,30 @@ function scene:show(event)
 		monsterHP, monsterMaxHP = mList[2], mList[2]
 		monsterStr = mList[3]
 		monsterDef = mList[4]
-		monsterExp = mList[5]
+		monsterBaseExp = mList[5]
 		monsterNameText.text = tostring(monster).." (Lvl. "..tostring(monsterLevel)..")"
 		monsterHealthText.text = tostring(monsterHP).." / "..tostring(monsterMaxHP).." HP"
-		isInFight=1
-		mLogText = ""
+		monsterAttackLog = ""
 	end
 	
 	-- [ Player Attack ]
 	function PlayerAttack()
 		playerRoll = math.random(1,20)
-		playerRollText.text = "1d20 + "..playerStrMod.." = "..playerRoll
+		playerRollLog = "1d20 + "..playerStrMod.." = "..playerRoll
+		playerRollText.text = playerRollLog
 		if playerRoll == 20 then
 			playerHit = (playerStrMod + math.random(1,9))*2
-			playerHitText.text = "Critical Hit! Dealt "..playerHit.." Damage"
+			playerAttackLog = "Critical Hit! Dealt "..playerHit.." Damage"
+			playerHitText.text = playerAttackLog
 			monsterHP = monsterHP - playerHit
-		elseif (playerRoll+playerStrMod) >= monsterDef then
+		elseif (tonumber(playerRoll)+tonumber(playerStrMod)) >= tonumber(monsterDef) then
 			playerHit = playerStrMod + math.random(1,9)
-			playerHitText.text = "Dealt "..playerHit.." Damage"
+			playerAttackLog = "Dealt "..playerHit.." Damage"
+			playerHitText.text = playerAttackLog
 			monsterHP = monsterHP - playerHit
 		else
-			playerHitText.text = "Attack missed "..monster
+			playerAttackLog = "Attack missed "..monster
+			playerHitText.text = playerAttackLog
 		end
 		playerHit = 0
 		playerRoll = 0
@@ -296,34 +354,59 @@ function scene:show(event)
 		monsterStrMod = math.floor((monsterStr-10)/2)
 		if monsterStrMod < 0 then
 		local tempStrMod = (monsterStrMod * -2)/2
-			monsterRollText.text = "1d20 - "..tempStrMod.." = "..monsterRoll
+			monsterRollLog = "1d20 - "..tempStrMod.." = "..monsterRoll
 		else
-			monsterRollText.text = "1d20 + "..monsterStrMod.." = "..monsterRoll
+			monsterRollLog = "1d20 + "..monsterStrMod.." = "..monsterRoll
 		end
-		
+		monsterRollText.text = monsterRollLog
+		monsterDRoll = math.random(1,9)
 		if monsterRoll == 20 then
-			monsterHit = (monsterStrMod + math.random(1,9))*2
-			mLogText = "Critical Hit! Took "..monsterHit.." Damage"
-			monsterLog.text = mLogText
+			if monsterDRoll - monsterStrMod  >= 0 then
+				monsterHit = (monsterStrMod + monsterDRoll)*2
+			else
+				monsterHit = monsterDRoll*2
+			end
+			monsterAttackLog = "Critical Hit! Took "..monsterHit.." Damage"
+			monsterLog.text = monsterAttackLog
 			playerHP = playerHP - monsterHit
 		elseif tonumber(monsterRoll) + tonumber(monsterStrMod) >= tonumber(playerDef) then
-			monsterHit = monsterStrMod + math.random(1,9)
-			mLogText = "Took "..monsterHit.." Damage"
-			monsterLog.text = mLogText
+			if monsterDRoll - monsterStrMod  >= 0 then
+				monsterHit = monsterStrMod + monsterDRoll
+			else
+				monsterHit = monsterDRoll
+			end
+			monsterAttackLog = "Took "..monsterHit.." Damage"
+			monsterLog.text = monsterAttackLog
 			playerHP = playerHP - monsterHit
 		else
-			mLogText = monster.."'s attack missed."
-			monsterLog.text = mLogText
+			monsterAttackLog = monster.."'s attack missed."
+			monsterLog.text = monsterAttackLog
 		end
 	end
 	
 	-- [ Update Variables ]
 	function Update()
+		playerNameText.text = tostring(player).." (Lvl. "..tostring(playerLevel)..")"
+		playerHealthText.text = tostring(playerHP).." / "..tostring(playerMaxHP).." HP"
+		monsterNameText.text = tostring(monster).." (Lvl. "..tostring(monsterLevel)..")"
+		monsterHealthText.text = tostring(monsterHP).." / "..tostring(monsterMaxHP).." HP"
+		
+		if playerHP <= 0 then
+			playerHP = 0
+			healButton:setLabel("REVIVE")
+			fightButton:setEnabled(false)
+			fightButton:setFillColor(0.5)
+		else
+			healButton:setLabel("HEAL")
+			fightButton:setEnabled(true)
+			fightButton:setFillColor(1,0,0)
+		end
+		
 		if monsterHP <= 0 then
-			if playerHP ~= 0 then
+			if playerHP > 0 then
 				monstersKilled = monstersKilled + 1
-				mLogText = mLogText.."\n"..monster.." has been slain."
-				monsterLog.text = mLogText
+				monsterAttackLog = monsterAttackLog.."\n"..monster.." has been slain.\n"
+				monsterLog.text = monsterAttackLog
 				generateRewards()
 			end
 			monsterHP = 0
@@ -331,13 +414,49 @@ function scene:show(event)
 			monsterHP, monsterMaxHP = 0, 0
 			monsterStr = 0
 			monsterDef = 0
-			monsterExp = 0
+			monsterBaseExp = 0
 			monsterNameText.text = "??????"
 			monsterHealthText.text = "?? / ?? HP"
 			isInFight = 0
 		end
-		playerNameText.text = tostring(player).." (Lvl. "..tostring(playerLevel)..")"
-		playerHealthText.text = tostring(playerHP).." / "..tostring(playerMaxHP).." HP"
+		
+		--Save Variables
+		Variables[2] = isInFight
+		Variables[27] = zoulds
+		Variables[9] = player
+		Variables[10] = playerRollLog
+		Variables[11] = playerAttackLog
+		Variables[13] = playerLevel
+		Variables[14] = playerHP
+		Variables[15] = playerMaxHP
+		Variables[16] = playerDef
+		Variables[17] = playerStr
+		Variables[18] = playCha
+		Variables[19] = playerCon
+		Variables[20] = playerSur
+		Variables[21] = playerStrMod
+		Variables[23] = playerConMod
+		playerDamage = 0
+		playerRoll = 0
+		playerHit = 0
+		Variables[55] = experience
+		Variables[58] = expNeeded
+		Variables[38] = monster
+		Variables[39] = monsterRollLog
+		Variables[40] = monsterAttackLog
+		Variables[41] = monsterLevel
+		Variables[42] = monsterHP
+		Variables[43] = monsterMaxHP
+		Variables[44] = monsterDef
+		Variables[45] = monsterStr
+		Variables[46] = monsterStrMod
+		Variables[49] = monsterBaseExp
+		Variables[50] = gainedExp
+		Variables[57] = monstersKilled
+		Variables[59] = displayedExperience
+		monsterDamage = 0
+		monsterRoll = 0
+		monsterHit = 0
 	end
 	
 	-- [ Generates the Rewards ]
@@ -347,35 +466,41 @@ function scene:show(event)
 			levelModifierExp = 1
 		end
 		
-		modifierExp = math.random(11,26) * levelModifierExp
-		
+		modifierExp = math.random(1,9) * levelModifierExp
 		if tonumber(monsterLevel) < tonumber(playerLevel) then
-			gainedExp = modifierExp/3
+			gainedExp = math.floor((monsterBaseExp*modifierExp)/3)
 		elseif tonumber(monsterLevel) > tonumber(playerLevel) then
-			gainedExp = (2*monsterBaseExp*modifierExp)/3
+			print("HIGHER: "..monsterBaseExp)
+			gainedExp = math.floor((1.5*monsterBaseExp*modifierExp)/3)
 		else
-			gainedExp = (1.25*monsterBaseExp*modifierExp)/3
+			print("JUST RIGHT: "..monsterBaseExp)
+			gainedExp = math.floor((1.25*monsterBaseExp*modifierExp)/3)
 		end
+		if gainedExp == 0 then
+			gainedExp = 1
+		end
+		monsterAttackLog = monsterAttackLog.."Gained "..gainedExp.." EXP."
+		
 		
 		experience = experience + gainedExp
         displayedExperience =  displayedExperience + gainedExp
 		
-		zouldsFound = (1.25 * math.random(5, 16) * playerLevel)/2
+		zouldsFound = math.floor((1.25 * math.random(5, 16) * playerLevel)/2)
         zoulds = zoulds + zouldsFound
-        itemLogText = itemLogText.." "..zouldsFound.." Zoulds found\n"
+        monsterAttackLog = monsterAttackLog.." "..zouldsFound.." Zoulds found."
 		
 		potionFound = math.random(0,3)
         if potionFound == 2 then
             potions = potions + 1
-            itemLogText = itemLogText.."Found 1 potion.\n"
+            monsterAttackLog = monsterAttackLog.." Found 1 potion.\n"
         end
  
         revivalFound = math.random(0, 8)
         if revivalFound == 4 then
             revivalStone = revivalStone + 1
-            itemLogText = itemLogText.."Found 1 Revival Stone.\n"
+            monsterAttackLog = monsterAttackLog.." Found 1 Revival Stone."
         end
-		itemLog.text = itemLogText
+		monsterLog.text = monsterAttackLog
 	end
 	
 	if (phrase == "will") then
