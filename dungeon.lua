@@ -564,10 +564,12 @@ function scene:show(event)
 		
 		experience = experience + gainedExp
         displayedExperience =  displayedExperience + gainedExp
-		
-		zouldsFound = math.floor((1.25 * math.random(5, 16) * playerLevel)/2)
-        zoulds = zoulds + zouldsFound
-        monsterAttackLog = monsterAttackLog.." "..zouldsFound.." Zoulds found."
+		findZoulds = math.random(1,2)
+		if findZoulds ==2 then
+			zouldsFound = math.floor((1.25 * math.random(5, 16) * playerLevel)/2)
+			zoulds = zoulds + zouldsFound
+			monsterAttackLog = monsterAttackLog.." "..zouldsFound.." Zoulds found."
+		end
 		
 		potionFound = math.random(0,3)
         if potionFound == 2 then
@@ -575,7 +577,7 @@ function scene:show(event)
             monsterAttackLog = monsterAttackLog.." Found 1 potion.\n"
         end
  
-        revivalFound = math.random(0, 8)
+        revivalFound = math.random(0, 19)
         if revivalFound == 4 then
             revivalStone = revivalStone + 1
             monsterAttackLog = monsterAttackLog.." Found 1 Revival Stone."
