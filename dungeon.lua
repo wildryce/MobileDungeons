@@ -15,13 +15,9 @@ function scene:create(event)
 	local gWidth = aspectRatio > 1.5 and 320 or math.ceil( 480 / aspectRatio )
 	local gHeight = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
 	local sceneGroup = self.view
-	--[UI Objects]
-	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.pixelWidth, display.pixelHeight)
-	centerRect = display.newRect(display.contentCenterX,display.contentCenterY, gWidth/1.1, 4)
 	
 	--[UI Options]
-	local itemOptions = 
-	{
+	local itemOptions = {
 		text = "",
 		x = display.contentCenterX,
 		y = display.contentCenterY+92,
@@ -31,18 +27,16 @@ function scene:create(event)
 		fontSize = 14,
 		align = "center"
 	}
-	
-	local monsterOptions = 
-	{
+	local monsterOptions = {
 		text = "",
 		x = display.contentCenterX,
-		y = display.contentCenterY-100,
+		y = 185,
 		width = gWidth-15,
-		height = 160,
 		font = native.systemFont,
 		fontSize = 14,
 		align = "center"
 	}
+	
 	--[Buttons]
 	dButton = widget.newButton({
 		label = "DUNGEON",
@@ -99,12 +93,12 @@ function scene:create(event)
 		width = gWidth/3, 
 		height = 30,
 		labelColor = {default={1}, over={1}},
-		fillColor = {default={1,0,0,1}, over={1,0,0,1}},
 		onRelease = fightButtonTap
 	})
 	healButton = widget.newButton({
-		label = "HEAL",
+		label = "HEAL ("..potions..")",
 		shape = "rect",
+		font = native.systemFontBold,
 		fontSize = 16,
 		labelColor = {default={1}, over={1}},
 		x = display.contentCenterX, 
@@ -113,17 +107,34 @@ function scene:create(event)
 		height = 30,
 		fillColor = {default={1,0.5,0}, over={1,0.5,0}},
 		onRelease = healButtonTap
+	})	
+	fleeButton = widget.newButton({
+		label = "FLEE",
+		shape = "rect",
+		x = gWidth-(gWidth/6),
+		y = gHeight-40, 
+		width = gWidth/3, 
+		font = native.systemFontBold,
+		fontSize = 16,
+		height = 30,
+		fillColor = {default={1,0,0}, over={1,0,0}},
+		labelColor = {default={1}, over={1}},
+		onRelease = fleeButtonTap
 	})
-	fleeButton = display.newRect(gWidth-(gWidth/6), gHeight-40, gWidth/3, 30)
+
+	--Simple Variables
+	middle = (tButton.y + healButton.y)/2
 	
-	--[Button Texts]
-	fleeText = display.newText("FLEE", gWidth-(gWidth/6), gHeight-40, native.systemFontBold, 16)
+	--[UI Objects]
+	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.pixelWidth, display.pixelHeight)
+	centerRect = display.newRect(display.contentCenterX, middle, gWidth/1.1, 4)
+	
 	
 	--[TextBox Logs]
-	playerNameText = display.newText("", display.contentCenterX,display.contentCenterY+20, native.systemFont, 16)
-	playerHealthText = display.newText("", display.contentCenterX, display.contentCenterY+42, native.systemFont, 14)
-	playerRollText = display.newText("", display.contentCenterX, display.contentCenterY+62, native.systemFont, 14)
-	playerHitText = display.newText("", display.contentCenterX, display.contentCenterY+82, native.systemFont, 14)
+	playerNameText = display.newText("", display.contentCenterX,middle+20, native.systemFont, 16)
+	playerHealthText = display.newText("", display.contentCenterX, middle+42, native.systemFont, 14)
+	playerRollText = display.newText("", display.contentCenterX, middle+62, native.systemFont, 14)
+	playerHitText = display.newText("", display.contentCenterX, middle+82, native.systemFont, 14)
 	monsterNameText = display.newText("",display.contentCenterX, 130, native.systemFont, 16)
 	monsterHealthText = display.newText("", display.contentCenterX, 152, native.systemFont, 14)
 	monsterRollText = display.newText("", display.contentCenterX, 172, native.systemFont, 14)
@@ -131,7 +142,6 @@ function scene:create(event)
 	
 	--[Edit Buttons/Text/Objects]
 	centerRect:setFillColor(0.2)
-	fleeButton:setFillColor(1,0,0)
 	playerNameText:setFillColor(0)
 	playerHealthText:setFillColor(0)
 	playerRollText:setFillColor(0)
@@ -151,7 +161,6 @@ function scene:create(event)
 	sceneGroup:insert(fightButton)
 	sceneGroup:insert(healButton)
 	sceneGroup:insert(fleeButton)
-	sceneGroup:insert(fleeText)
 	sceneGroup:insert(playerNameText)
 	sceneGroup:insert(playerHealthText)
 	sceneGroup:insert(playerRollText)
@@ -181,20 +190,17 @@ function fightButtonTap(event)
 		if isInFight==1 then		--If in fight and monster is alive
 			PlayerAttack()
 			MonsterAttack()
-		elseif isInFight ~= 1 then	--Check if not in a fight
-			monsterLevel = math.random(playerLevel-2, playerLevel+3)
-			if monsterLevel < 1 then
-				monsterLevel = 1
-			end
+		else						--Check if not in a fight
 			chooseMonster()
+			monsterRollLog = ""
 			monsterRollText.text = ""
 			monsterLog.text = ""
+			playerRollLog = ""
 			playerRollText.text = ""
 			playerHitText.text = ""
 			isInFight = 1
 		end
-	Update()
-	listener()
+		Update()
 	end
 	return
 end
@@ -222,19 +228,37 @@ function healButtonTap(event)
             playerAttackLog = "Revived with "..healedHP.." HP."
             monsterAttackLog = ""
             revivalStone = revivalStone - 1
-			healButton:setLabel("HEAL")
+			healButton:setLabel("HEAL ("..potions..")")
             fightButton:setEnabled(true)
 			fightButton:setFillColor(1,0,0)
+			monsterLog.text = monsterAttackLog
         elseif playerHP <= 0 and revivalStone == 0 then
             playerAttackLog = "You do not have enough revival stones."
         end
 		playerHitText.text = playerAttackLog
-		Update()
+		playerRollText.text = ""
 	end
+	Update()
 end
 
 -- [ Flee Button Action ] 
-	
+function fleeButtonTap(event)
+	if event.phase == "ended" and isInFight == 1 then
+		playerAttackLog = "You fled from battle."
+		playerHitText.text = playerAttackLog
+		isInFight = 0
+		monsterHP = 0
+		monster = ""
+		monsterHP, monsterMaxHP = 0, 0
+		monsterStr = 0
+		monsterDef = 0
+		monsterBaseExp = 0
+	else
+		playerAttackLog = "You are not currently in a fight"
+		playerHitText.text = playerAttackLog
+	end
+	Update()
+end
 
 -- show()
 function scene:show(event)
@@ -243,7 +267,7 @@ function scene:show(event)
 	
 	--Variables	
 	isInFight = Variables[2]
-	zoulds = Variables[27]
+	zoulds = tonumber(Variables[27])
 	player = Variables[9]
 	playerRollLog = Variables[10]
 	playerAttackLog = Variables[11]
@@ -252,11 +276,12 @@ function scene:show(event)
 	playerMaxHP = tonumber(Variables[15])
 	playerDef = tonumber(Variables[16])
 	playerStr = tonumber(Variables[17])
-	playCha = tonumber(Variables[18])
+	playerCha = tonumber(Variables[18])
 	playerCon = tonumber(Variables[19])
 	playerSur = tonumber(Variables[20])
 	playerStrMod = tonumber(Variables[21])
 	playerConMod = tonumber(Variables[23])
+	potions = tonumber(Variables[28])
 	playerDamage = 0
 	playerRoll = 0
 	playerHit = 0
@@ -278,11 +303,7 @@ function scene:show(event)
 	monsterDamage = 0
 	monsterRoll = 0
 	monsterHit = 0
-	playerNameText.text = tostring(player).." (Lvl. "..tostring(playerLevel)..")"
-	playerHealthText.text = tostring(playerHP).." / "..tostring(playerMaxHP).." HP"
-	playerHitText.text = playerAttackLog
-	playerRollText.text = playerRollLog
-	
+	--If monster does not exist
 	if monster ~= "" then
 		monsterNameText.text = tostring(monster).." (Lvl. "..tostring(monsterLevel)..")"
 		monsterHealthText.text = tostring(monsterHP).." / "..tostring(monsterMaxHP).." HP"
@@ -291,39 +312,67 @@ function scene:show(event)
 	else
 		monsterNameText.text = "??????"
 		monsterHealthText.text = "?? / ?? HP"
-		monsterLog.text = ""
-		monsterRollText.text = ""
 	end
 	
+	--If Player is knocked out
 	if playerHP <= 0 then
 		playerHP = 0
-		healButton:setLabel("REVIVE")
-		fightButton:setEnabled(false)
+		healButton:setLabel("REVIVE ("..revivalStone..")")
+		healButton:setLabel("REVIVE ("..revivalStone..")")
 		fightButton:setFillColor(0.5)
+		fightButton:setEnabled(false)
+		monsterHP = 0
+		monster = ""
+		monsterHP, monsterMaxHP = 0, 0
+		monsterStr = 0
+		monsterDef = 0
+		monsterBaseExp = 0
+		playerRollLog = ""
 	else
-		healButton:setLabel("HEAL")
+		healButton:setLabel("HEAL ("..potions..")")
 		fightButton:setEnabled(true)
 		fightButton:setFillColor(1,0,0)
 	end
 	
+	--Updates EXP needed
+	expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
+    if (expNeeded <= 0) then
+		tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
+        experience = experience - tempEXP
+        playerLevel = playerLevel + 1
+        levelUp ()
+        expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
+    end
+	
+	playerNameText.text = tostring(player).." (Lvl. "..tostring(playerLevel)..")"
+	playerHealthText.text = tostring(playerHP).." / "..tostring(playerMaxHP).." HP"
+	playerHitText.text = playerAttackLog
+	playerRollText.text = playerRollLog
+	
 	-- [ Select Monster ]
 	function chooseMonster()
-		mLength = table.getn(monsterList)
-		if playerLevel+9 > 21 then
-			monsterSelect = math.random(mLength)
-		else
-			monsterSelect = math.random(1,10)
-		end
+		if monster == "" then
+			mLength = table.getn(monsterList)
+			if playerLevel+9 > 21 then
+				monsterSelect = math.random(mLength)
+			else
+				monsterSelect = math.random(1,10)
+			end
 		
-		local mList = monsterList[monsterSelect]	--Fetches One Monster Stats Table
-		monster = mList[1]
-		monsterHP, monsterMaxHP = mList[2], mList[2]
-		monsterStr = mList[3]
-		monsterDef = mList[4]
-		monsterBaseExp = mList[5]
-		monsterNameText.text = tostring(monster).." (Lvl. "..tostring(monsterLevel)..")"
-		monsterHealthText.text = tostring(monsterHP).." / "..tostring(monsterMaxHP).." HP"
-		monsterAttackLog = ""
+			local mList = monsterList[monsterSelect]	--Fetches One Monster Stats Table
+			monsterLevel = math.random(playerLevel-2, playerLevel+3)
+			if monsterLevel < 1 then
+				monsterLevel = 1
+			end
+			monster = mList[1]
+			monsterHP, monsterMaxHP = mList[2], mList[2]
+			monsterStr = mList[3]
+			monsterDef = mList[4]
+			monsterBaseExp = mList[5]
+			monsterNameText.text = tostring(monster).." (Lvl. "..tostring(monsterLevel)..")"
+			monsterHealthText.text = tostring(monsterHP).." / "..tostring(monsterMaxHP).." HP"
+			monsterAttackLog = ""
+		end
 	end
 	
 	-- [ Player Attack ]
@@ -336,7 +385,7 @@ function scene:show(event)
 			playerAttackLog = "Critical Hit! Dealt "..playerHit.." Damage"
 			playerHitText.text = playerAttackLog
 			monsterHP = monsterHP - playerHit
-		elseif (tonumber(playerRoll)+tonumber(playerStrMod)) >= tonumber(monsterDef) then
+		elseif (playerRoll + playerStrMod) >= monsterDef then
 			playerHit = playerStrMod + math.random(1,9)
 			playerAttackLog = "Dealt "..playerHit.." Damage"
 			playerHitText.text = playerAttackLog
@@ -348,12 +397,13 @@ function scene:show(event)
 		playerHit = 0
 		playerRoll = 0
 	end
+	
 	-- [ Monster Attack ]
 	function MonsterAttack()
 		monsterRoll = math.random(1,20)
 		monsterStrMod = math.floor((monsterStr-10)/2)
+		tempStrMod = math.abs(monsterStrMod)
 		if monsterStrMod < 0 then
-		local tempStrMod = (monsterStrMod * -2)/2
 			monsterRollLog = "1d20 - "..tempStrMod.." = "..monsterRoll
 		else
 			monsterRollLog = "1d20 + "..monsterStrMod.." = "..monsterRoll
@@ -361,7 +411,7 @@ function scene:show(event)
 		monsterRollText.text = monsterRollLog
 		monsterDRoll = math.random(1,9)
 		if monsterRoll == 20 then
-			if monsterDRoll - monsterStrMod  >= 0 then
+			if monsterDRoll + monsterStrMod  >= 0 then
 				monsterHit = (monsterStrMod + monsterDRoll)*2
 			else
 				monsterHit = monsterDRoll*2
@@ -369,8 +419,8 @@ function scene:show(event)
 			monsterAttackLog = "Critical Hit! Took "..monsterHit.." Damage"
 			monsterLog.text = monsterAttackLog
 			playerHP = playerHP - monsterHit
-		elseif tonumber(monsterRoll) + tonumber(monsterStrMod) >= tonumber(playerDef) then
-			if monsterDRoll - monsterStrMod  >= 0 then
+		elseif monsterRoll + monsterStrMod >= playerDef then
+			if monsterDRoll + monsterStrMod  >= 0 then
 				monsterHit = monsterStrMod + monsterDRoll
 			else
 				monsterHit = monsterDRoll
@@ -385,30 +435,33 @@ function scene:show(event)
 	end
 	
 	-- [ Update Variables ]
-	function Update()
-		playerNameText.text = tostring(player).." (Lvl. "..tostring(playerLevel)..")"
-		playerHealthText.text = tostring(playerHP).." / "..tostring(playerMaxHP).." HP"
-		monsterNameText.text = tostring(monster).." (Lvl. "..tostring(monsterLevel)..")"
-		monsterHealthText.text = tostring(monsterHP).." / "..tostring(monsterMaxHP).." HP"
-		
-		if playerHP <= 0 then
-			playerHP = 0
-			healButton:setLabel("REVIVE")
-			fightButton:setEnabled(false)
-			fightButton:setFillColor(0.5)
-		else
-			healButton:setLabel("HEAL")
-			fightButton:setEnabled(true)
-			fightButton:setFillColor(1,0,0)
+	function Update( event )
+		if monsterHP == nil then
+			monsterHP = 0
 		end
 		
-		if monsterHP <= 0 then
-			if playerHP > 0 then
-				monstersKilled = monstersKilled + 1
-				monsterAttackLog = monsterAttackLog.."\n"..monster.." has been slain.\n"
-				monsterLog.text = monsterAttackLog
-				generateRewards()
-			end
+		if monsterHP <= 0 and monster ~= "" and playerHP > 0 then
+			monstersKilled = monstersKilled + 1
+			monsterAttackLog = monsterAttackLog.."\n"..monster.." has been slain.\n"
+			monsterLog.text = monsterAttackLog
+			generateRewards()
+			monster = ""
+			monsterHP, monsterMaxHP = 0, 0
+			monsterStr = 0
+			monsterDef = 0
+			monsterBaseExp = 0
+			monsterNameText.text = "??????"
+			monsterHealthText.text = "?? / ?? HP"
+			isInFight = 0
+		end
+		
+		if playerHP <= 0 then
+			playerAttackLog = "You have been knocked out!"
+			playerHitText.text = playerAttackLog
+			playerHP = 0
+			healButton:setLabel("REVIVE ("..revivalStone..")")
+			fightButton:setFillColor(0.5)
+			fightButton:setEnabled(false)
 			monsterHP = 0
 			monster = ""
 			monsterHP, monsterMaxHP = 0, 0
@@ -418,6 +471,33 @@ function scene:show(event)
 			monsterNameText.text = "??????"
 			monsterHealthText.text = "?? / ?? HP"
 			isInFight = 0
+		else
+			healButton:setLabel("HEAL ("..potions..")")
+			fightButton:setEnabled(true)
+			fightButton:setFillColor(1,0,0)
+		end
+		
+		expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
+        if (expNeeded <= 0) then
+			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
+            experience = experience - tempEXP
+            playerLevel = playerLevel + 1
+            levelUp ()
+            expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
+        end
+		
+		playerNameText.text = tostring(player).." (Lvl. "..tostring(playerLevel)..")"
+		playerHealthText.text = tostring(playerHP).." / "..tostring(playerMaxHP).." HP"
+		
+		if monster ~= "" then
+			monsterNameText.text = tostring(monster).." (Lvl. "..tostring(monsterLevel)..")"
+			monsterHealthText.text = tostring(monsterHP).." / "..tostring(monsterMaxHP).." HP"
+			monsterLog.text = monsterAttackLog
+			monsterRollText.text = monsterRollLog
+			isInFight = 1
+		else
+			monsterNameText.text = "??????"
+			monsterHealthText.text = "?? / ?? HP"
 		end
 		
 		--Save Variables
@@ -431,11 +511,12 @@ function scene:show(event)
 		Variables[15] = playerMaxHP
 		Variables[16] = playerDef
 		Variables[17] = playerStr
-		Variables[18] = playCha
+		Variables[18] = playerCha
 		Variables[19] = playerCon
 		Variables[20] = playerSur
 		Variables[21] = playerStrMod
 		Variables[23] = playerConMod
+		Variables[28] = potions
 		playerDamage = 0
 		playerRoll = 0
 		playerHit = 0
@@ -457,6 +538,7 @@ function scene:show(event)
 		monsterDamage = 0
 		monsterRoll = 0
 		monsterHit = 0
+		listener()
 	end
 	
 	-- [ Generates the Rewards ]
@@ -467,13 +549,11 @@ function scene:show(event)
 		end
 		
 		modifierExp = math.random(1,9) * levelModifierExp
-		if tonumber(monsterLevel) < tonumber(playerLevel) then
+		if monsterLevel < playerLevel then
 			gainedExp = math.floor((monsterBaseExp*modifierExp)/3)
-		elseif tonumber(monsterLevel) > tonumber(playerLevel) then
-			print("HIGHER: "..monsterBaseExp)
+		elseif monsterLevel > playerLevel then
 			gainedExp = math.floor((1.5*monsterBaseExp*modifierExp)/3)
 		else
-			print("JUST RIGHT: "..monsterBaseExp)
 			gainedExp = math.floor((1.25*monsterBaseExp*modifierExp)/3)
 		end
 		if gainedExp == 0 then
@@ -503,6 +583,12 @@ function scene:show(event)
 		monsterLog.text = monsterAttackLog
 	end
 	
+	Update()
+	
+	function levelUp()
+	
+	end
+	
 	if (phrase == "will") then
 		-- code runs when scene is off screen about to come onto screen
 		
@@ -510,6 +596,8 @@ function scene:show(event)
 		-- code runs when scene is entirely on screen
 		
 	end
+	
+
 end
 
 
@@ -518,19 +606,17 @@ function scene:hide( event )
 
 	local sceneGroup = self.view
 	local phase = event.phase
-
+	
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
-
+		
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
-		
 	end
 end
 
 -- destroy()
 function scene:destroy( event )
-
 	local sceneGroup = self.view
 	-- Code here runs prior to the removal of scene's view
 

@@ -33,10 +33,19 @@ function scene:create(event)
 		height = 35,
 		cornerRadius = 7,
 		onRelease = leave
-		})
+	})
+
+	--TextBoxes
+	statsTitle = display.newText(" ||  Player Stats  ||", display.contentCenterX, 100, native.systemFontBold, 20)
+	statsBox = display.newText("Test", display.contentCenterX,display.contentCenterY+120, gWidth-80, gHeight,native.systemFont, 14)
+	
+	statsTitle:setFillColor(0)
+	statsBox:setFillColor(0)
 	
 	sceneGroup:insert(background)
 	sceneGroup:insert(leave)
+	sceneGroup:insert(statsTitle)
+	sceneGroup:insert(statsBox)
 end
 
 -- [[ Scene Switch Event]]
@@ -52,6 +61,24 @@ function scene:show(event)
 	local sceneGroup = self.view
 	local phrase = event.phrase
 	
+	--Variables	
+	player = Variables[9]
+	playerLevel = tonumber(Variables[13])
+	playerMaxHP = tonumber(Variables[15])
+	playerDef = tonumber(Variables[16])
+	playerStr = tonumber(Variables[17])
+	playerCha = tonumber(Variables[18])
+	playerCon = tonumber(Variables[19])
+	playerSur = tonumber(Variables[20])
+	experience = tonumber(Variables[55])
+	expNeeded = tonumber(Variables[58])
+	gainedExp = tonumber(Variables[50])
+	monstersKilled = tonumber(Variables[57])
+	displayedExperience = tonumber(Variables[59])
+	
+	allStats = ("Player Name: "..player.."\nLevel: "..playerLevel.."\nHealth Points: "..playerMaxHP.."\nStrength: "..playerStr.."\nDefense: "..playerDef.."\nConstitution: "..playerCon.."\nCharisma: "..playerCha.."\nSurvival: "..playerSur.."\n\nEXP needed for next level: "..expNeeded.."\nTotal Experience: "..displayedExperience.."\n\nMonsters Slain: "..monstersKilled)
+	
+	statsBox.text = allStats
 	if (phrase == "will") then
 		-- code runs when scene is off screen about to come onto screen
 	elseif (phrase == "did") then
