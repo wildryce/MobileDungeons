@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- main.lua (v0.0.5)
+-- main.lua (v0.0.6)
 --
 -----------------------------------------------------------------------------------------
 
@@ -18,8 +18,8 @@ local height = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
 local uiGroup = display.newGroup()
 
 --Create Game Variables
-local version = 'Alpha v.0.0.5'
-Variables = {firstTimeLoad, inFight, welcomeEnabled, pastTime, currentTime, welcomePopup, zouldCount, activitiesLog, playerName, pRoll, playerAttackLog, healLog, p_level, p_hp, p_maxhp, p_def, p_str, p_cha, p_con, p_sur, p_strMod, p_chaMod, p_conMod, p_surMod, p_damage, p_hit, zoulds, potions, revivalStone, scrap, wood, fish, stone, birdegg, metal, rainbowtrout, silvercoin, monster, mRoll, monsterAttackLog, m_level, m_hp, m_maxhp, m_def, m_str, m_con, m_strMod, m_conMod, m_damage, m_hit, monsterBaseExp, gainedExp, potionFound, revivalFound, zouldsFound, healedHP, experience, activityTime, monstersKilled, expNeeded, DisplayedExp}
+local version = 'Alpha v.0.0.6'
+Variables = {firstTimeLoad, inFight, welcomeEnabled, pastTime, currentTime, welcomePopup, playerName, p_level, p_hp, p_maxhp, p_def, p_str, p_cha, p_con, p_sur, p_strMod, p_chaMod, p_conMod, p_surMod, zoulds, potions, revivalStone, scrap, wood, fish, stone, birdegg, metal, rainbowtrout, silvercoin, monster, m_level, m_hp, m_maxhp, m_def, m_str, m_con, m_strMod, m_conMod, monsterBaseExp, healedHP, experience, activityTime, monstersKilled, expNeeded, DisplayedExp, forageTime, chopTime, mineTime, fishTime}
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
 
 --[ Rectangles ]
@@ -73,6 +73,7 @@ function listener()
 	end
 	file:close()
 	--print("Done Saving")
+	timer.performWithDelay(2000, listener)
 end
 
 -- display CreateCharacter if firstTimeLoad is true

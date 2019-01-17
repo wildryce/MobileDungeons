@@ -24,7 +24,7 @@ local function leaveCreation()
 		return
 	elseif string.match(userName, "%u%l") then
 		Variables[1] = 0
-		Variables[9] = userName
+		Variables[7] = userName
 		listener()
 		composer.removeScene("CreateCharacter")
 		composer.gotoScene("dungeon")

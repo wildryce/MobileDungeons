@@ -124,6 +124,7 @@ function scene:create(event)
 
 	--Simple Variables
 	middle = (tButton.y + healButton.y)/2
+	listener()
 	
 	--[UI Objects]
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.pixelWidth, display.pixelHeight)
@@ -169,17 +170,14 @@ function scene:create(event)
 	sceneGroup:insert(monsterHealthText)
 	sceneGroup:insert(monsterRollText)
 	sceneGroup:insert(monsterLog)
-	
 end
 
 -- [[ Scene Switch Event]]
 function swapScene(event)
 	if event.phase == "ended" and event.target.id == "tavern" then
-		composer.removeScene( "dungeon" )
 		composer.gotoScene("tavern")
 	end
 	if event.phase == "ended" and event.target.id == "activities" then
-		composer.removeScene( "dungeon" )
 		composer.gotoScene("activities")
 	end
 end
@@ -200,9 +198,7 @@ function fightButtonTap(event)
 			playerHitText.text = ""
 			isInFight = 1
 		end
-		Update()
 	end
-	return
 end
 
 -- [ Heal Button Action ]
@@ -238,7 +234,6 @@ function healButtonTap(event)
 		playerHitText.text = playerAttackLog
 		playerRollText.text = ""
 	end
-	Update()
 end
 
 -- [ Flee Button Action ] 
@@ -257,49 +252,48 @@ function fleeButtonTap(event)
 		playerAttackLog = "You are not currently in a fight"
 		playerHitText.text = playerAttackLog
 	end
-	Update()
 end
 
 -- show()
 function scene:show(event)
 	local sceneGroup = self.view
 	local phrase = event.phrase
-	
 	--Variables	
 	isInFight = Variables[2]
-	zoulds = tonumber(Variables[27])
-	player = Variables[9]
-	playerRollLog = Variables[10]
-	playerAttackLog = Variables[11]
-	playerLevel = tonumber(Variables[13])
-	playerHP = tonumber(Variables[14])
-	playerMaxHP = tonumber(Variables[15])
-	playerDef = tonumber(Variables[16])
-	playerStr = tonumber(Variables[17])
-	playerCha = tonumber(Variables[18])
-	playerCon = tonumber(Variables[19])
-	playerSur = tonumber(Variables[20])
-	playerStrMod = tonumber(Variables[21])
-	playerConMod = tonumber(Variables[23])
-	potions = tonumber(Variables[28])
+	player = Variables[7]
+	playerLevel = tonumber(Variables[8])
+	playerHP = tonumber(Variables[9])
+	playerMaxHP = tonumber(Variables[10])
+	playerDef = tonumber(Variables[11])
+	playerStr = tonumber(Variables[12])
+	playerCha = tonumber(Variables[13])
+	playerCon = tonumber(Variables[14])
+	playerSur = tonumber(Variables[15])
+	playerStrMod = tonumber(Variables[16])
+	playerChaMod = tonumber(Variables[17])
+	playerConMod = tonumber(Variables[18])
+	playerSurMod = tonumber(Variables[19])
+	zoulds = tonumber(Variables[20])
+	potions = tonumber(Variables[21])
+	revivalStone = tonumber(Variables[22])
+	monster = Variables[31]
+	monsterLevel = tonumber(Variables[32])
+	monsterHP = tonumber(Variables[33])
+	monsterMaxHP = tonumber(Variables[34])
+	monsterDef = tonumber(Variables[35])
+	monsterStr = tonumber(Variables[36])
+	monsterCon = tonumber(Variables[37])
+	monsterStrMod = tonumber(Variables[38])
+	monsterConMod = tonumber(Variables[39])
+	monsterBaseExp = tonumber(Variables[40])
+	experience = tonumber(Variables[42])
+	monstersKilled = tonumber(Variables[44])
+	expNeeded = tonumber(Variables[45])
+	displayedExperience = tonumber(Variables[46])
+	gainedExp = 0
 	playerDamage = 0
 	playerRoll = 0
 	playerHit = 0
-	experience = tonumber(Variables[55])
-	expNeeded = tonumber(Variables[58])
-	monster = Variables[38]
-	monsterRollLog = Variables[39]
-	monsterAttackLog = Variables[40]
-	monsterLevel = tonumber(Variables[41])
-	monsterHP = tonumber(Variables[42])
-	monsterMaxHP = tonumber(Variables[43])
-	monsterDef = tonumber(Variables[44])
-	monsterStr = tonumber(Variables[45])
-	monsterStrMod = tonumber(Variables[46])
-	monsterBaseExp = tonumber(Variables[49])
-	gainedExp = tonumber(Variables[50])
-	monstersKilled = tonumber(Variables[57])
-	displayedExperience = tonumber(Variables[59])
 	monsterDamage = 0
 	monsterRoll = 0
 	monsterHit = 0
@@ -502,43 +496,37 @@ function scene:show(event)
 		
 		--Save Variables
 		Variables[2] = isInFight
-		Variables[27] = zoulds
-		Variables[9] = player
-		Variables[10] = playerRollLog
-		Variables[11] = playerAttackLog
-		Variables[13] = playerLevel
-		Variables[14] = playerHP
-		Variables[15] = playerMaxHP
-		Variables[16] = playerDef
-		Variables[17] = playerStr
-		Variables[18] = playerCha
-		Variables[19] = playerCon
-		Variables[20] = playerSur
-		Variables[21] = playerStrMod
-		Variables[23] = playerConMod
-		Variables[28] = potions
-		playerDamage = 0
-		playerRoll = 0
-		playerHit = 0
-		Variables[55] = experience
-		Variables[58] = expNeeded
-		Variables[38] = monster
-		Variables[39] = monsterRollLog
-		Variables[40] = monsterAttackLog
-		Variables[41] = monsterLevel
-		Variables[42] = monsterHP
-		Variables[43] = monsterMaxHP
-		Variables[44] = monsterDef
-		Variables[45] = monsterStr
-		Variables[46] = monsterStrMod
-		Variables[49] = monsterBaseExp
-		Variables[50] = gainedExp
-		Variables[57] = monstersKilled
-		Variables[59] = displayedExperience
-		monsterDamage = 0
-		monsterRoll = 0
-		monsterHit = 0
-		listener()
+		Variables[7] = player
+		Variables[8] = playerLevel
+		Variables[9] = playerHP
+		Variables[10] = playerMaxHP
+		Variables[11] = playerDef
+		Variables[12] = playerStr
+		Variables[13] = playerCha
+		Variables[14] = playerCon
+		Variables[15] = playerSur
+		Variables[16] = playerStrMod
+		Variables[17] = playerChaMod
+		Variables[18] = playerConMod
+		Variables[19] = playerSurMod
+		Variables[20] = zoulds
+		Variables[21] = potions
+		Variables[22] = revivalStone
+		Variables[31] = monster
+		Variables[32] = monsterLevel
+		Variables[33] = monsterHP
+		Variables[34] = monsterMaxHP
+		Variables[35] = monsterDef
+		Variables[36] = monsterStr
+		Variables[37] = monsterCon
+		Variables[38] = monsterStrMod
+		Variables[39] = monsterConMod
+		Variables[40] = monsterBaseExp
+		Variables[42] = experience
+		Variables[44] = monstersKilled
+		Variables[45] = expNeeded
+		Variables[46] = displayedExperience
+		timer.performWithDelay(100, Update)
 	end
 	
 	-- [ Generates the Rewards ]
@@ -585,21 +573,17 @@ function scene:show(event)
 		monsterLog.text = monsterAttackLog
 	end
 	
-	Update()
-	
 	function levelUp()
 	
 	end
 	
+	Update()
+	
 	if (phrase == "will") then
 		-- code runs when scene is off screen about to come onto screen
-		
 	elseif (phrase == "did") then
-		-- code runs when scene is entirely on screen
-		
+		-- code runs when scene is entirely on screen	
 	end
-	
-
 end
 
 
@@ -611,7 +595,6 @@ function scene:hide( event )
 	
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
-		
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
 	end
@@ -621,7 +604,6 @@ end
 function scene:destroy( event )
 	local sceneGroup = self.view
 	-- Code here runs prior to the removal of scene's view
-
 end
 
 -- -----------------------------------------------------------------------------------
