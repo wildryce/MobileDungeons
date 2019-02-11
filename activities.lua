@@ -132,6 +132,12 @@ function scene:create(event)
 	sceneGroup:insert(fishButton)
 	sceneGroup:insert(chopButton)
 	
+	--Activities Times
+	forageTime = tonumber( Variables[47])
+	chopTime = tonumber(Variables[48])
+	mineTime = tonumber(Variables[49])
+	fishTime = tonumber(Variables[50])
+	
 end
 
 -- [[ Scene Switch Event]]
@@ -144,7 +150,7 @@ function swapScene(event)
 	end
 end
 
-function enable(id)
+function enable()
 	if forageTime > 0 and activityTime == 1 then
 		forageTime = forageTime - 1
 		forageButton:setLabel("FORAGE ("..forageTime..")")
@@ -222,7 +228,7 @@ end
 -- show()
 function scene:show(event)
 	local sceneGroup = self.view
-	local phrase = event.phrase
+	local phase = event.phase
 	
 	--Variables needed
 	playerLevel = tonumber(Variables[8])
@@ -242,24 +248,23 @@ function scene:show(event)
 	activityTime = tonumber(Variables[43])
 	expNeeded = tonumber(Variables[45])
 	displayedExperience = tonumber(Variables[46])
-	forageTime = tonumber( Variables[47])
-	chopTime = tonumber(Variables[48])
-	mineTime = tonumber(Variables[49])
-	fishTime = tonumber(Variables[50])
 	print(experience)
 	itemLog.text = displayText
 	
-	if (phrase == "will") then
+	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
 		activityTime = 0
 		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
-			activeTimer = timer.performWithDelay(800, changeActive)
-			timer.performWithDelay(900, enable)
+			changeActive()
+			--timer.pause(eTimer)
 		else
 			activityTime = 0
 		end
-	elseif (phrase == "did") then
+	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
+		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
+			--eTimer = timer.performWithDelay(500,enable)
+		end
 	end
 	
 	function Update()
@@ -268,7 +273,7 @@ function scene:show(event)
 			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
             experience = experience - tempEXP
             playerLevel = playerLevel + 1
-            levelUp ()
+            composer.showOverlay("levelUp", Overoptions)
             expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
 		end
 		--Save Variables
@@ -293,6 +298,22 @@ function scene:show(event)
 		Variables[49] = mineTime
 		Variables[50] = fishTime
 		itemLog.text = displayText
+		
+		if activityTime == 0 then
+			forageButton:setLabel("FORAGE")
+			fishButton:setLabel("FISH")
+			chopButton:setLabel("CHOP")
+			mineButton:setLabel("MINE")
+			forageButton:setEnabled(true)
+			fishButton:setEnabled(true)
+			mineButton:setEnabled(true)
+			chopButton:setEnabled(true)
+			forageButton:setFillColor(1,0,0)
+			fishButton:setFillColor(1,0.5,0)
+			mineButton:setFillColor(1,0.5,0)
+			chopButton:setFillColor(1,0,0)
+		end
+		
 		aTimer = timer.performWithDelay(100, Update)
 	end
 	Update()
@@ -303,9 +324,8 @@ function levelUp()
 end
 
 function activityPress(event)
-	bId = event.target.id
-	
-	gainedExp = math.random(1,5) * (1 + playerSurMod)
+
+	gainedExp = math.random(1,4) * (1 + playerSurMod)
 	experience = experience + gainedExp
 	displayedExperience = displayedExperience + gainedExp
 	
@@ -314,7 +334,7 @@ function activityPress(event)
 	if event.phase == "ended" and event.target.id == "chop" then
 		chopTime = 20
 		activityTime = 1
-		enable(bId)
+		enable()
 		tempwood = (math.random(1,3) * (1 + playerSurMod))
 		if wood == nil then
 			wood = tempwood
@@ -329,7 +349,7 @@ function activityPress(event)
 	if event.phase == "ended" and event.target.id == "forage" then
 		forageTime = 20
 		activityTime = 1
-		enable(bId)
+		enable()
 		tempscrap = (math.random(1,3) * (1 + playerSurMod))
 		if scrap == nil then
 			scrap = tempscrap
@@ -337,11 +357,21 @@ function activityPress(event)
 			scrap = scrap + tempscrap
 		end
 		displayText = displayText.."\nScrap (+"..tempscrap.."), "
+		isZoulds = math.random(10)
+		if isZoulds >= 9 then
+			tempZoulds = math.random(5)
+			if zoulds == nil then
+				zoulds = tempZoulds
+			else
+				zoulds = zoulds + tempZoulds
+			end
+			displayText = displayText.."Zoulds (+"..tempZoulds.."), "
+		end
 	end
 	if event.phase == "ended" and event.target.id == "mine" then
 		mineTime = 20
 		activityTime = 1
-		enable(bId)
+		enable()
 		tempstone = (math.random(1,3) * (1 + playerSurMod))
 		if stone == 0 then
 			stone = tempstone
@@ -353,7 +383,7 @@ function activityPress(event)
 	if event.phase == "ended" and event.target.id == "fish" then
 		fishTime = 20
 		activityTime = 1		
-		enable(bId)
+		enable()
 		tempfish = (math.random(1,3) * (1 + playerSurMod))
 		if fish == nil then
 			fish = tempfish
@@ -378,14 +408,16 @@ function scene:hide( event )
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
 		activityTime = 1
+		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
+		end
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
 		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
-			activeTimer = timer.performWithDelay(1000, changeActive)
-			timer.performWithDelay(1100, enable)
+			changeActive()
 		else
 			activityTime = 0
 		end
+		Update()
 	end
 end
 

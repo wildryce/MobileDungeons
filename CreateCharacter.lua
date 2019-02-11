@@ -80,7 +80,7 @@ end
 -- show()
 function scene:show(event)
 	local sceneGroup = self.view
-	local phrase = event.phrase
+	local phase = event.phase
 
 end
 

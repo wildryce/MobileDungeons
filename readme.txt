@@ -3,43 +3,52 @@ V.0.0.6 Push Update Notes
 Did a lot of cleaning up removing a bunch of unneeded variables and such. Also made code a bit cleaner.
 
 ACTIVITIES.LUA
-- Updated how button clicks are handled
-- Removed random print statements
-- Added display log
-- Added update function to allow variables to update on this scene
-- Removed the removing of scenes
-- Removed listener()
-- Added item collection
-- Changed use of activityTime to be boolean instead of base time
-- Fixed Variable reading
-- Added levelup() function to handle levelups [TO BUILD LATER ALONGSIDE dungeon.lua's]
+- Fixed timer issue that would speed up the passage of time (temporary fix).
+- TO WORK ON: Allow for timer to update properly on app relaunch.
+- Added level up capabilities and handler.
+- Removed some useless variables and calls.
+- Added the possibility to find zoulds when foraging.
 
 CREATECHARACTER.LUA
-- Fixed Variable reading
+- Fixed typos.
 
 DUNGEON.LUA
-- Updated how listener() function works in main.lua, only called once per creation of scene.
-- Fixed Variable reading
-- Removed the removing of scenes
-- Sorted variables
+- Fixed reading errors on some variables. Still have to fix HP text updating on levelup.
+- Fixed FIGHT button updating, allowing delay to process.
+- Fixed a healing issue resulting in a decimal point when reviving.
+- Updated how monsters will be found.
+- Modified order of Update() function for better handling.
+- Added pullVariables() function to handle levelUps.
+- Updated speed of Update() function to 1 second.
 
-GLOBALDATA.LUA
-- Removed a lot of unnecessary variables.
-- Updated some of the comments regarding variables function
+INN.LUA
+- Made inn.lua, All mechanics present.
 
 INVENTORY.LUA
-- Made inventory.lua
-- Displays players inventory and updates whenever they collect any items
+- Fixed typos.
+
+LEVELUP.LUA
+- Made levelUp.lua
+- Most mechanics present. Some to still be tested (players choosing stats every 4th level).
 
 MAIN.LUA
-- Updated Variables list to account for removal of variables from globaldata.lua
-- Added listener() controller loop here [called from dungeon.lua], to always save data to file every 2 seconds.
+- Fixed typos
+- Changed speed of saving of variables to file to 0.5 seconds
+- Added some quality of life print variables (console/debug only) for testing purposes
+
+SHOP.LUA
+- Added shop.lua
+- To be worked on later.
+
+SPRITES FOLDER
+- Added sprites folder.
 
 STATS.LUA
-- Fixed Variable reading
-- Updated how the stats variable is handled
+- Fixed typos.
 
 TAVERN.LUA
-- Added inventory [chest] handler to open inventory.lua
-- Removed unused variables regarding new button handler
-- Added Zoulds count to tavern screen
+- Fixed typos.
+- Added Inn Button functionality.
+- Added Shop Button functionality.
+- Updated swapScene() function to cut down on code (now has a single handler for all button presses).
+- Fixed issue of zoulds not updating properly.

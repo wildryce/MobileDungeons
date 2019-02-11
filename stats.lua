@@ -59,7 +59,7 @@ end
 -- show()
 function scene:show(event)
 	local sceneGroup = self.view
-	local phrase = event.phrase
+	local phase = event.phase
 	
 	--Variables
 	player = Variables[7]
@@ -88,9 +88,9 @@ function scene:show(event)
 	allStats = allStats.."\n\nMonsters Slain: "..monstersKilled	
 	
 	statsBox.text = allStats
-	if (phrase == "will") then
+	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
-	elseif (phrase == "did") then
+	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
 		
 	end

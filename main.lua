@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- main.lua (v0.0.6)
+-- main.lua (v0.0.7a)
 --
 -----------------------------------------------------------------------------------------
 
@@ -8,6 +8,8 @@ local composer = require( "composer" )
 local globalData = require("globalData")
 
 local fonts = native.getFontNames()
+
+local version = 'Alpha v.0.0.7a'
 
 --Dimensions
 local aspectRatio = display.pixelHeight / display.pixelWidth
@@ -18,7 +20,6 @@ local height = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
 local uiGroup = display.newGroup()
 
 --Create Game Variables
-local version = 'Alpha v.0.0.6'
 Variables = {firstTimeLoad, inFight, welcomeEnabled, pastTime, currentTime, welcomePopup, playerName, p_level, p_hp, p_maxhp, p_def, p_str, p_cha, p_con, p_sur, p_strMod, p_chaMod, p_conMod, p_surMod, zoulds, potions, revivalStone, scrap, wood, fish, stone, birdegg, metal, rainbowtrout, silvercoin, monster, m_level, m_hp, m_maxhp, m_def, m_str, m_con, m_strMod, m_conMod, monsterBaseExp, healedHP, experience, activityTime, monstersKilled, expNeeded, DisplayedExp, forageTime, chopTime, mineTime, fishTime}
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
 
@@ -64,7 +65,7 @@ end
 math.randomseed( os.time() )
 
 function listener()
-	--print("Saving...")
+	--print("Saving... Max HP "..Variables[10])
 	file = io.open(filePath, "w")
 	local i = 1
 	while Variables[i] do
@@ -73,7 +74,7 @@ function listener()
 	end
 	file:close()
 	--print("Done Saving")
-	timer.performWithDelay(2000, listener)
+	timer.performWithDelay(500, listener)
 end
 
 -- display CreateCharacter if firstTimeLoad is true

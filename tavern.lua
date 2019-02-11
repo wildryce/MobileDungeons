@@ -68,7 +68,7 @@ function scene:create(event)
 	local statsButton = widget.newButton({
 	id = "stats",
 	shape = "roundedrect",
-	label= "View Character Stats",
+	label = "View Character Stats",
 	fillColor = {default={0,0.75,1,1}, over={0,0.75,1,1}},
 	labelColor = {default={1}, over={1}},
 	x = display.contentCenterX,
@@ -96,19 +96,44 @@ function scene:create(event)
 	cornerRadius = 7,
 	onRelease = swapScene})
 	
-	local innButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY, gWidth/1.5, 30, 7)
-	local shopButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+45, gWidth/1.5, 30, 7)
+	local innButton = widget.newButton({
+	id = "inn",
+	shape = "roundedrect",
+	label = "Rest at the Inn",
+	fillColor = {default={0,0.75,1,1}, over={0,0.75,1,1}},
+	labelColor = {default={1}, over={1}},
+	x = display.contentCenterX, 
+	y = display.contentCenterY, 
+	width = gWidth/1.5, 
+	height = 30, 
+	font = native.systemFont,
+	fontSize = 14,
+	cornerRadius = 7,
+	onRelease = swapScene})
+	
+	local shopButton = widget.newButton({
+	id = "shop",
+	shape = "roundedrect",
+	label = "Go to Local Store",
+	fillColor = {default={0,0.75,1,1}, over={0,0.75,1,1}},
+	labelColor = {default={1}, over={1}},
+	x = display.contentCenterX, 
+	y = display.contentCenterY+45, 
+	width = gWidth/1.5, 
+	height = 30, 
+	font = native.systemFont,
+	fontSize = 14,
+	cornerRadius = 7,
+	onRelease = swapScene})
+	
 	local marketButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+90, gWidth/1.5, 30, 7)
 	local bountyButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+135, gWidth/1.5, 30, 7)
-	local innText = display.newText("Rest at the Inn", display.contentCenterX, display.contentCenterY, native.systemFont, 14)
-	local shopText = display.newText("Go to Local Shop", display.contentCenterX, display.contentCenterY+45, native.systemFont, 14)
+	local innText = display.newText("", display.contentCenterX, display.contentCenterY, native.systemFont, 14)
 	local marketText = display.newText("Visit Traveling Merchants", display.contentCenterX, display.contentCenterY+90, native.systemFont, 14)
 	local bountyText = display.newText("Check the Bounty Board", display.contentCenterX, display.contentCenterY+135, native.systemFont, 14)
 	zouldsText = display.newText("Zoulds: 0", 100, gHeight-50, native.systemFontBold, 14)
-	innButton:setFillColor(0,0.75,1)
-	shopButton:setFillColor(0,0.75,1)
-	marketButton:setFillColor(0,0.75,1)
-	bountyButton:setFillColor(0,0.75,1)
+	marketButton:setFillColor(0.5)
+	bountyButton:setFillColor(0.5)
 	zouldsText:setFillColor(0)
 	
 	sceneGroup:insert(background)
@@ -121,8 +146,6 @@ function scene:create(event)
 	sceneGroup:insert(shopButton)
 	sceneGroup:insert(marketButton)
 	sceneGroup:insert(bountyButton)
-	sceneGroup:insert(innText)
-	sceneGroup:insert(shopText)
 	sceneGroup:insert(marketText)
 	sceneGroup:insert(bountyText)
 	sceneGroup:insert(zouldsText)
@@ -130,34 +153,26 @@ end
 
 -- [[ Scene Switch Event]]
 function swapScene(event)
-	if event.phase == "ended" and event.target.id == "dungeon" then
-		composer.gotoScene("dungeon")
-	end
-	if event.phase == "ended" and event.target.id == "activities" then
-		composer.gotoScene("activities")
-	end
-	if event.phase == "ended" and event.target.id == "stats" then
-		composer.gotoScene("stats")
-	end	
-	if event.phase == "ended" and event.target.id == "inventory" then
-		composer.gotoScene("inventory")
+	if event.phase == "ended" then
+		composer.gotoScene(event.target.id)
 	end
 end
 
 -- show()
 function scene:show(event)
 	local sceneGroup = self.view
-	local phrase = event.phrase
+	local phase = event.phase
 	
-	zoulds = Variables[20]
-	
-	zouldsText.text = "Zoulds: "..zoulds
-	
-	if (phrase == "will") then
+	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
-	elseif (phrase == "did") then
+		zoulds = Variables[20]
+		updateZoulds = "Zoulds: "..zoulds
+		print(composer.getScene("shop"))
+	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
+		zouldsText.text = updateZoulds
 	end
+	
 end
 
 
