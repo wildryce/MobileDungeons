@@ -77,6 +77,88 @@ function listener()
 	timer.performWithDelay(500, listener)
 end
 
+function reload()
+	currentTime = os.time()
+	pastTime = tonumber(Variables[4])
+	difference = os.difftime(os.time(), pastTime)
+	print(difference)
+ 
+        --[[int monsterFlee = (int)difference.Hours + ((int)difference.Days * 24);
+ 
+        int awayTime = (int)difference.Minutes + ((int)difference.Hours * 60) + ((int)difference.Days * 24);
+ 
+        int offlineHealth = (int)difference.Minutes + ((int)difference.Hours * 60) + ((int)difference.Days * 24);
+ 
+        float activityTime = (int)difference.Seconds + ((int)difference.Minutes * 60) + ((int)difference.Hours * 60) + ((int)difference.Days * 24);
+ 
+        int regainedHP = 0;
+        if (offlineHealth >= 1) {
+            while (p_hp < p_maxhp & offlineHealth >= 1) {
+                p_hp += 1;
+                offlineHealth -= 1;
+                regainedHP += 1;
+            } 
+            if (p_hp >= p_maxhp) {
+                p_hp = p_maxhp;
+            }
+        }
+ 
+        forageTime -= (int)activityTime;
+        if (forageTime < 0) {
+            forageTime = 0;
+            btnForage.interactable = true;
+            forageButton.text = "FORAGE";
+        }
+        chopTime -= (int)activityTime;
+        if (chopTime < 0) {
+            chopTime = 0;
+            btnChop.interactable = true;
+            chopButton.text = "CHOP";
+        }
+        fishTime -= (int)activityTime;
+        if (fishTime < 0) {
+            fishTime = 0;
+            btnFish.interactable = true;
+            fishButton.text = "FISH";
+        }
+        mineTime -= (int)activityTime;
+        if (mineTime < 0) {
+            mineTime = 0;
+            btnMine.interactable = true;
+            mineButton.text = "MINE";
+        }
+ 
+        if (welcomeEnabled & (awayTime >= 30 | regainedHP > 0)) {
+            welcomeBack.enabled = true;
+        } else {
+            welcomeBack.enabled = false;
+        }
+        int seconds = (int)difference.Seconds;
+        int minutes = (int)difference.Minutes;
+        int hours = (int)difference.Hours;
+        int days = (int)difference.Days;
+        welcomePopup.text = "You have been away for ";
+        if (days > 0) {
+            welcomePopup.text += days + " days ";
+        }
+        if (hours > 0) {
+            welcomePopup.text += hours + " hours ";
+        }
+        if (minutes > 0) {
+            welcomePopup.text += minutes + " minutes ";
+        }
+        if (days > 0) {
+            welcomePopup.text += seconds + " seconds ";
+        }
+        if (regainedHP > 0) {
+            welcomePopup.text += "\nYou regained " + regainedHP + " HP";
+        }
+        if (monsterFlee >= 48) {
+            welcomePopup.text += "\n" + monster + " fled after being gone for too long.";
+            inFight = false;
+        }]]
+end
+
 -- display CreateCharacter if firstTimeLoad is true
 if (Variables[1] == 1) then	
 	-- Create Character
@@ -84,4 +166,5 @@ if (Variables[1] == 1) then
 else	
 	-- Dungeon Scene
 	composer.gotoScene("dungeon")
+	reload()
 end

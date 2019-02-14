@@ -133,7 +133,7 @@ function scene:create(event)
 	sceneGroup:insert(chopButton)
 	
 	--Activities Times
-	forageTime = tonumber( Variables[47])
+	forageTime = tonumber(Variables[47])
 	chopTime = tonumber(Variables[48])
 	mineTime = tonumber(Variables[49])
 	fishTime = tonumber(Variables[50])
@@ -142,11 +142,8 @@ end
 
 -- [[ Scene Switch Event]]
 function swapScene(event)
-	if event.phase == "ended" and event.target.id == "dungeon" then
-		composer.gotoScene("dungeon")
-	end
-	if event.phase == "ended" and event.target.id == "tavern" then
-		composer.gotoScene("tavern")
+	if event.phase == "ended" then
+		composer.gotoScene(event.target.id)
 	end
 end
 
@@ -223,6 +220,7 @@ function enable()
 		mineButton:setFillColor(1,0.5,0)
 		chopButton:setFillColor(1,0,0)
 	end
+	offUpdate()
 end
 	
 -- show()
@@ -248,12 +246,16 @@ function scene:show(event)
 	activityTime = tonumber(Variables[43])
 	expNeeded = tonumber(Variables[45])
 	displayedExperience = tonumber(Variables[46])
-	print(experience)
+	
 	itemLog.text = displayText
 	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
 		activityTime = 0
+		--forageTime = tonumber( Variables[47])
+		--chopTime = tonumber(Variables[48])
+		--mineTime = tonumber(Variables[49])
+		--fishTime = tonumber(Variables[50])
 		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
 			changeActive()
 			--timer.pause(eTimer)
@@ -265,6 +267,16 @@ function scene:show(event)
 		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
 			--eTimer = timer.performWithDelay(500,enable)
 		end
+	end
+	
+	function offUpdate()
+		Variables[8] = playerLevel
+		Variables[43] = activityTime
+		Variables[47] = forageTime
+		Variables[48] = chopTime
+		Variables[49] = mineTime
+		Variables[50] = fishTime
+		print("pong")
 	end
 	
 	function Update()
@@ -313,10 +325,8 @@ function scene:show(event)
 			mineButton:setFillColor(1,0.5,0)
 			chopButton:setFillColor(1,0,0)
 		end
-		
-		aTimer = timer.performWithDelay(100, Update)
+		aTimer = timer.performWithDelay(500, Update)
 	end
-	Update()
 end
 
 function levelUp()
@@ -330,7 +340,6 @@ function activityPress(event)
 	displayedExperience = displayedExperience + gainedExp
 	
 	local special = math.random(1,10)
-	
 	if event.phase == "ended" and event.target.id == "chop" then
 		chopTime = 20
 		activityTime = 1
@@ -414,10 +423,10 @@ function scene:hide( event )
 		-- Code here runs immediately after the scene goes entirely off screen
 		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
 			changeActive()
+			Update()
 		else
 			activityTime = 0
 		end
-		Update()
 	end
 end
 

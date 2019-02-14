@@ -92,7 +92,6 @@ function scene:create(event)
 	sceneGroup:insert(leave)
 	sceneGroup:insert(zouldsText)
 	sceneGroup:insert(cost)
-	--sceneGroup:insert(scrollView)
 	
 end
 
@@ -111,7 +110,6 @@ function scene:show(event)
 
 	--Variables
 	zoulds = tonumber(Variables[20])
-	print(zoulds)
 	
 	function Update()
 		--Remove Scenes To Update

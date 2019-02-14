@@ -1,4 +1,4 @@
-V.0.0.6 Push Update Notes
+V.0.0.7a Push Update Notes
 
 Did a lot of cleaning up removing a bunch of unneeded variables and such. Also made code a bit cleaner.
 

@@ -48,6 +48,7 @@ forageTime=0			--How much time is left to forage
 chopTime=0				--How much time is left to chop
 mineTime=0				--How much time is left to mine
 fishTime=0				--How much time is left to fish
+differenceTime=0		--How much difference in time since last launch
 
 -- Monster Lists (Name, Health, Strength, Defense, Exp)
 kobold = {"Kobold", 5, 7, 12, 3}

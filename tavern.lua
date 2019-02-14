@@ -167,7 +167,6 @@ function scene:show(event)
 		-- code runs when scene is off screen about to come onto screen
 		zoulds = Variables[20]
 		updateZoulds = "Zoulds: "..zoulds
-		print(composer.getScene("shop"))
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
 		zouldsText.text = updateZoulds

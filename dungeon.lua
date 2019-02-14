@@ -190,11 +190,8 @@ end
 
 -- [[ Scene Switch Event]]
 function swapScene(event)
-	if event.phase == "ended" and event.target.id == "tavern" then
-		composer.gotoScene("tavern")
-	end
-	if event.phase == "ended" and event.target.id == "activities" then
-		composer.gotoScene("activities")
+	if event.phase == "ended" then
+		composer.gotoScene(event.target.id)
 	end
 end
 
@@ -361,7 +358,6 @@ function scene:show(event)
 	--If Player is knocked out
 	if playerHP <= 0 then
 		playerHP = 0
-		healButton:setLabel("REVIVE ("..revivalStone..")")
 		healButton:setLabel("REVIVE ("..revivalStone..")")
 		fightButton:setFillColor(0.5)
 		fightButton:setEnabled(false)
@@ -561,6 +557,7 @@ function scene:show(event)
 		
 		--Save Variables
 		Variables[2] = isInFight
+		Variables[4] = os.time()
 		Variables[7] = player
 		Variables[8] = playerLevel
 		Variables[9] = playerHP
@@ -642,10 +639,8 @@ function scene:show(event)
 	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto 
-		print("about to")
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
-		print("viewing")
 		pullVariables()
 		print("Pulling...")
 	end

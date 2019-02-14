@@ -113,7 +113,6 @@ function scene:show(event)
 	HP = tonumber(Variables[9])
 	maxHP = tonumber(Variables[10])
 	zoulds = tonumber(Variables[20])
-	print(zoulds)
 	
 	function Update()
 		--Remove Scenes To Update	

@@ -190,6 +190,7 @@ function scene:show(event)
 	function doOverlay()
 		if isOn == 0 then
 			HP = maxHP
+			composer.gotoScene("dungeon")
 			composer.hideOverlay()
 		else
 			levelTitle.text = ""
