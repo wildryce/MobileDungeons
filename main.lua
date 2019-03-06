@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- main.lua (v0.0.7a)
+-- main.lua (v0.0.7b)
 --
 -----------------------------------------------------------------------------------------
 
@@ -9,7 +9,7 @@ local globalData = require("globalData")
 
 local fonts = native.getFontNames()
 
-local version = 'Alpha v.0.0.7a'
+local version = 'Alpha v.0.0.7b'
 
 --Dimensions
 local aspectRatio = display.pixelHeight / display.pixelWidth

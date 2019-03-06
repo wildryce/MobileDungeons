@@ -276,7 +276,6 @@ function scene:show(event)
 		Variables[48] = chopTime
 		Variables[49] = mineTime
 		Variables[50] = fishTime
-		print("pong")
 	end
 	
 	function Update()
@@ -289,6 +288,7 @@ function scene:show(event)
             expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
 		end
 		--Save Variables
+		itemLog.text = displayText
 		Variables[8] = playerLevel
 		Variables[20] = zoulds
 		Variables[21] = potions
@@ -309,7 +309,6 @@ function scene:show(event)
 		Variables[48] = chopTime
 		Variables[49] = mineTime
 		Variables[50] = fishTime
-		itemLog.text = displayText
 		
 		if activityTime == 0 then
 			forageButton:setLabel("FORAGE")
@@ -329,9 +328,7 @@ function scene:show(event)
 	end
 end
 
-function levelUp()
 
-end
 
 function activityPress(event)
 
@@ -344,7 +341,7 @@ function activityPress(event)
 		chopTime = 20
 		activityTime = 1
 		enable()
-		tempwood = (math.random(1,3) * (1 + playerSurMod))
+		tempwood = (math.random(1,3) + (playerSurMod))
 		if wood == nil then
 			wood = tempwood
 		else
@@ -359,7 +356,7 @@ function activityPress(event)
 		forageTime = 20
 		activityTime = 1
 		enable()
-		tempscrap = (math.random(1,3) * (1 + playerSurMod))
+		tempscrap = (math.random(1,3) + (playerSurMod))
 		if scrap == nil then
 			scrap = tempscrap
 		else
@@ -381,7 +378,7 @@ function activityPress(event)
 		mineTime = 20
 		activityTime = 1
 		enable()
-		tempstone = (math.random(1,3) * (1 + playerSurMod))
+		tempstone = (math.random(1,3) + (playerSurMod))
 		if stone == 0 then
 			stone = tempstone
 		else
@@ -393,7 +390,7 @@ function activityPress(event)
 		fishTime = 20
 		activityTime = 1		
 		enable()
-		tempfish = (math.random(1,3) * (1 + playerSurMod))
+		tempfish = (math.random(1,3) + (playerSurMod))
 		if fish == nil then
 			fish = tempfish
 		else
@@ -402,6 +399,7 @@ function activityPress(event)
 		displayText = displayText.."\nFish (+"..tempfish.."), "
 	end
 	displayText = displayText.."Experience (+"..gainedExp..")."
+	itemLog.text = displayText
 end
 
 function changeActive()

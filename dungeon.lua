@@ -324,7 +324,6 @@ function scene:show(event)
 	monsterDamage = 0
 	monsterRoll = 0
 	monsterHit = 0
-	
 	--If Player returned from Heal/Revive
 	if isInFight == 2 then
 		monsterHP = 0
@@ -443,6 +442,7 @@ function scene:show(event)
 		monsterRoll = math.random(1,20)
 		monsterStrMod = math.floor((monsterStr-10)/2)
 		tempStrMod = math.abs(monsterStrMod)
+		print(tempStrMod)
 		if monsterStrMod < 0 then
 			monsterRollLog = "1d20 - "..tempStrMod.." = "..monsterRoll
 		else
@@ -451,7 +451,7 @@ function scene:show(event)
 		monsterRollText.text = monsterRollLog
 		monsterDRoll = math.random(1,9)
 		if monsterRoll == 20 then
-			if monsterDRoll + monsterStrMod  >= 0 then
+			if monsterDRoll + monsterStrMod  > 0 then
 				monsterHit = (monsterStrMod + monsterDRoll)*2
 			else
 				monsterHit = monsterDRoll*2
@@ -460,7 +460,7 @@ function scene:show(event)
 			monsterLog.text = monsterAttackLog
 			playerHP = playerHP - monsterHit
 		elseif monsterRoll + monsterStrMod >= playerDef then
-			if monsterDRoll + monsterStrMod  >= 0 then
+			if monsterDRoll + monsterStrMod  > 0 then
 				monsterHit = monsterStrMod + monsterDRoll
 			else
 				monsterHit = monsterDRoll

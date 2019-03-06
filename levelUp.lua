@@ -98,7 +98,7 @@ function scene:create(event)
 	--[UI Objects]
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.pixelWidth, display.pixelHeight)
 	displayText = ""	
-	displayTitle = display.newText("", display.contentCenterX, 180, gWidth - 20, 120, native.systemFontBold, 16) 
+	displayTitle = display.newText("", display.contentCenterX, 160, gWidth - 20, 120, native.systemFontBold, 16) 
 	levelTitle = display.newText("Level Up!", display.contentCenterX, display.contentCenterY, native.systemFontBold, 25)
 	levelTitle2 = display.newText("Level Up!", display.contentCenterX+2, display.contentCenterY+2, native.systemFontBold, 25)
 	--[Edit Buttons/Text/Objects]
@@ -151,7 +151,7 @@ function scene:show(event)
 			healthButton.isVisible = true
 			levelTitle.text = ""
 			levelTitle2.text = ""
-			displayText = "You have levelled up! Every second level you may choose two stats to increase.\nYou have "..count.." points left."
+			displayText = "You have levelled up! Every second level you may choose two stats to increase.\nYou have "..count.." points left.\n(Note if you restart app you will lose this.)"
 			displayTitle.text = displayText
 		else
 			strButton.isVisible = false
@@ -182,7 +182,8 @@ function scene:show(event)
 		Variables[18] = conMod
 		Variables[19] = surMod
 		if count == 0 then
-			composer.hideOverlay()
+			isOn = 0
+			timer.performWithDelay(1, doOverlay)
 		end
 		timer.performWithDelay(1000, Update)
 	end
@@ -190,6 +191,7 @@ function scene:show(event)
 	function doOverlay()
 		if isOn == 0 then
 			HP = maxHP
+			Update()
 			composer.gotoScene("dungeon")
 			composer.hideOverlay()
 		else
@@ -229,10 +231,9 @@ function controlButtons(event)
 			maxHP = maxHP + conMod
 		end	
 		count = count - 1
-		displayText = "You have levelled up! Every second level you may choose two stats to increase.\nYou have "..count.." points left."
+		displayText = "You have levelled up! Every second level you may choose two stats to increase.\nYou have "..count.." points left.\n(Note if you restart app you will lose this.)"
 		displayTitle.text = displayText
 	end
-	
 	Update()
 end
 
@@ -244,6 +245,7 @@ function scene:hide( event )
 	
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
+		Update()
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
 	end
