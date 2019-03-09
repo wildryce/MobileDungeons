@@ -1,15 +1,16 @@
 -----------------------------------------------------------------------------------------
 --
--- main.lua (v0.0.7b)
+-- main.lua (v0.0.7c)
 --
 -----------------------------------------------------------------------------------------
 
 local composer = require( "composer" )
 local globalData = require("globalData")
+local widget = require("widget")
 
 local fonts = native.getFontNames()
 
-local version = 'Alpha v.0.0.7b'
+local version = 'Alpha v.0.0.7c'
 
 --Dimensions
 local aspectRatio = display.pixelHeight / display.pixelWidth
@@ -20,7 +21,7 @@ local height = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
 local uiGroup = display.newGroup()
 
 --Create Game Variables
-Variables = {firstTimeLoad, inFight, welcomeEnabled, pastTime, currentTime, welcomePopup, playerName, p_level, p_hp, p_maxhp, p_def, p_str, p_cha, p_con, p_sur, p_strMod, p_chaMod, p_conMod, p_surMod, zoulds, potions, revivalStone, scrap, wood, fish, stone, birdegg, metal, rainbowtrout, silvercoin, monster, m_level, m_hp, m_maxhp, m_def, m_str, m_con, m_strMod, m_conMod, monsterBaseExp, healedHP, experience, activityTime, monstersKilled, expNeeded, DisplayedExp, forageTime, chopTime, mineTime, fishTime}
+Variables = {firstTimeLoad, inFight, welcomeEnabled, pastTime, currentTime, welcomePopup, playerName, p_level, p_hp, p_maxhp, p_def, p_str, p_cha, p_con, p_sur, p_strMod, p_chaMod, p_conMod, p_surMod, zoulds, potions, revivalStone, scrap, wood, fish, stone, birdegg, metal, rainbowtrout, silvercoin, monster, m_level, m_hp, m_maxhp, m_def, m_str, m_con, m_strMod, m_conMod, monsterBaseExp, healedHP, experience, activityTime, monstersKilled, expNeeded, DisplayedExp, forageTime, chopTime, mineTime, fishTime, welcomeEnabled}
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
 
 --[ Rectangles ]
@@ -78,85 +79,95 @@ function listener()
 end
 
 function reload()
+	--a - math.floor(a/b)*b
 	currentTime = os.time()
 	pastTime = tonumber(Variables[4])
 	difference = os.difftime(os.time(), pastTime)
+	days = math.floor(difference/86400)
+	local remaining = difference % 86400
+	hours = math.floor(remaining/3600)
+	remaining = remaining % 3600
+	minutes = math.floor(remaining/60)
+	remaining = remaining % 60
+	seconds = remaining
 	print(difference)
+	print(days.."D "..hours.."H "..minutes.."M "..seconds.."S ")
+    monsterFlee = hours + (days * 24)
+	awayTime = minutes + (hours*60) + (days*24)
+	offlineHealth = minutes + (hours*60) + (days*24) 
+	changeTime = seconds + (minutes * 60) + (hours * 60) + (days * 24)
  
-        --[[int monsterFlee = (int)difference.Hours + ((int)difference.Days * 24);
- 
-        int awayTime = (int)difference.Minutes + ((int)difference.Hours * 60) + ((int)difference.Days * 24);
- 
-        int offlineHealth = (int)difference.Minutes + ((int)difference.Hours * 60) + ((int)difference.Days * 24);
- 
-        float activityTime = (int)difference.Seconds + ((int)difference.Minutes * 60) + ((int)difference.Hours * 60) + ((int)difference.Days * 24);
- 
-        int regainedHP = 0;
-        if (offlineHealth >= 1) {
-            while (p_hp < p_maxhp & offlineHealth >= 1) {
-                p_hp += 1;
-                offlineHealth -= 1;
-                regainedHP += 1;
-            } 
-            if (p_hp >= p_maxhp) {
-                p_hp = p_maxhp;
-            }
-        }
- 
-        forageTime -= (int)activityTime;
-        if (forageTime < 0) {
-            forageTime = 0;
-            btnForage.interactable = true;
-            forageButton.text = "FORAGE";
-        }
-        chopTime -= (int)activityTime;
-        if (chopTime < 0) {
-            chopTime = 0;
-            btnChop.interactable = true;
-            chopButton.text = "CHOP";
-        }
-        fishTime -= (int)activityTime;
-        if (fishTime < 0) {
-            fishTime = 0;
-            btnFish.interactable = true;
-            fishButton.text = "FISH";
-        }
-        mineTime -= (int)activityTime;
-        if (mineTime < 0) {
-            mineTime = 0;
-            btnMine.interactable = true;
-            mineButton.text = "MINE";
-        }
- 
-        if (welcomeEnabled & (awayTime >= 30 | regainedHP > 0)) {
-            welcomeBack.enabled = true;
-        } else {
-            welcomeBack.enabled = false;
-        }
-        int seconds = (int)difference.Seconds;
-        int minutes = (int)difference.Minutes;
-        int hours = (int)difference.Hours;
-        int days = (int)difference.Days;
-        welcomePopup.text = "You have been away for ";
-        if (days > 0) {
-            welcomePopup.text += days + " days ";
-        }
-        if (hours > 0) {
-            welcomePopup.text += hours + " hours ";
-        }
-        if (minutes > 0) {
-            welcomePopup.text += minutes + " minutes ";
-        }
-        if (days > 0) {
-            welcomePopup.text += seconds + " seconds ";
-        }
-        if (regainedHP > 0) {
-            welcomePopup.text += "\nYou regained " + regainedHP + " HP";
-        }
-        if (monsterFlee >= 48) {
-            welcomePopup.text += "\n" + monster + " fled after being gone for too long.";
-            inFight = false;
-        }]]
+    regainedHP = 0
+    if (offlineHealth >= 1) then
+        while (p_hp < p_maxhp and offlineHealth >= 1) do
+            p_hp = p_hp + 1
+                offlineHealth = offlineHealth - 1
+                regainedHP = regainedHP + 1
+        end
+        if (p_hp >= p_maxhp) then
+            p_hp = p_maxhp
+        end
+    end
+	Variables[9] = p_hp
+    forageTime = forageTime - changeTime
+    if (forageTime < 0) then
+        forageTime = 0
+    end
+    chopTime = chopTime - changeTime
+    if (chopTime < 0) then
+        chopTime = 0
+		
+    end
+    fishTime = fishTime - changeTime
+    if (fishTime < 0) then
+        fishTime = 0
+	end
+    mineTime = mineTime - changeTime
+    if (mineTime < 0) then
+        mineTime = 0
+    end
+	if mineTime == 0 and chopTime == 0 and fishTime == 0 and forageTime == 0 then
+		activityTime = 0
+	end
+	Variables[43] = activityTime
+	Variables[47] = forageTime
+	Variables[48] = chopTime
+	Variables[49] = mineTime
+	Variables[50] = fishTime
+        --[[if (welcomeEnabled and (awayTime >= 30 or regainedHP > 0)) then
+            welcomeBack.enabled = true
+        else
+            welcomeBack.enabled = false
+        end]]
+		
+    welcomePopup = "You have been away for "
+    if (days > 0) then
+        welcomePopup = welcomePopup..days.." days "
+    end
+    if (hours > 0) then
+        welcomePopup = welcomePopup..hours.." hours "
+    end
+    if (minutes > 0) then
+        welcomePopup = welcomePopup..minutes.." minutes "
+    end
+    if (seconds >= 0) then
+        welcomePopup = welcomePopup..seconds.." seconds "
+    end
+    if (regainedHP > 0) then
+        welcomePopup = welcomePopup.."\nYou regained "..regainedHP.." HP"
+    end
+    if (monsterFlee >= 48) then
+        welcomePopup = welcomePopup.."\n" + monster + " fled after being gone for too long."
+        inFight = 0
+    end
+	Variables[2] = inFight
+	print(welcomePopup)
+	createoptions = {
+		isModal = true,
+		params = {
+			var1 = welcomePopup
+		}
+	}
 end
 
 -- display CreateCharacter if firstTimeLoad is true
@@ -165,6 +176,7 @@ if (Variables[1] == 1) then
 	composer.gotoScene("CreateCharacter")
 else	
 	-- Dungeon Scene
-	composer.gotoScene("dungeon")
 	reload()
+	composer.gotoScene("dungeon")
+	composer.showOverlay("backToGame", createoptions)
 end

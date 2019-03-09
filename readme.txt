@@ -1,27 +1,25 @@
-V.0.0.7b Push Update Notes
-
-Did a lot of cleaning up removing a bunch of unneeded variables and such. Also made code a bit cleaner.
+V.0.0.7c Push Update Notes
 
 ACTIVITIES.LUA
-- Removed unneeded lines of code and added some to fix display issues.
-- Balanced collection count of items (somewhat).
-- TO WORK ON: Allow for timer to update properly on app relaunch.
+- Reworked countdowns to *hopefully* be affected by offline time
 
-DUNGEON.LUA
-- Possibly fixed an issue ofa creature dealing 0 damage.
+BACKTOGAME.LUA
+- Added script to welcome the player back, with time elapsed, whether or not monster had fled and health regenerated.
 
 GLOBALDATA.LUA
-- Nothing game-changing, just spacing making a bit cleaner (most done before, just one line this time).
+- Added welcomeEnabled variable to control the popup showing on game load. This will not affect until settings are implemented.
 
-LEVELUP.LUA
-- Fixed issue where upon reaching every 4th level, players stats/health would revert to base.
-- Added a note that on app reset during stat increase choosing screen, they would lose the choice.
+MAIN.LUA
+- Created offline passage of time controller.
+- Added popup controller to welcome back player.
+
+NOTENOUGH.LUA
+- Added script to control button presses. This allows the player to know that they do not have enough zoulds/items to buy/sell respectively.
 
 SHOP.LUA
-- Added Scrollview for all shop items.
-- Implemented base items in game currently with buy/sell mechanics completed.
-- Implemented a fail-safe when player does not have enough zoulds/items to buy/sell.
-- Removed listener function that served no purpose for shop functionality.
+- Changed sizing of scrollview to fit screen fully now (minus UI overlaps).
+- Reverted background to white.
+- Removed previous controller functions for not having enough zoulds/items.
 
-SPRITES FOLDER
-- Added sprites for most items in game currently (and some future)
+TAVERN.LUA
+- Added a delete file button for debugging and testing purposes. This will be moved to the settings menu once implemented.

@@ -40,6 +40,10 @@ function scene:create(event)
 		fontSize = 14, 
 		align = "left"})
 	
+	Overoptions = {
+		isModal = true
+    }
+	
 	--[Buttons]
 	leave = widget.newButton({
 		label = "Return to Tavern",
@@ -58,10 +62,10 @@ function scene:create(event)
  
 	-- Create the widget
 	scrollView = widget.newScrollView({
-	top = 85,
-	left = 10,
-	width = gWidth - 20,
-	height = gHeight - 150,
+	top = 75,
+	left = 0,
+	width = gWidth,
+	height = gHeight - 133,
 	scrollWidth = 0,
 	scrollHeight = 3000,
 	horizontalScrollDisabled = true})
@@ -71,7 +75,7 @@ function scene:create(event)
 	
 	--Modifiers
 	zouldsText:setFillColor(0)
-	background:setFillColor(0.75)
+	background:setFillColor(1)
 	
 	potionBox = display.newRoundedRect(scrollView.width/2+7, 35, scrollView.width-27, 45, 7)
 	potionBox:setFillColor(1,0.75,0, 0.75)
@@ -384,7 +388,7 @@ function scene:create(event)
 	scrollView:insert(eggSell)
 	scrollView:insert(eggText)
 	scrollView:insert(eggCountText)]]
-	
+	sceneGroup:insert(scrollView)
 end
 
 -- [[ Scene Switch Event]]
@@ -395,26 +399,6 @@ function leave(event)
 	end
 end
 
-function createText()
-		stopPress = widget.newButton({ 
-			width = gWidth, 
-			height = gHeight, 
-			isEnabled = false})
-			stopPress.x, stopPress.y = display.contentCenterX, display.contentCenterY
-		nBox = display.newRoundedRect(display.contentCenterX, display.contentCenterY, 275, 30, 5)
-		notEnough = display.newText("Not enough zoulds / items", display.contentCenterX, display.contentCenterY, native.systemFontBold, 20)
-		stopPress:setFillColor(1,1,1,1)
-		nBox:setFillColor(0.5,0.5,0.5,0.75)
-		notEnough:setFillColor(1,0,0)
-		timer.performWithDelay(1500, clearText)
-	end
-	
-	function clearText()
-		notEnough:removeSelf()
-		nBox:removeSelf()
-		stopPress:removeSelf()
-	end	
-
 function buysell(event)
 	bID = event.target.id
 	if event.phase == "ended" then
@@ -423,101 +407,101 @@ function buysell(event)
 				zoulds = zoulds - 10
 				potions = potions + 1
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "HPOTIONSELL" then
 			if potions > 0 then
 				potions = potions - 1
 				zoulds = zoulds + 8
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "RSTONEBUY" then
 			if zoulds >= 25 then
 				zoulds = zoulds - 25
 				revivalStone = revivalStone + 1
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "RSTONESELL" then
 			if revivalStone > 0 then
 				revivalStone = revivalStone - 1
 				zoulds = zoulds + 15
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "WOODBUY" then
 			if zoulds >= 5 then
 				zoulds = zoulds - 5
 				wood = wood + 1
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "WOODSELL" then
 			if wood > 0 then
 				wood = wood - 1
 				zoulds = zoulds + 2
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "STONEBUY" then
 			if zoulds >= 5 then
 				zoulds = zoulds - 5
 				stone = stone + 1
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "STONESELL" then
 			if stone > 0 then
 				stone = stone - 1
 				zoulds = zoulds + 2
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "FISHBUY" then
 			if zoulds >= 5 then
 				zoulds = zoulds - 5
 				fish = fish + 1
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "FISHSELL" then
 			if fish > 0 then
 				fish = fish - 1
 				zoulds = zoulds + 2
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "SCRAPBUY" then
 			if zoulds >= 2 then
 				zoulds = zoulds - 2
 				scrap = scrap + 1
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "SCRAPSELL" then
 			if scrap > 0 then
 				scrap = scrap - 1
 				zoulds = zoulds + 1
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "EGGBUY" then
 			if zoulds >= 2 then
 				zoulds = zoulds - 2
 				birdegg = birdegg + 1
 			else
-				createText()
+				doOverlay()
 			end
 		elseif bID == "EGGSELL" then
 			if birdegg > 0 then
 				birdegg = birdegg - 1
 				zoulds = zoulds + 1
 			else
-				createText()
+				doOverlay()
 			end
 		else
-			createText()
+			doOverlay()
 		end
 		Update()
 	end
@@ -557,6 +541,10 @@ function scene:show(event)
 		--eggCountText.text = "Owned: "..birdegg
 	end
 	
+	function doOverlay()
+		composer.showOverlay("notEnough", Overoptions)
+	end
+	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
 	elseif (phase == "did") then
@@ -569,7 +557,6 @@ function scene:hide( event )
 
 	local sceneGroup = self.view
 	local phase = event.phase
-	scrollView:removeSelf()
 
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
@@ -583,7 +570,6 @@ end
 function scene:destroy( event )
 
 	local sceneGroup = self.view
-	scrollView:removeSelf()
 	-- Code here runs prior to the removal of scene's view
 
 end

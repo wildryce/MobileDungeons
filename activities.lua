@@ -137,7 +137,11 @@ function scene:create(event)
 	chopTime = tonumber(Variables[48])
 	mineTime = tonumber(Variables[49])
 	fishTime = tonumber(Variables[50])
+	activityTime = tonumber(Variables[43])
 	
+	if activityTime == 1 then
+		enable()
+	end
 end
 
 -- [[ Scene Switch Event]]
@@ -223,6 +227,15 @@ function enable()
 	offUpdate()
 end
 	
+function offUpdate()
+	Variables[8] = playerLevel
+	Variables[43] = activityTime
+	Variables[47] = forageTime
+	Variables[48] = chopTime
+	Variables[49] = mineTime
+	Variables[50] = fishTime
+end
+
 -- show()
 function scene:show(event)
 	local sceneGroup = self.view
@@ -251,7 +264,7 @@ function scene:show(event)
 	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
-		activityTime = 0
+		--activityTime = 0
 		--forageTime = tonumber( Variables[47])
 		--chopTime = tonumber(Variables[48])
 		--mineTime = tonumber(Variables[49])
@@ -267,15 +280,6 @@ function scene:show(event)
 		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
 			--eTimer = timer.performWithDelay(500,enable)
 		end
-	end
-	
-	function offUpdate()
-		Variables[8] = playerLevel
-		Variables[43] = activityTime
-		Variables[47] = forageTime
-		Variables[48] = chopTime
-		Variables[49] = mineTime
-		Variables[50] = fishTime
 	end
 	
 	function Update()
@@ -332,7 +336,7 @@ end
 
 function activityPress(event)
 
-	gainedExp = math.random(1,4) * (1 + playerSurMod)
+	gainedExp = math.random(1,2) * (playerSurMod)
 	experience = experience + gainedExp
 	displayedExperience = displayedExperience + gainedExp
 	
