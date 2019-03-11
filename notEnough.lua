@@ -19,7 +19,7 @@ function scene:create(event)
 	--[UI Objects]
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.pixelWidth, display.pixelHeight) 
 	levelTitle = display.newText("Not enough Zoulds/Items", display.contentCenterX, display.contentCenterY, native.systemFontBold, 25)
-	nBox = display.newRoundedRect(display.contentCenterX, display.contentCenterY, 305, 30, 5)
+	nBox = display.newRoundedRect(display.contentCenterX, display.contentCenterY, 305, 28, 5)
 	
 	--[Edit Buttons/Text/Objects]
 	background:setFillColor(0,0,0,0)
@@ -38,11 +38,15 @@ function scene:show(event)
 	local sceneGroup = self.view
 	local phase = event.phase
 	
+	function startOverlay()
+		composer.hideOverlay(false, "fade", 200)
+	end
+	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
-		timer.performWithDelay(1000, startOverlay)
+		timer.performWithDelay(800, startOverlay)
 	end
 	
 end

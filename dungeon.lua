@@ -442,7 +442,6 @@ function scene:show(event)
 		monsterRoll = math.random(1,20)
 		monsterStrMod = math.floor((monsterStr-10)/2)
 		tempStrMod = math.abs(monsterStrMod)
-		print(tempStrMod)
 		if monsterStrMod < 0 then
 			monsterRollLog = "1d20 - "..tempStrMod.." = "..monsterRoll
 		else

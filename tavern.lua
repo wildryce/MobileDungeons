@@ -170,7 +170,6 @@ end
 -- [[ Scene Switch Event]]
 function swapScene(event)
 	if event.phase == "ended" and event.target.id == "delete" then
-		print("delete")
 		filePath = system.pathForFile( "gamevariables.txt", system.DocumentsDirectory )
 		os.remove(filePath)
 		os.exit()

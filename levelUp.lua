@@ -213,19 +213,19 @@ function controlButtons(event)
 	if event.phase == "ended" then
 		if event.target.id == "Strength" then
 			str = str + 1
-			strMod = (math.floor(str-10)/2)
+			strMod = math.floor((str-10)/2)
 		end
 		if event.target.id == "Charisma" then
 			cha = cha + 1
-			chaMod = (math.floor(cha-10)/2)
+			chaMod = math.floor((cha-10)/2)
 		end
 		if event.target.id == "Constitution" then
 			con = con + 1
-			conMod = (math.floor(con-10)/2)
+			conMod = math.floor((con-10)/2)
 		end
 		if event.target.id == "Survival" then
 			sur = sur + 1
-			surMod = (math.floor(sur-10)/2)
+			surMod = math.floor((sur-10)/2)
 		end
 		if event.target.id == "Health" then
 			maxHP = maxHP + conMod

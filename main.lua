@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- main.lua (v0.0.7c)
+-- main.lua (v0.0.8)
 --
 -----------------------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ local widget = require("widget")
 
 local fonts = native.getFontNames()
 
-local version = 'Alpha v.0.0.7c'
+local version = 'Alpha v.0.0.8'
 
 --Dimensions
 local aspectRatio = display.pixelHeight / display.pixelWidth
@@ -54,19 +54,19 @@ if file then
 		Variables[i] = line
 		i = i + 1
 	end
-	--print("Done")
+	--print("Done Loading")
 	file:close()
 else
 	-- Create Game Data
 	file = io.open(filePath, "w+")
-	print("Creating File")
+	--print("Creating File")
 	file:close()	
 end
 -- Seed the random number generator
 math.randomseed( os.time() )
 
 function listener()
-	--print("Saving... Max HP "..Variables[10])
+	--print("Saving...")
 	file = io.open(filePath, "w")
 	local i = 1
 	while Variables[i] do
@@ -75,6 +75,7 @@ function listener()
 	end
 	file:close()
 	--print("Done Saving")
+	pastTime = os.time()
 	timer.performWithDelay(500, listener)
 end
 
@@ -90,13 +91,12 @@ function reload()
 	minutes = math.floor(remaining/60)
 	remaining = remaining % 60
 	seconds = remaining
-	print(difference)
-	print(days.."D "..hours.."H "..minutes.."M "..seconds.."S ")
+	--print(difference)
+	--print(days.."D "..hours.."H "..minutes.."M "..seconds.."S ")
     monsterFlee = hours + (days * 24)
 	awayTime = minutes + (hours*60) + (days*24)
 	offlineHealth = minutes + (hours*60) + (days*24) 
 	changeTime = seconds + (minutes * 60) + (hours * 60) + (days * 24)
- 
     regainedHP = 0
     if (offlineHealth >= 1) then
         while (p_hp < p_maxhp and offlineHealth >= 1) do
@@ -108,8 +108,17 @@ function reload()
             p_hp = p_maxhp
         end
     end
+	
 	Variables[9] = p_hp
-    forageTime = forageTime - changeTime
+	
+	activityTime = tonumber(Variables[43])
+	forageTime = tonumber(Variables[47])
+	chopTime = tonumber(Variables[48])
+	mineTime = tonumber(Variables[49])
+	fishTime = tonumber(Variables[50])
+	inFight = tonumber(Variables[2])
+    
+	forageTime = forageTime - changeTime
     if (forageTime < 0) then
         forageTime = 0
     end
@@ -128,7 +137,7 @@ function reload()
     end
 	if mineTime == 0 and chopTime == 0 and fishTime == 0 and forageTime == 0 then
 		activityTime = 0
-	end
+	end 
 	Variables[43] = activityTime
 	Variables[47] = forageTime
 	Variables[48] = chopTime
@@ -161,7 +170,6 @@ function reload()
         inFight = 0
     end
 	Variables[2] = inFight
-	print(welcomePopup)
 	createoptions = {
 		isModal = true,
 		params = {

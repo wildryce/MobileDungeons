@@ -1,25 +1,20 @@
-V.0.0.7c Push Update Notes
+V.0.0.8 Push Update Notes
 
 ACTIVITIES.LUA
-- Reworked countdowns to *hopefully* be affected by offline time
+- Increased activity time from 20 seconds to 30 seconds.
+- Collection log now scales how many items are displayed based on screen height. This means that it auto-clears the old collections when the threshhold is met.
 
 BACKTOGAME.LUA
-- Added script to welcome the player back, with time elapsed, whether or not monster had fled and health regenerated.
+- Fixed some UI issues that caused the text to display outside of the box.
+- The UI may be manually closed by clicking the "close" button or alternatively it will close after 10 seconds.
 
-GLOBALDATA.LUA
-- Added welcomeEnabled variable to control the popup showing on game load. This will not affect until settings are implemented.
+LEVELUP.LUA
+- Fixed the mathematical equation that changed the Stats mods. They will now properly scale instead of giving decimal values.
 
 MAIN.LUA
-- Created offline passage of time controller.
-- Added popup controller to welcome back player.
+- Fixed some issues regarding offline passage of time. The game now saves the time properly.
+- Fixed an issue where activity times were not saving and loading, instead setting back to zero. Times will now properly carry over with offine time.
 
 NOTENOUGH.LUA
-- Added script to control button presses. This allows the player to know that they do not have enough zoulds/items to buy/sell respectively.
-
-SHOP.LUA
-- Changed sizing of scrollview to fit screen fully now (minus UI overlaps).
-- Reverted background to white.
-- Removed previous controller functions for not having enough zoulds/items.
-
-TAVERN.LUA
-- Added a delete file button for debugging and testing purposes. This will be moved to the settings menu once implemented.
+- Fixed an issue that resulted in the app crashing due to the overlay not properly temporarily disabling clicks on the store page.
+- Changed the speed slightly at which the message appears. It now shows up for less time.

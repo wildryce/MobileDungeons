@@ -18,7 +18,7 @@ function scene:create(event)
 	local textOpts = {
 		text = event.params.var1,
 		x = display.contentCenterX, 
-		y = 175, 
+		y = display.contentCenterY-50, 
 		width = 250, 
 		height = 0, 
 		font = native.systemFontBold, 
@@ -28,7 +28,7 @@ function scene:create(event)
 		
 	--[UI Objects]
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.pixelWidth, display.pixelHeight) 
-	local welcomeTitle = display.newText("Welcome Back!", display.contentCenterX, 125, native.systemFontBold, 20)
+	local welcomeTitle = display.newText("Welcome Back!", display.contentCenterX, display.contentCenterY-100, native.systemFontBold, 20)
 	levelTitle = display.newText(textOpts)
 	nBox = display.newRect(display.contentCenterX, display.contentCenterY, 265, 265)
 	bBox = display.newRect(display.contentCenterX, display.contentCenterY, 275, 275)
@@ -37,7 +37,7 @@ function scene:create(event)
 	label = "close",
 	shape = "rect",
 	x = display.contentCenterX,
-	y = 350,
+	y = display.contentCenterY+100,
 	width = 55,
 	height = 20,
 	fillColor = {default={0,0,1}, over={0,0,1}},
@@ -64,7 +64,6 @@ function scene:create(event)
 end
 
 function closeOverlay()
-	print("Yes")
 	composer.hideOverlay(false, "fade", 200)
 end
 

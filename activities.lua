@@ -16,13 +16,13 @@ function scene:create(event)
 	local gHeight = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
 	
 	local sceneGroup = self.view
-
+	
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.pixelWidth, display.pixelHeight)
-	itemLog = display.newText("", display.contentCenterX,display.contentCenterY+120, gWidth-40, gHeight,native.systemFont, 14)
+	itemLog = display.newText("", display.contentCenterX,117, gWidth-40, gHeight-205, native.systemFont, 14)
 	itemLog:setFillColor(0)
-	
+	itemLog.anchorY = 0
 	displayText = ""
-	
+	t = {}
 	--[Buttons]
 	dButton = widget.newButton({
 		id = "dungeon",
@@ -138,7 +138,6 @@ function scene:create(event)
 	mineTime = tonumber(Variables[49])
 	fishTime = tonumber(Variables[50])
 	activityTime = tonumber(Variables[43])
-	
 	if activityTime == 1 then
 		enable()
 	end
@@ -260,8 +259,6 @@ function scene:show(event)
 	expNeeded = tonumber(Variables[45])
 	displayedExperience = tonumber(Variables[46])
 	
-	itemLog.text = displayText
-	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
 		--activityTime = 0
@@ -292,7 +289,6 @@ function scene:show(event)
             expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
 		end
 		--Save Variables
-		itemLog.text = displayText
 		Variables[8] = playerLevel
 		Variables[20] = zoulds
 		Variables[21] = potions
@@ -339,10 +335,10 @@ function activityPress(event)
 	gainedExp = math.random(1,2) * (playerSurMod)
 	experience = experience + gainedExp
 	displayedExperience = displayedExperience + gainedExp
-	
+	displayText = ""
 	local special = math.random(1,10)
 	if event.phase == "ended" and event.target.id == "chop" then
-		chopTime = 20
+		chopTime = 30
 		activityTime = 1
 		enable()
 		tempwood = (math.random(1,3) + (playerSurMod))
@@ -351,13 +347,13 @@ function activityPress(event)
 		else
 			wood = wood + tempwood
 		end
-		displayText = displayText.."\nWood (+"..tempwood.."), "
+		displayText = "Wood (+"..tempwood.."), "
 		if special == 9 then
 			
 		end
 	end
 	if event.phase == "ended" and event.target.id == "forage" then
-		forageTime = 20
+		forageTime = 30
 		activityTime = 1
 		enable()
 		tempscrap = (math.random(1,3) + (playerSurMod))
@@ -366,7 +362,7 @@ function activityPress(event)
 		else
 			scrap = scrap + tempscrap
 		end
-		displayText = displayText.."\nScrap (+"..tempscrap.."), "
+		displayText = "Scrap (+"..tempscrap.."), "
 		isZoulds = math.random(10)
 		if isZoulds >= 9 then
 			tempZoulds = math.random(5)
@@ -379,7 +375,7 @@ function activityPress(event)
 		end
 	end
 	if event.phase == "ended" and event.target.id == "mine" then
-		mineTime = 20
+		mineTime = 30
 		activityTime = 1
 		enable()
 		tempstone = (math.random(1,3) + (playerSurMod))
@@ -388,10 +384,10 @@ function activityPress(event)
 		else
 			stone = stone + tempstone
 		end
-		displayText = displayText.."\nStone (+"..tempstone.."), "
+		displayText = "Stone (+"..tempstone.."), "
 	end
 	if event.phase == "ended" and event.target.id == "fish" then
-		fishTime = 20
+		fishTime = 30
 		activityTime = 1		
 		enable()
 		tempfish = (math.random(1,3) + (playerSurMod))
@@ -400,10 +396,18 @@ function activityPress(event)
 		else
 			fish = fish + tempfish
 		end
-		displayText = displayText.."\nFish (+"..tempfish.."), "
+		displayText = "Fish (+"..tempfish.."), "
 	end
 	displayText = displayText.."Experience (+"..gainedExp..")."
-	itemLog.text = displayText
+	table.insert(t, displayText)
+	print(table.maxn(t).." Log Height: "..itemLog.height)
+	itemCount = math.floor(itemLog.height/16)
+	print(itemCount)
+	if table.maxn(t) > itemCount then
+		print("removing")
+		table.remove(t, 1)
+	end
+	itemLog.text = table.concat(t,"\n")
 end
 
 function changeActive()
