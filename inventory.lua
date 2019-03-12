@@ -18,9 +18,10 @@ function scene:create(event)
 	local sceneGroup = self.view
 
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.pixelWidth, display.pixelHeight)
-	
+
 	--[Buttons]
 	leave = widget.newButton({
+		id = "leave",
 		label = "Return to Tavern",
 		shape = "roundedRect",
 		fillColor = {default={0,1,0.5,1}, over={0,1,0.5,1}},
@@ -32,27 +33,91 @@ function scene:create(event)
 		width = gWidth/2, 
 		height = 35,
 		cornerRadius = 7,
-		onRelease = leave
+		onRelease = bControl
+	})
+	useInspiration = widget.newButton({
+		id = "inspire",
+		shape = "rect",
+		label = "INSPIRE POTION",
+		font = native.systemFontBold,	
+		fontSize = 14,
+		x = gWidth/6, 
+		y = gHeight-90, 
+		width = gWidth/3, 
+		height = 30,
+		fillColor = {default={0,1,1}, over={0,1,1}},
+		labelColor = {default={0}, over={0}},
+		onRelease = bControl
 	})
 
+	local itemOptions = {
+		text = "",
+		x = useInspiration.x + (useInspiration.width/2)+15, 
+		y = gHeight-90, 
+		font = native.systemFont, 
+		fontSize = 14, 
+		align = "left"
+	}
+	
 	--TextBoxes
 	invTitle = display.newText(" ||  Player Chest  ||", display.contentCenterX, 100, native.systemFontBold, 20)
 	invBox = display.newText("", display.contentCenterX,display.contentCenterY+120, gWidth-80, gHeight,native.systemFont, 14)
+	itemUsage = display.newText(itemOptions)
 	
 	invTitle:setFillColor(0)
 	invBox:setFillColor(0)
+	itemUsage:setFillColor(0)
+	itemUsage.anchorX = 0
 	
 	sceneGroup:insert(background)
 	sceneGroup:insert(leave)
 	sceneGroup:insert(invTitle)
 	sceneGroup:insert(invBox)
+	sceneGroup:insert(useInspiration)
+	sceneGroup:insert(itemUsage)
 end
 
 -- [[ Scene Switch Event]]
-function leave(event)
-	if event.phase == "ended"then
-		composer.removeScene( "inventory" )
-		composer.gotoScene("tavern")
+function bControl(event)
+	if event.phase == "ended" then
+		if event.target.id == "leave" then
+			composer.removeScene( "inventory" )
+			composer.gotoScene("tavern")
+		elseif event.target.id == "inspire" then
+			if inspirePotion > 0 then
+				inspirePotion = inspirePotion - 1
+				local iXP = math.random(20,40)*pLevel
+				xp = xp + iXP
+				displayedXP = displayedXP + iXP
+				itemUsage.text = "Gained "..iXP.." Experience."
+			else
+				itemUsage.text = "Not enough items."
+			end
+		end
+		expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - xp
+        if (expNeeded <= 0) then
+			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
+            xp = xp - tempEXP
+			--didLevel = 0
+			--Variables[52] = didLevel
+            composer.showOverlay("levelUp", Overoptions)
+            expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - xp
+        end
+		Variables[8] = pLevel
+		Variables[21] = potions
+		Variables[22] = revivalStone
+		Variables[23] = scrap
+		Variables[24] = wood
+		Variables[25] = fish
+		Variables[26] = stone
+		Variables[27] = birdegg
+		Variables[28] = metal
+		Variables[29] = rainbowtrout
+		Variables[30] = silvercoin
+		Variables[42] = xp
+		Variables[45] = expNeeded
+		Variables[46] = displayedXP
+		Variables[52] = inspirePotion
 	end
 end
 
@@ -62,6 +127,10 @@ function scene:show(event)
 	local phase = event.phase
 	
 	--Variables	
+	pLevel = tonumber(Variables[8])
+	xp = tonumber(Variables[42])
+	displayedXP = tonumber(Variables[46])
+	expNeeded = tonumber(Variables[45])
 	potions = tonumber(Variables[21])
 	revivalStone = tonumber(Variables[22])
 	scrap = tonumber(Variables[23])
@@ -72,6 +141,7 @@ function scene:show(event)
 	metal = tonumber(Variables[28])
 	rainbowtrout = tonumber(Variables[29])
 	silvercoin = tonumber(Variables[30])
+	inspirePotion = tonumber(Variables[52])
 	
 	allStats = ""
 	
@@ -85,6 +155,7 @@ function scene:show(event)
 	if metal > 0 then allStats = allStats.."\nMetal: "..metal end
 	if rainbowtrout > 0 then allStats = allStats.."\nRainbow Trout: "..rainbowtrout end
 	if silvercoin > 0 then allStats = allStats.."\nSilver Coins: "..silvercoin end
+	if inspirePotion > 0 then allStats = allStats.."\nInspire Potions: "..inspirePotion end
 
 	
 	invBox.text = allStats

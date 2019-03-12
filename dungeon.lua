@@ -317,6 +317,8 @@ function scene:show(event)
 	monstersKilled = tonumber(Variables[44])
 	expNeeded = tonumber(Variables[45])
 	displayedExperience = tonumber(Variables[46])
+	--didLevel = tonumber(Variables[51])
+	inspirePotion = tonumber(Variables[52])
 	gainedExp = 0
 	playerDamage = 0
 	playerRoll = 0
@@ -378,9 +380,16 @@ function scene:show(event)
     if (expNeeded <= 0) then
 		tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
         experience = experience - tempEXP
+		--didLevel = 0
+		--Variables[52] = didLevel
         composer.showOverlay("levelUp", Overoptions)
         expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
     end
+	
+	--[[if didLevel == 0 then
+		print("Did")
+		composer.showOverlay("levelUp", Overoptions)
+	end]]
 	
 	playerNameText.text = tostring(player).." (Lvl. "..tostring(playerLevel)..")"
 	playerHealthText.text = tostring(playerHP).." / "..tostring(playerMaxHP).." HP"
@@ -536,6 +545,8 @@ function scene:show(event)
         if (expNeeded <= 0) then
 			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
             experience = experience - tempEXP
+			--didLevel = 0
+			--Variables[52] = didLevel
             composer.showOverlay("levelUp", Overoptions)
             expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
         end
@@ -587,6 +598,8 @@ function scene:show(event)
 		Variables[44] = monstersKilled
 		Variables[45] = expNeeded
 		Variables[46] = displayedExperience
+		--Variables[51] = didLevel
+		Variables[52] = inspirePotion
 		aTimer = timer.performWithDelay(100, Update)
 	end
 	
@@ -613,21 +626,21 @@ function scene:show(event)
 		
 		experience = experience + gainedExp
         displayedExperience =  displayedExperience + gainedExp
-		findZoulds = math.random(1,2)
-		if findZoulds ==2 then
+		findZoulds = math.random(1,3)
+		if findZoulds ==3 then
 			zouldsFound = math.floor((1.25 * math.random(2, 5) * playerLevel)/2)
 			zoulds = zoulds + zouldsFound
 			monsterAttackLog = monsterAttackLog.." "..zouldsFound.." Zoulds found."
 		end
 		
-		potionFound = math.random(0,3)
-        if potionFound == 2 then
+		potionFound = math.random(0,5)
+        if potionFound == 4 then
             potions = potions + 1
             monsterAttackLog = monsterAttackLog.." Found 1 potion.\n"
         end
  
-        revivalFound = math.random(0, 19)
-        if revivalFound == 4 then
+        revivalFound = math.random(0, 49)
+        if revivalFound == 48 then
             revivalStone = revivalStone + 1
             monsterAttackLog = monsterAttackLog.." Found 1 Revival Stone."
         end
@@ -641,7 +654,7 @@ function scene:show(event)
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
 		pullVariables()
-		print("Pulling...")
+		--print("Pulling...")
 	end
 end
 

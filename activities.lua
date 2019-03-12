@@ -258,6 +258,7 @@ function scene:show(event)
 	activityTime = tonumber(Variables[43])
 	expNeeded = tonumber(Variables[45])
 	displayedExperience = tonumber(Variables[46])
+	--didLevel = tonumber(Variables[51])
 	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
@@ -284,7 +285,8 @@ function scene:show(event)
         if (expNeeded <= 0) then
 			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
             experience = experience - tempEXP
-            playerLevel = playerLevel + 1
+			--didLevel = 0
+			--Variables[51] = didLevel
             composer.showOverlay("levelUp", Overoptions)
             expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
 		end
@@ -399,12 +401,10 @@ function activityPress(event)
 		displayText = "Fish (+"..tempfish.."), "
 	end
 	displayText = displayText.."Experience (+"..gainedExp..")."
+	Update()
 	table.insert(t, displayText)
-	print(table.maxn(t).." Log Height: "..itemLog.height)
 	itemCount = math.floor(itemLog.height/16)
-	print(itemCount)
 	if table.maxn(t) > itemCount then
-		print("removing")
 		table.remove(t, 1)
 	end
 	itemLog.text = table.concat(t,"\n")

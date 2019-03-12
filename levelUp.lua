@@ -28,7 +28,7 @@ function scene:create(event)
 		fontSize = 16,
 		x = display.contentCenterX - 60, 
 		y = display.contentCenterY - 40, 
-		width = gWidth/3, 
+		width = 100, 
 		height = 40,
 		cornerRadius = 7,
 		onRelease = controlButtons
@@ -43,7 +43,7 @@ function scene:create(event)
 		fontSize = 16,
 		x = display.contentCenterX + 60, 
 		y = display.contentCenterY - 40, 
-		width = gWidth/3, 
+		width = 100, 
 		height = 40,
 		cornerRadius = 7,
 		onRelease = controlButtons
@@ -58,7 +58,7 @@ function scene:create(event)
 		fontSize = 16,
 		x = display.contentCenterX - 60, 
 		y = display.contentCenterY + 10, 
-		width = gWidth/3, 
+		width = 100, 
 		height = 40,
 		cornerRadius = 7,
 		onRelease = controlButtons
@@ -73,7 +73,7 @@ function scene:create(event)
 		fontSize = 16,
 		x = display.contentCenterX + 60, 
 		y = display.contentCenterY + 10, 
-		width = gWidth/3, 
+		width = 100, 
 		height = 40,
 		cornerRadius = 7,
 		onRelease = controlButtons
@@ -88,7 +88,7 @@ function scene:create(event)
 		fontSize = 16,
 		x = display.contentCenterX, 
 		y = display.contentCenterY + 60, 
-		width = gWidth/3, 
+		width = 100, 
 		height = 40,
 		cornerRadius = 7,
 		onRelease = controlButtons
@@ -137,11 +137,15 @@ function scene:show(event)
 	chaMod = tonumber(Variables[17])
 	conMod = tonumber(Variables[18])
 	surMod = tonumber(Variables[19])
+	--dL = tonumber(Variables[51])
+	--print(dL)
 	isOn = 0	
 	count = 2
 	
 	function doLevelUp()
+		--if dL == 0 then
 		level = level + 1
+		--end
 		if (level % 4) == 0 and count > 0 then
 			isOn = 1
 			strButton.isVisible = true
@@ -164,7 +168,10 @@ function scene:show(event)
 			isOn = 0
 			timer.performWithDelay(3000, doOverlay)
 		end
+		--if dL == 0 then
 		maxHP = maxHP + (math.random(1,10)+conMod)
+		--end
+		--dL = 1
 		Update()
 	end
 	
@@ -181,6 +188,7 @@ function scene:show(event)
 		Variables[17] = chaMod
 		Variables[18] = conMod
 		Variables[19] = surMod
+		--Variables[51] = dL
 		if count == 0 then
 			isOn = 0
 			timer.performWithDelay(1, doOverlay)

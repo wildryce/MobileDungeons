@@ -98,8 +98,9 @@ end
 -- [[ Scene Switch Event]]
 function leave(event)
 	if event.phase == "ended" then
-		composer.removeScene("inn")
+		composer.removeScene("tavern")
 		composer.gotoScene("tavern")
+		composer.removeScene("inn")
 	end
 end
 
@@ -115,8 +116,6 @@ function scene:show(event)
 	zoulds = tonumber(Variables[20])
 	
 	function Update()
-		--Remove Scenes To Update	
-		composer.removeScene("tavern")
 	
 		--Save Variables
 		Variables[2] = inFight

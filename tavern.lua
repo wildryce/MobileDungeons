@@ -185,11 +185,11 @@ function scene:show(event)
 	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
-		zoulds = Variables[20]
+		zoulds = tonumber(Variables[20])
 		updateZoulds = "Zoulds: "..zoulds
+		zouldsText.text = updateZoulds
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
-		zouldsText.text = updateZoulds
 	end
 	
 end

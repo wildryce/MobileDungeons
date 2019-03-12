@@ -73,7 +73,17 @@ function scene:show(event)
 	experience = Variables[42]
 	monstersKilled = tonumber(Variables[44])
 	expNeeded = tonumber(Variables[45])
-	displayedExperience = Variables[46]
+	displayedExperience = tonumber(Variables[46])
+	
+	expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
+        if (expNeeded <= 0) then
+			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
+            experience = experience - tempEXP
+			--didLevel = 0
+			--Variables[51] = didLevel
+            composer.showOverlay("levelUp", Overoptions)
+            expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
+        end
 	
 	allStats = "Player Name: "..player
 	allStats = allStats.."\nLevel: "..playerLevel
