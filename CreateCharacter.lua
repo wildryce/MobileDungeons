@@ -41,8 +41,11 @@ local function textListener (event)
 		finished.text = ""
 	elseif (event.phase == "ended" or event.phase == "submitted" or event.phase == "editing") then
 		--Output
+		if(string.find(text1.text, "\n")) then
+			event.target.text = string.gsub(text1.text, "\n", "")
+		end
 		finished.text = ""
-		userName = event.text or ''
+		userName = text1.text
 	end
 end
 

@@ -381,7 +381,7 @@ function scene:show(event)
 		tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
         experience = experience - tempEXP
 		--didLevel = 0
-		--Variables[52] = didLevel
+		--Variables[51] = didLevel
         composer.showOverlay("levelUp", Overoptions)
         expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
     end
@@ -546,7 +546,7 @@ function scene:show(event)
 			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
             experience = experience - tempEXP
 			--didLevel = 0
-			--Variables[52] = didLevel
+			--Variables[51] = didLevel
             composer.showOverlay("levelUp", Overoptions)
             expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
         end

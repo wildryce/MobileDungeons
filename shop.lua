@@ -29,6 +29,7 @@ function scene:create(event)
 	rainbowtrout = tonumber(Variables[29])
 	silvercoin = tonumber(Variables[30])
 	inspirePotions = tonumber(Variables[52])
+	--if inspirePotions == nil then inspirePotions = 0 end
 	
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.pixelWidth, display.pixelHeight)
 	zouldsOptions =({
@@ -89,7 +90,7 @@ function scene:create(event)
 	potionCountText:setFillColor(0)
 	local hpotionBuy = widget.newButton({
 	id = "HPOTIONBUY",
-	label = "Buy\n10 Zoulds",
+	label = "Buy\n15 Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -167,7 +168,7 @@ function scene:create(event)
 	reviveCountText:setFillColor(0)
 	local rstoneBuy = widget.newButton({
 	id = "RSTONEBUY",
-	label = "Buy\n25 Zoulds",
+	label = "Buy\n50 Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -181,7 +182,7 @@ function scene:create(event)
 	rstoneBuy.x, rstoneBuy.y = scrollView.width - 105, bX
 	local rstoneSell = widget.newButton({
 	id = "RSTONESELL",
-	label = "Sell\n15 Zoulds",
+	label = "Sell\n20 Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -220,7 +221,7 @@ function scene:create(event)
 	woodBuy.x, woodBuy.y = scrollView.width - 105, bX
 	local woodSell = widget.newButton({
 	id = "WOODSELL",
-	label = "Sell\n2 Zoulds",
+	label = "Sell\n1 Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -259,7 +260,7 @@ function scene:create(event)
 	stoneBuy.x, stoneBuy.y = scrollView.width - 105, bX
 	local stoneSell = widget.newButton({
 	id = "STONESELL",
-	label = "Sell\n2 Zoulds",
+	label = "Sell\n1 Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -298,7 +299,7 @@ function scene:create(event)
 	fishBuy.x, fishBuy.y = scrollView.width - 105, bX
 	local fishSell = widget.newButton({
 	id = "FISHSELL",
-	label = "Sell\n2 Zoulds",
+	label = "Sell\n1 Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -323,7 +324,7 @@ function scene:create(event)
 	scrapCountText:setFillColor(0)
 	local scrapBuy = widget.newButton({
 	id = "SCRAPBUY",
-	label = "Buy\n2 Zoulds",
+	label = "Buy\n3 Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -457,8 +458,8 @@ function buysell(event)
 	bID = event.target.id
 	if event.phase == "ended" then
 		if bID == "HPOTIONBUY" then
-			if zoulds >= 10 then
-				zoulds = zoulds - 10
+			if zoulds >= 15 then
+				zoulds = zoulds - 15
 				potions = potions + 1
 			else
 				doOverlay()
@@ -480,13 +481,13 @@ function buysell(event)
 		elseif bID == "INSPIRESELL" then
 			if inspirePotions > 0 then
 				inspirePotions = inspirePotions - 1
-				zoulds = zoulds + 50
+				zoulds = zoulds + 75
 			else
 				doOverlay()
 			end
 		elseif bID == "RSTONEBUY" then
-			if zoulds >= 25 then
-				zoulds = zoulds - 25
+			if zoulds >= 50 then
+				zoulds = zoulds - 50
 				revivalStone = revivalStone + 1
 			else
 				doOverlay()
@@ -494,7 +495,7 @@ function buysell(event)
 		elseif bID == "RSTONESELL" then
 			if revivalStone > 0 then
 				revivalStone = revivalStone - 1
-				zoulds = zoulds + 15
+				zoulds = zoulds + 20
 			else
 				doOverlay()
 			end
@@ -508,7 +509,7 @@ function buysell(event)
 		elseif bID == "WOODSELL" then
 			if wood > 0 then
 				wood = wood - 1
-				zoulds = zoulds + 2
+				zoulds = zoulds + 1
 			else
 				doOverlay()
 			end
@@ -522,7 +523,7 @@ function buysell(event)
 		elseif bID == "STONESELL" then
 			if stone > 0 then
 				stone = stone - 1
-				zoulds = zoulds + 2
+				zoulds = zoulds + 1
 			else
 				doOverlay()
 			end
@@ -536,13 +537,13 @@ function buysell(event)
 		elseif bID == "FISHSELL" then
 			if fish > 0 then
 				fish = fish - 1
-				zoulds = zoulds + 2
+				zoulds = zoulds + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "SCRAPBUY" then
-			if zoulds >= 2 then
-				zoulds = zoulds - 2
+			if zoulds >= 3 then
+				zoulds = zoulds - 3
 				scrap = scrap + 1
 			else
 				doOverlay()

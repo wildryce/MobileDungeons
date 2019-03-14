@@ -191,7 +191,7 @@ function scene:show(event)
 		--Variables[51] = dL
 		if count == 0 then
 			isOn = 0
-			timer.performWithDelay(1, doOverlay)
+			timer.performWithDelay(3000, doOverlay)
 		end
 		timer.performWithDelay(1000, Update)
 	end
@@ -200,7 +200,7 @@ function scene:show(event)
 		if isOn == 0 then
 			HP = maxHP
 			Update()
-			composer.gotoScene("dungeon")
+			--composer.gotoScene("dungeon")
 			composer.hideOverlay()
 		else
 			levelTitle.text = ""

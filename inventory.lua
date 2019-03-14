@@ -94,31 +94,53 @@ function bControl(event)
 				itemUsage.text = "Not enough items."
 			end
 		end
-		expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - xp
-        if (expNeeded <= 0) then
-			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
-            xp = xp - tempEXP
-			--didLevel = 0
-			--Variables[52] = didLevel
-            composer.showOverlay("levelUp", Overoptions)
-            expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - xp
-        end
-		Variables[8] = pLevel
-		Variables[21] = potions
-		Variables[22] = revivalStone
-		Variables[23] = scrap
-		Variables[24] = wood
-		Variables[25] = fish
-		Variables[26] = stone
-		Variables[27] = birdegg
-		Variables[28] = metal
-		Variables[29] = rainbowtrout
-		Variables[30] = silvercoin
-		Variables[42] = xp
-		Variables[45] = expNeeded
-		Variables[46] = displayedXP
-		Variables[52] = inspirePotion
 	end
+end
+
+function doText()
+	allStats = ""
+	if potions > 0 then allStats = allStats.."Potions: "..potions end
+	if revivalStone > 0 then allStats = allStats.."\nRevival Stones: "..revivalStone end
+	if scrap > 0 then allStats = allStats.."\nScrap: "..scrap end
+	if wood > 0 then allStats = allStats.."\nWood: "..wood end
+	if fish > 0 then allStats = allStats.."\nFish: "..fish end
+	if stone > 0 then allStats = allStats.."\nStone: "..stone end
+	if birdegg > 0 then allStats = allStats.."\nBird Eggs: "..birdegg end
+	if metal > 0 then allStats = allStats.."\nMetal: "..metal end
+	if rainbowtrout > 0 then allStats = allStats.."\nRainbow Trout: "..rainbowtrout end
+	if silvercoin > 0 then allStats = allStats.."\nSilver Coins: "..silvercoin end
+	if inspirePotion > 0 then allStats = allStats.."\nInspire Potions: "..inspirePotion end
+	
+	invBox.text = allStats
+	timer.performWithDelay(100, doText)
+	end
+
+function Update()
+expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - xp
+    if (expNeeded <= 0) then
+		tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
+        xp = xp - tempEXP
+		--didLevel = 0
+		--Variables[51] = didLevel
+        composer.showOverlay("levelUp", Overoptions)
+        expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - xp
+    end
+	Variables[8] = pLevel
+	Variables[21] = potions
+	Variables[22] = revivalStone
+	Variables[23] = scrap
+	Variables[24] = wood
+	Variables[25] = fish
+	Variables[26] = stone
+	Variables[27] = birdegg
+	Variables[28] = metal
+	Variables[29] = rainbowtrout
+	Variables[30] = silvercoin
+	Variables[42] = xp
+	Variables[45] = expNeeded
+	Variables[46] = displayedXP
+	Variables[52] = inspirePotion
+	timer.performWithDelay(500, Update)
 end
 
 -- show()
@@ -145,23 +167,9 @@ function scene:show(event)
 	
 	allStats = ""
 	
-	if potions > 0 then allStats = allStats.."Potions: "..potions end
-	if revivalStone > 0 then allStats = allStats.."\nRevival Stones: "..revivalStone end
-	if scrap > 0 then allStats = allStats.."\nScrap: "..scrap end
-	if wood > 0 then allStats = allStats.."\nWood: "..wood end
-	if fish > 0 then allStats = allStats.."\nFish: "..fish end
-	if stone > 0 then allStats = allStats.."\nStone: "..stone end
-	if birdegg > 0 then allStats = allStats.."\nBird Eggs: "..birdegg end
-	if metal > 0 then allStats = allStats.."\nMetal: "..metal end
-	if rainbowtrout > 0 then allStats = allStats.."\nRainbow Trout: "..rainbowtrout end
-	if silvercoin > 0 then allStats = allStats.."\nSilver Coins: "..silvercoin end
-	if inspirePotion > 0 then allStats = allStats.."\nInspire Potions: "..inspirePotion end
-
-	
-	invBox.text = allStats
-	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
+		doText()
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
 		

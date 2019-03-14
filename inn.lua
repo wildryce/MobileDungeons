@@ -35,7 +35,7 @@ function scene:create(event)
 		onRelease = leave
 	})
 	heal = widget.newButton({
-		label = "Full Heal (10 Zoulds)",
+		label = "Full Heal (30 Zoulds)",
 		shape = "roundedRect",
 		fillColor = {default={0,0.75,1,1}, over={0,0.75,1,1}},
 		labelColor = {default={1}, over={1}},
@@ -49,7 +49,7 @@ function scene:create(event)
 		onRelease = innHeal
 	})
 	revive = widget.newButton({
-		label = "Revive (15 Zoulds)",
+		label = "Revive (75 Zoulds)",
 		shape = "roundedRect",
 		fillColor = {default={0,0.75,1,1}, over={0,0.75,1,1}},
 		labelColor = {default={1}, over={1}},
@@ -76,7 +76,7 @@ function scene:create(event)
 	}
 	
 	--TextBoxes
-	titleText = "You can sleep here to recover your health at a cost of 10 Zoulds or you can revive for the cost of 15 Zoulds if you have been knocked out.\n\nIf you are in battle however, it will be lost!"
+	titleText = "You can sleep here to recover your health at a cost of 30 Zoulds or you can revive for the cost of 75 Zoulds if you have been knocked out.\n\nIf you are in battle however, it will be lost!"
 	innTitle = display.newText(titleText, display.contentCenterX, 140, gWidth - 20, 120, native.systemFontItalic, 16)
 	healLog = display.newText(healOptions)
 	zouldsText = display.newText("Zoulds: "..zoulds, 100, gHeight-80, native.systemFontBold, 14)
@@ -132,10 +132,10 @@ function scene:show(event)
 end
 
 function innHeal()
-    if (HP ~= maxHP and HP ~= 0 and zoulds >= 10) then
+    if (HP ~= maxHP and HP ~= 0 and zoulds >= 30) then
         healedHP = maxHP - HP
         HP = HP + healedHP
-        zoulds = zoulds - 10
+        zoulds = zoulds - 30
         if inFight == 1 then
 			inFight = 2
 		end
@@ -144,22 +144,22 @@ function innHeal()
         healLog.text = "You have been slain. You must revive in order to regain health."
     elseif (HP == maxHP) then
         healLog.text = "You are already at full health."
-    elseif (zoulds < 10) then
+    elseif (zoulds < 30) then
         healLog.text = "You do not have enough zoulds to heal."
     end
 	Update()
 end
  
 function innRevive()
-    if (HP == 0 and zoulds >= 15) then
+    if (HP == 0 and zoulds >= 75) then
         HP = maxHP
-        zoulds = zoulds - 15
+        zoulds = zoulds - 75
         healLog.text = "You have been revived and recovered with max health."
             --StartCoroutine (clearHealLog ());
     elseif (HP ~= 0) then
         healLog.text = "You do not require a revive."
             --StartCoroutine (clearHealLog ());
-    elseif (zoulds < 15) then
+    elseif (zoulds < 75) then
         healLog.text = "You do not have enough zoulds to revive."
     end
 	Update()
