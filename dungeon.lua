@@ -146,7 +146,7 @@ function scene:create(event)
 	centerRect = display.newRect(display.contentCenterX, middle, gWidth/1.1, 4)
 	
 	--[TextBox Logs]
-	playerNameText = display.newText(Variables.playerName, display.contentCenterX,middle+20, native.systemFont, 16)
+	playerNameText = display.newText("", display.contentCenterX,middle+20, native.systemFont, 16)
 	playerHealthText = display.newText("", display.contentCenterX, middle+42, native.systemFont, 14)
 	playerRollText = display.newText("", display.contentCenterX, middle+62, native.systemFont, 14)
 	playerHitText = display.newText("", display.contentCenterX, middle+82, native.systemFont, 14)
@@ -237,7 +237,7 @@ function healButtonTap(event)
             Variables.potions = Variables.potions - 1
             playerAttackLog = "Healed "..healedHP.." HP."
         elseif Variables.p_hp > 0 and Variables.p_hp < Variables.p_maxhp and Variables.potions == 0 then
-            playerAttackLog = "You do not have enough Variables.potions."
+            playerAttackLog = "You do not have enough potions."
         elseif Variables.p_hp <= 0 and Variables.revivalStone ~= 0 then
             healedHP = math.floor(Variables.p_maxhp / 2)
             Variables.p_hp = Variables.p_hp + healedHP
@@ -302,7 +302,7 @@ function scene:show(event)
 		Variables.monsterBaseExp = 0
 		monsterNameText.text = "??????"
 		monsterHealthText.text = "?? / ?? HP"
-		monsterAttackLog = "Variables.monster fled"
+		monsterAttackLog = "Monster fled"
 		monsterLog.text = monsterAttackLog
 		monsterRollLog = ""
 		monsterRollText.text = monsterRollLog
@@ -357,7 +357,7 @@ function scene:show(event)
 		composer.showOverlay("levelUp", Overoptions)
 	end]]
 	
-	playerNameText.text = player.." (Lvl. "..Variables.p_level..")"
+	playerNameText.text = Variables.playerName.." (Lvl. "..Variables.p_level..")"
 	playerHealthText.text = Variables.p_hp.." / "..Variables.p_maxhp.." HP"
 	playerHitText.text = playerAttackLog
 	playerRollText.text = playerRollLog
@@ -374,7 +374,7 @@ function scene:show(event)
 			end
 		
 			local mList = monsterList[monsterSelect]	--Fetches One Variables.monster Stats Table
-			Variables.m_level = math.random(Variables.p_level-2, Variables.p_level+3)
+			Variables.m_level = math.random(Variables.p_level-2, Variables.p_level+2)
 			if Variables.m_level < 1 then
 				Variables.m_level = 1
 			end
@@ -464,7 +464,7 @@ function scene:show(event)
 			Variables.monsterBaseExp = 0
 			monsterNameText.text = "??????"
 			monsterHealthText.text = "?? / ?? HP"
-			monsterAttackLog = "Variables.monster fled"
+			monsterAttackLog = "Monster fled"
 			monsterLog.text = monsterAttackLog
 			monsterRollLog = ""
 			monsterRollText.text = monsterRollLog
@@ -518,12 +518,12 @@ function scene:show(event)
             Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
         end
 		
-		playerNameText.text = tostring(player).." (Lvl. "..tostring(Variables.p_level)..")"
-		playerHealthText.text = tostring(Variables.p_hp).." / "..tostring(Variables.p_maxhp).." HP"
+		playerNameText.text = Variables.playerName.." (Lvl. "..Variables.p_level..")"
+		playerHealthText.text = Variables.p_hp.." / "..Variables.p_maxhp.." HP"
 		
 		if Variables.monster ~= "" and Variables.inFight == 1 then
-			monsterNameText.text = tostring(Variables.monster).." (Lvl. "..tostring(Variables.m_level)..")"
-			monsterHealthText.text = tostring(Variables.m_hp).." / "..tostring(Variables.m_maxhp).." HP"
+			monsterNameText.text = Variables.monster.." (Lvl. "..Variables.m_level..")"
+			monsterHealthText.text = Variables.m_hp.." / "..Variables.m_maxhp.." HP"
 			monsterLog.text = monsterAttackLog
 			monsterRollText.text = monsterRollLog
 			Variables.inFight = 1
@@ -558,12 +558,12 @@ function scene:show(event)
 		
 		
 		Variables.experience = Variables.experience + gainedExp
-        displayedExperience =  displayedExperience + gainedExp
+        Variables.displayedExp =  Variables.displayedExp + gainedExp
 		findZoulds = math.random(1,3)
 		if findZoulds ==3 then
 			zouldsFound = math.floor((1.25 * math.random(2, 5) * Variables.p_level)/2)
-			zoulds = zoulds + zouldsFound
-			monsterAttackLog = monsterAttackLog.." "..zouldsFound.." Zoulds found."
+			Variables.zoulds = Variables.zoulds + zouldsFound
+			monsterAttackLog = monsterAttackLog.." "..zouldsFound.." zoulds found."
 		end
 		
 		potionFound = math.random(0,5)
@@ -579,15 +579,13 @@ function scene:show(event)
         end
 		monsterLog.text = monsterAttackLog
 	end
-	pullVariables()
+	
 	Update()
 	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto 
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
-		pullVariables()
-		--print("Pulling...")
 	end
 end
 
