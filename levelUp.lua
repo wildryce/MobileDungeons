@@ -218,7 +218,7 @@ function scene:show(event)
 end
 
 function controlButtons(event)
-	if event.phase == "ended" then
+	if event.phase == "ended" and count ~= 0 then
 		if event.target.id == "Strength" then
 			str = str + 1
 			strMod = math.floor((str-10)/2)

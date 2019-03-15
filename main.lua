@@ -7,6 +7,7 @@
 local composer = require( "composer" )
 local globalData = require("globalData")
 local widget = require("widget")
+local json = require("json")
 
 local fonts = native.getFontNames()
 
@@ -96,7 +97,35 @@ end
 -- Hide status bar
 display.setStatusBar( display.HiddenStatusBar )
 
--- Load Game Files
+function saveTable(t, filename)
+	local path = system.pathForFile(filename, system.DocumentsDirectory)
+	local file = io.open(path, "w")
+	if file then
+		local contents = json.encode(t)
+		file:write(contents)
+		io.close(file)
+		print("Saved!")
+		return true
+	else
+		return false
+	end
+end
+
+function loadTable(filename)
+	local path = system.pathForFile(filename, system.DocumentsDirectory)
+	local contents = ""
+	local myTable = {}
+	local file = io.open(path, "r")
+	if file then
+		local contents = file:read("*a")
+		myTable = json.decode(contents)
+		io.close(file)
+		print("Loaded!")
+		return myTable
+	end
+	return nil
+end
+--[[ Load Game Files
 filePath = system.pathForFile( "gamevariables.txt", system.DocumentsDirectory )
 file = io.open(filePath, "r")
 if file then
@@ -119,9 +148,9 @@ else
 	checkVars()
 end
 -- Seed the random number generator
-math.randomseed( os.time() )
+math.randomseed( os.time() )]]
 
-function listener()
+--[[function listener()
 	Variables[4] = os.time()
 	--print("Saving...")
 	file = io.open(filePath, "w")
@@ -133,15 +162,18 @@ function listener()
 	file:close()
 	--print("Done Saving")
 	timer.performWithDelay(500, listener)
-end
+end]]
 
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
 
+function saveGame()
+	saveTable(Variables, "gamevariables.json")
+	timer.performWithDelay(500, saveGame)
+end
 
 function reload()
 	--a - math.floor(a/b)*b
-	pastTime = tonumber(Variables[4])
-	difference = os.difftime(os.time(), pastTime)
+	difference = os.difftime(os.time(), Variables.pastTime)
 	days = math.floor(difference/86400)
 	local remaining = difference % 86400
 	hours = math.floor(remaining/3600)
@@ -156,53 +188,38 @@ function reload()
 	offlineHealth = minutes + (hours*60) + (days*24) 
 	changeTime = seconds + (minutes * 60) + (hours * 60) + (days * 24)
     regainedHP = 0
-	p_hp = tonumber(Variables[9])
-	p_maxhp = tonumber(Variables[10])
     if (offlineHealth >= 1) then
-        while (p_hp < p_maxhp and offlineHealth >= 1) do
-            p_hp = p_hp + 1
+        while (Variables.p_hp < Variables.p_maxhp and offlineHealth >= 1) do
+            Variables.p_hp = Variables.p_hp + 1
                 offlineHealth = offlineHealth - 1
                 regainedHP = regainedHP + 1
         end
-        if (p_hp >= p_maxhp) then
-            p_hp = p_maxhp
+        if (Variables.p_hp >= Variables.p_maxhp) then
+            Variables.p_hp = Variables.p_maxhp
         end
     end
-	
-	Variables[9] = p_hp
-	
-	activityTime = tonumber(Variables[43])
-	forageTime = tonumber(Variables[47])
-	chopTime = tonumber(Variables[48])
-	mineTime = tonumber(Variables[49])
-	fishTime = tonumber(Variables[50])
-	inFight = tonumber(Variables[2])
     
-	forageTime = forageTime - changeTime
-    if (forageTime < 0) then
-        forageTime = 0
+	Variables.forageTime = Variables.forageTime - changeTime
+    if (Variables.forageTime < 0) then
+        Variables.forageTime = 0
     end
-    chopTime = chopTime - changeTime
-    if (chopTime < 0) then
-        chopTime = 0
+    Variables.chopTime = Variables.chopTime - changeTime
+    if (Variables.chopTime < 0) then
+        Variables.chopTime = 0
 		
     end
-    fishTime = fishTime - changeTime
-    if (fishTime < 0) then
-        fishTime = 0
+    Variables.fishTime = Variables.fishTime - changeTime
+    if (Variables.fishTime < 0) then
+        Variables.fishTime = 0
 	end
-    mineTime = mineTime - changeTime
-    if (mineTime < 0) then
-        mineTime = 0
+    Variables.mineTime = Variables.mineTime - changeTime
+    if (Variables.mineTime < 0) then
+        Variables.mineTime = 0
     end
-	if mineTime == 0 and chopTime == 0 and fishTime == 0 and forageTime == 0 then
-		activityTime = 0
+	if Variables.mineTime == 0 and Variables.chopTime == 0 and Variables.fishTime == 0 and Variables.forageTime == 0 then
+		Variables.activityTime = 0
 	end 
-	Variables[43] = activityTime
-	Variables[47] = forageTime
-	Variables[48] = chopTime
-	Variables[49] = mineTime
-	Variables[50] = fishTime
+
         --[[if (welcomeEnabled and (awayTime >= 30 or regainedHP > 0)) then
             welcomeBack.enabled = true
         else
@@ -227,9 +244,9 @@ function reload()
     end
     if (monsterFlee >= 48) then
         welcomePopup = welcomePopup.."\n" + monster + " fled after being gone for too long."
-        inFight = 0
+        Variables.inFight = 0
     end
-	Variables[2] = inFight
+	
 	createoptions = {
 		isModal = true,
 		params = {
@@ -239,7 +256,8 @@ function reload()
 end
 
 -- display CreateCharacter if firstTimeLoad is true
-if (Variables[1] == 1) then	
+Variables = loadTable("gamevariables.json")
+if (Variables.firstTimeLoad == 1) then	
 	-- Create Character
 	composer.gotoScene("CreateCharacter")
 else	
