@@ -96,7 +96,7 @@ function scene:create(event)
 		onRelease = fightButtonTap
 	})
 	healButton = widget.newButton({
-		label = "HEAL ("..Variables.Variables.potions..")",
+		label = "HEAL ("..Variables.potions..")",
 		shape = "rect",
 		font = native.systemFontBold,
 		fontSize = 16,
@@ -227,21 +227,21 @@ function healButtonTap(event)
 	    if Variables.p_maxhp == Variables.p_hp then
             playerAttackLog = "You are already at max HP."
         elseif Variables.p_hp > 0 and Variables.p_maxhp - Variables.p_hp >= 50 and Variables.potions ~= 0 then
-            healedHP = 50
-            Variables.p_hp = Variables.p_hp + healedHP
+            Variables.healedHP = 50
+            Variables.p_hp = Variables.p_hp + Variables.healedHP
             Variables.potions = Variables.potions - 1
-            playerAttackLog = "Healed "..healedHP.." HP."
+            playerAttackLog = "Healed "..Variables.healedHP.." HP."
         elseif Variables.p_hp > 0 and Variables.p_maxhp - Variables.p_hp < 50 and Variables.potions ~= 0 then
-            healedHP = Variables.p_maxhp - Variables.p_hp
-            Variables.p_hp = Variables.p_hp + healedHP
+            Variables.healedHP = Variables.p_maxhp - Variables.p_hp
+            Variables.p_hp = Variables.p_hp + Variables.healedHP
             Variables.potions = Variables.potions - 1
-            playerAttackLog = "Healed "..healedHP.." HP."
+            playerAttackLog = "Healed "..Variables.healedHP.." HP."
         elseif Variables.p_hp > 0 and Variables.p_hp < Variables.p_maxhp and Variables.potions == 0 then
             playerAttackLog = "You do not have enough potions."
         elseif Variables.p_hp <= 0 and Variables.revivalStone ~= 0 then
-            healedHP = math.floor(Variables.p_maxhp / 2)
-            Variables.p_hp = Variables.p_hp + healedHP
-            playerAttackLog = "Revived with "..healedHP.." HP."
+            Variables.healedHP = math.floor(Variables.p_maxhp / 2)
+            Variables.p_hp = Variables.p_hp + Variables.healedHP
+            playerAttackLog = "Revived with "..Variables.healedHP.." HP."
             monsterAttackLog = ""
             Variables.revivalStone = Variables.revivalStone - 1
 			healButton:setLabel("HEAL ("..Variables.potions..")")
@@ -346,13 +346,13 @@ function scene:show(event)
     if (Variables.expNeeded <= 0) then
 		tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
         Variables.experience = Variables.experience - tempEXP
-		--didLevel = 0
-		--Variables[51] = didLevel
+		--Variables.didLevel = 0
+		--Variables[51] = Variables.didLevel
         composer.showOverlay("levelUp", Overoptions)
         Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
     end
 	
-	--[[if didLevel == 0 then
+	--[[if Variables.didLevel == 0 then
 		print("Did")
 		composer.showOverlay("levelUp", Overoptions)
 	end]]
@@ -472,7 +472,7 @@ function scene:show(event)
 		end
 
 		if Variables.m_hp <= 0 and Variables.monster ~= "" and Variables.p_hp > 0 then
-			monstersKilled = monstersKilled + 1
+			Variables.monstersKilled = Variables.monstersKilled + 1
 			monsterAttackLog = monsterAttackLog.."\n"..Variables.monster.." has been slain.\n"
 			monsterLog.text = monsterAttackLog
 			generateRewards()
@@ -512,8 +512,8 @@ function scene:show(event)
         if (Variables.expNeeded <= 0) then
 			tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
             Variables.experience = Variables.experience - tempEXP
-			--didLevel = 0
-			--Variables[51] = didLevel
+			--Variables.didLevel = 0
+			--Variables[51] = Variables.didLevel
             composer.showOverlay("levelUp", Overoptions)
             Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
         end
@@ -558,7 +558,7 @@ function scene:show(event)
 		
 		
 		Variables.experience = Variables.experience + gainedExp
-        Variables.displayedExp =  Variables.displayedExp + gainedExp
+        displayedExp =  displayedExp + gainedExp
 		findZoulds = math.random(1,3)
 		if findZoulds ==3 then
 			zouldsFound = math.floor((1.25 * math.random(2, 5) * Variables.p_level)/2)

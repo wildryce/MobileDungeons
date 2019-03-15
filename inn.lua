@@ -79,7 +79,7 @@ function scene:create(event)
 	titleText = "You can sleep here to recover your health at a cost of 30 Zoulds or you can revive for the cost of 75 Zoulds if you have been knocked out.\n\nIf you are in battle however, it will be lost!"
 	innTitle = display.newText(titleText, display.contentCenterX, 140, gWidth - 20, 120, native.systemFontItalic, 16)
 	healLog = display.newText(healOptions)
-	zouldsText = display.newText("Zoulds: "..zoulds, 100, gHeight-80, native.systemFontBold, 14)
+	zouldsText = display.newText("Zoulds: "..Variables.zoulds, 100, gHeight-80, native.systemFontBold, 14)
 	zouldsText:setFillColor(0)
 	innTitle:setFillColor(0)
 	healLog:setFillColor(0)
@@ -113,15 +113,15 @@ function scene:show(event)
 	Variables.inFight = tonumber(Variables[2])
 	HP = tonumber(Variables[9])
 	maxHP = tonumber(Variables[10])
-	zoulds = tonumber(Variables[20])
+	Variables.zoulds = tonumber(Variables[20])
 	
 	function Update()
 	
 		--Save Variables
 		Variables[2] = Variables.inFight
 		Variables[9] = HP
-		Variables[20] = zoulds 
-		zouldsText.text = "Zoulds: "..zoulds
+		Variables[20] = Variables.zoulds 
+		zouldsText.text = "Zoulds: "..Variables.zoulds
 	end
 	
 	if (phase == "will") then
@@ -132,34 +132,34 @@ function scene:show(event)
 end
 
 function innHeal()
-    if (HP ~= maxHP and HP ~= 0 and zoulds >= 30) then
-        healedHP = maxHP - HP
-        HP = HP + healedHP
-        zoulds = zoulds - 30
+    if (HP ~= maxHP and HP ~= 0 and Variables.zoulds >= 30) then
+        Variables.healedHP = maxHP - HP
+        HP = HP + Variables.healedHP
+        Variables.zoulds = Variables.zoulds - 30
         if Variables.inFight == 1 then
 			Variables.inFight = 2
 		end
-        healLog.text = "You slept and recovered "..healedHP.." health."
+        healLog.text = "You slept and recovered "..Variables.healedHP.." health."
     elseif (HP == 0) then
         healLog.text = "You have been slain. You must revive in order to regain health."
     elseif (HP == maxHP) then
         healLog.text = "You are already at full health."
-    elseif (zoulds < 30) then
+    elseif (Variables.zoulds < 30) then
         healLog.text = "You do not have enough zoulds to heal."
     end
 	Update()
 end
  
 function innRevive()
-    if (HP == 0 and zoulds >= 75) then
+    if (HP == 0 and Variables.zoulds >= 75) then
         HP = maxHP
-        zoulds = zoulds - 75
+        Variables.zoulds = Variables.zoulds - 75
         healLog.text = "You have been revived and recovered with max health."
             --StartCoroutine (clearHealLog ());
     elseif (HP ~= 0) then
         healLog.text = "You do not require a revive."
             --StartCoroutine (clearHealLog ());
-    elseif (zoulds < 75) then
+    elseif (Variables.zoulds < 75) then
         healLog.text = "You do not have enough zoulds to revive."
     end
 	Update()

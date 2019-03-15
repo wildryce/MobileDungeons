@@ -18,23 +18,23 @@ function scene:create(event)
 	local sceneGroup = self.view
 	
 	--[ Variables ]
-	potions = tonumber(Variables[21])
-	revivalStone = tonumber(Variables[22])
-	scrap = tonumber(Variables[23])
-	wood = tonumber(Variables[24])
-	fish = tonumber(Variables[25])
-	stone = tonumber(Variables[26])
-	birdegg = tonumber(Variables[27])
-	metal = tonumber(Variables[28])
-	rainbowtrout = tonumber(Variables[29])
-	silvercoin = tonumber(Variables[30])
-	inspirePotions = tonumber(Variables[52])
-	--if inspirePotions == nil then inspirePotions = 0 end
+	Variables.potions = tonumber(Variables[21])
+	Variables.revivalStone = tonumber(Variables[22])
+	Variables.scrap = tonumber(Variables[23])
+	Variables.wood = tonumber(Variables[24])
+	Variables.fish = tonumber(Variables[25])
+	Variables.stone = tonumber(Variables[26])
+	Variables.birdegg = tonumber(Variables[27])
+	Variables.metal = tonumber(Variables[28])
+	Variables.rainbowtrout = tonumber(Variables[29])
+	Variables.silvercoin = tonumber(Variables[30])
+	Variables.inspirePotions = tonumber(Variables[52])
+	--if Variables.inspirePotions == nil then Variables.inspirePotions = 0 end
 	
 	local background = display.newRect(display.contentCenterX, display.contentCenterY, display.pixelWidth, display.pixelHeight)
 	zouldsOptions =({
 		parent = sceneGroup,
-		text = "Zoulds: "..zoulds,
+		text = "Zoulds: "..Variables.zoulds,
 		x = 90,
 		y = gHeight-40,
 		width = 150,
@@ -86,7 +86,7 @@ function scene:create(event)
 	potionImg.x, potionImg.y = 25, bX
 	potionText = display.newText("Health Potion", 100, tX, 100, 14, native.systemFontBold, 12, "left")
 	potionText:setFillColor(0)
-	potionCountText = display.newText("Owned: "..potions, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
+	potionCountText = display.newText("Owned: "..Variables.potions, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
 	potionCountText:setFillColor(0)
 	local hpotionBuy = widget.newButton({
 	id = "HPOTIONBUY",
@@ -125,7 +125,7 @@ function scene:create(event)
 	inspireImg.x, inspireImg.y = 25, bX
 	inspireText = display.newText("Inpire Potion", 100, tX, 100, 14, native.systemFontBold, 12, "left")
 	inspireText:setFillColor(0)
-	inspireCountText = display.newText("Owned: "..inspirePotions, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
+	inspireCountText = display.newText("Owned: "..Variables.inspirePotions, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
 	inspireCountText:setFillColor(0)
 	local inspireBuy = widget.newButton({
 	id = "INSPIREBUY",
@@ -164,7 +164,7 @@ function scene:create(event)
 	reviveImg.x, reviveImg.y = 25, bX
 	reviveText = display.newText("Revival Stone", 100, tX, 100, 14, native.systemFontBold, 12, "left")
 	reviveText:setFillColor(0)
-	reviveCountText = display.newText("Owned: "..revivalStone, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
+	reviveCountText = display.newText("Owned: "..Variables.revivalStone, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
 	reviveCountText:setFillColor(0)
 	local rstoneBuy = widget.newButton({
 	id = "RSTONEBUY",
@@ -203,7 +203,7 @@ function scene:create(event)
 	woodImg.x, woodImg.y = 25, bX
 	woodText = display.newText("Wood", 100, tX, 100, 14, native.systemFontBold, 12, "left")
 	woodText:setFillColor(0)
-	woodCountText = display.newText("Owned: "..wood, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
+	woodCountText = display.newText("Owned: "..Variables.wood, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
 	woodCountText:setFillColor(0)
 	local woodBuy = widget.newButton({
 	id = "WOODBUY",
@@ -242,7 +242,7 @@ function scene:create(event)
 	stoneImg.x, stoneImg.y = 25, bX
 	stoneText = display.newText("Stone", 100, tX, 100, 14, native.systemFontBold, 12, "left")
 	stoneText:setFillColor(0)
-	stoneCountText = display.newText("Owned: "..stone, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
+	stoneCountText = display.newText("Owned: "..Variables.stone, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
 	stoneCountText:setFillColor(0)
 	local stoneBuy = widget.newButton({
 	id = "STONEBUY",
@@ -281,7 +281,7 @@ function scene:create(event)
 	fishImg.x, fishImg.y = 25, bX
 	fishText = display.newText("Fish", 100, tX, 100, 14, native.systemFontBold, 12, "left")
 	fishText:setFillColor(0)
-	fishCountText = display.newText("Owned: "..fish, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
+	fishCountText = display.newText("Owned: "..Variables.fish, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
 	fishCountText:setFillColor(0)
 	local fishBuy = widget.newButton({
 	id = "FISHBUY",
@@ -320,7 +320,7 @@ function scene:create(event)
 	scrapImg.x, scrapImg.y = 25, bX
 	scrapText = display.newText("Scrap", 100, tX, 100, 14, native.systemFontBold, 12, "left")
 	scrapText:setFillColor(0)
-	scrapCountText = display.newText("Owned: "..scrap, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
+	scrapCountText = display.newText("Owned: "..Variables.scrap, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
 	scrapCountText:setFillColor(0)
 	local scrapBuy = widget.newButton({
 	id = "SCRAPBUY",
@@ -359,7 +359,7 @@ function scene:create(event)
 	eggImg.x, eggImg.y = 25, scrapImg.y+70
 	eggText = display.newText("Bird Egg", 100, scrapText.y+70, 100, 14, native.systemFontBold, 12, "left")
 	eggText:setFillColor(0)
-	eggCountText = display.newText("Owned: "..birdegg, 100, scrapCountText.y+70, 100, 14, native.systemFontBold, 10, "left")
+	eggCountText = display.newText("Owned: "..Variables.birdegg, 100, scrapCountText.y+70, 100, 14, native.systemFontBold, 10, "left")
 	eggCountText:setFillColor(0)]]
 	
 	--[[local eggBuy = widget.newButton({
@@ -458,114 +458,114 @@ function buysell(event)
 	bID = event.target.id
 	if event.phase == "ended" then
 		if bID == "HPOTIONBUY" then
-			if zoulds >= 15 then
-				zoulds = zoulds - 15
-				potions = potions + 1
+			if Variables.zoulds >= 15 then
+				Variables.zoulds = Variables.zoulds - 15
+				Variables.potions = Variables.potions + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "HPOTIONSELL" then
-			if potions > 0 then
-				potions = potions - 1
-				zoulds = zoulds + 8
+			if Variables.potions > 0 then
+				Variables.potions = Variables.potions - 1
+				Variables.zoulds = Variables.zoulds + 8
 			else
 				doOverlay()
 			end
 		elseif bID == "INSPIREBUY" then
-			if zoulds >= 150 then
-				zoulds = zoulds - 150
-				inspirePotions = inspirePotions + 1
+			if Variables.zoulds >= 150 then
+				Variables.zoulds = Variables.zoulds - 150
+				Variables.inspirePotions = Variables.inspirePotions + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "INSPIRESELL" then
-			if inspirePotions > 0 then
-				inspirePotions = inspirePotions - 1
-				zoulds = zoulds + 75
+			if Variables.inspirePotions > 0 then
+				Variables.inspirePotions = Variables.inspirePotions - 1
+				Variables.zoulds = Variables.zoulds + 75
 			else
 				doOverlay()
 			end
 		elseif bID == "RSTONEBUY" then
-			if zoulds >= 50 then
-				zoulds = zoulds - 50
-				revivalStone = revivalStone + 1
+			if Variables.zoulds >= 50 then
+				Variables.zoulds = Variables.zoulds - 50
+				Variables.revivalStone = Variables.revivalStone + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "RSTONESELL" then
-			if revivalStone > 0 then
-				revivalStone = revivalStone - 1
-				zoulds = zoulds + 20
+			if Variables.revivalStone > 0 then
+				Variables.revivalStone = Variables.revivalStone - 1
+				Variables.zoulds = Variables.zoulds + 20
 			else
 				doOverlay()
 			end
 		elseif bID == "WOODBUY" then
-			if zoulds >= 5 then
-				zoulds = zoulds - 5
-				wood = wood + 1
+			if Variables.zoulds >= 5 then
+				Variables.zoulds = Variables.zoulds - 5
+				Variables.wood = Variables.wood + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "WOODSELL" then
-			if wood > 0 then
-				wood = wood - 1
-				zoulds = zoulds + 1
+			if Variables.wood > 0 then
+				Variables.wood = Variables.wood - 1
+				Variables.zoulds = Variables.zoulds + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "STONEBUY" then
-			if zoulds >= 5 then
-				zoulds = zoulds - 5
-				stone = stone + 1
+			if Variables.zoulds >= 5 then
+				Variables.zoulds = Variables.zoulds - 5
+				Variables.stone = Variables.stone + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "STONESELL" then
-			if stone > 0 then
-				stone = stone - 1
-				zoulds = zoulds + 1
+			if Variables.stone > 0 then
+				Variables.stone = Variables.stone - 1
+				Variables.zoulds = Variables.zoulds + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "FISHBUY" then
-			if zoulds >= 5 then
-				zoulds = zoulds - 5
-				fish = fish + 1
+			if Variables.zoulds >= 5 then
+				Variables.zoulds = Variables.zoulds - 5
+				Variables.fish = Variables.fish + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "FISHSELL" then
-			if fish > 0 then
-				fish = fish - 1
-				zoulds = zoulds + 1
+			if Variables.fish > 0 then
+				Variables.fish = Variables.fish - 1
+				Variables.zoulds = Variables.zoulds + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "SCRAPBUY" then
-			if zoulds >= 3 then
-				zoulds = zoulds - 3
-				scrap = scrap + 1
+			if Variables.zoulds >= 3 then
+				Variables.zoulds = Variables.zoulds - 3
+				Variables.scrap = Variables.scrap + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "SCRAPSELL" then
-			if scrap > 0 then
-				scrap = scrap - 1
-				zoulds = zoulds + 1
+			if Variables.scrap > 0 then
+				Variables.scrap = Variables.scrap - 1
+				Variables.zoulds = Variables.zoulds + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "EGGBUY" then
-			if zoulds >= 2 then
-				zoulds = zoulds - 2
-				birdegg = birdegg + 1
+			if Variables.zoulds >= 2 then
+				Variables.zoulds = Variables.zoulds - 2
+				Variables.birdegg = Variables.birdegg + 1
 			else
 				doOverlay()
 			end
 		elseif bID == "EGGSELL" then
-			if birdegg > 0 then
-				birdegg = birdegg - 1
-				zoulds = zoulds + 1
+			if Variables.birdegg > 0 then
+				Variables.birdegg = Variables.birdegg - 1
+				Variables.zoulds = Variables.zoulds + 1
 			else
 				doOverlay()
 			end
@@ -582,31 +582,31 @@ function scene:show(event)
 	local phase = event.phase
 
 	--Variables
-	zoulds = tonumber(Variables[20])
+	Variables.zoulds = tonumber(Variables[20])
 	
 	function Update()	
 		--Save Variables
-		Variables[20] = zoulds 
-		Variables[21] = potions
-		Variables[22] = revivalStone
-		Variables[23] = scrap
-		Variables[24] = wood
-		Variables[25] = fish
-		Variables[26] = stone
-		Variables[27] = birdegg
-		Variables[28] = metal
-		Variables[29] = rainbowtrout
-		Variables[30] = silvercoin
-		Variables[52] = inspirePotions
-		zouldsText.text = "Zoulds: "..zoulds
-		potionCountText.text = "Owned: "..potions
-		inspireCountText.text = "Owned: "..inspirePotions
-		reviveCountText.text = "Owned: "..revivalStone
-		woodCountText.text = "Owned: "..wood
-		stoneCountText.text = "Owned: "..stone
-		scrapCountText.text = "Owned: "..scrap
-		fishCountText.text = "Owned: "..fish
-		--eggCountText.text = "Owned: "..birdegg
+		Variables[20] = Variables.zoulds 
+		Variables[21] = Variables.potions
+		Variables[22] = Variables.revivalStone
+		Variables[23] = Variables.scrap
+		Variables[24] = Variables.wood
+		Variables[25] = Variables.fish
+		Variables[26] = Variables.stone
+		Variables[27] = Variables.birdegg
+		Variables[28] = Variables.metal
+		Variables[29] = Variables.rainbowtrout
+		Variables[30] = Variables.silvercoin
+		Variables[52] = Variables.inspirePotions
+		zouldsText.text = "Zoulds: "..Variables.zoulds
+		potionCountText.text = "Owned: "..Variables.potions
+		inspireCountText.text = "Owned: "..Variables.inspirePotions
+		reviveCountText.text = "Owned: "..Variables.revivalStone
+		woodCountText.text = "Owned: "..Variables.wood
+		stoneCountText.text = "Owned: "..Variables.stone
+		scrapCountText.text = "Owned: "..Variables.scrap
+		fishCountText.text = "Owned: "..Variables.fish
+		--eggCountText.text = "Owned: "..Variables.birdegg
 	end
 	
 	function doOverlay()
