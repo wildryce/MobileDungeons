@@ -133,12 +133,7 @@ function scene:create(event)
 	sceneGroup:insert(chopButton)
 	
 	--Activities Times
-	forageTime = tonumber(Variables[47])
-	chopTime = tonumber(Variables[48])
-	mineTime = tonumber(Variables[49])
-	fishTime = tonumber(Variables[50])
-	activityTime = tonumber(Variables[43])
-	if activityTime == 1 then
+	if Variables.activityTime == 1 then
 		enable()
 	end
 end
@@ -151,7 +146,7 @@ function swapScene(event)
 end
 
 function enable()
-	if forageTime > 0 and activityTime == 1 then
+	if Variables.forageTime > 0 and Variables.activityTime == 1 then
 		forageTime = forageTime - 1
 		forageButton:setLabel("FORAGE ("..forageTime..")")
 		forageButton:setEnabled(false)
@@ -165,7 +160,7 @@ function enable()
 		if (activityTime == 1) then
 			eTimer = timer.performWithDelay(1000, enable)
 		end
-	elseif fishTime > 0 and activityTime == 1 then
+	elseif Variables.fishTime > 0 and Variables.activityTime == 1 then
 		fishTime = fishTime - 1
 		fishButton:setLabel("FISH ("..fishTime..")")
 		forageButton:setEnabled(false)
