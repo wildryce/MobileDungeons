@@ -134,7 +134,7 @@ function scene:show(event)
 		--if dL == 0 then
 		Variables.p_level = Variables.p_level + 1
 		--end
-		if (Variables.p_level % 4) == 0 and count > 0 do
+		if (Variables.p_level % 4) == 0 and count > 0 then
 			isOn = 1
 			strButton.isVisible = true
 			chaButton.isVisible = true
