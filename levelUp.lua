@@ -157,7 +157,7 @@ function scene:show(event)
 			timer.performWithDelay(3000, doOverlay)
 		end
 		--if dL == 0 then
-		Variables.p_maxhp = Variables.maxhp + (math.random(1,10)+Variables.p_conMod)
+		Variables.p_maxhp = Variables.p_maxhp + (math.random(1,10)+Variables.p_conMod)
 		--end
 		--dL = 1
 		Update()
