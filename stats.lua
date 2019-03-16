@@ -70,19 +70,19 @@ function scene:show(event)
 	playerCha = tonumber(Variables[13])
 	playerCon = tonumber(Variables[14])
 	playerSur = tonumber(Variables[15])
-	Variables.experience = Variables[42]
-	Variables.monstersKilled = tonumber(Variables[44])
-	Variables.expNeeded = tonumber(Variables[45])
+	experience = Variables[42]
+	monstersKilled = tonumber(Variables[44])
+	expNeeded = tonumber(Variables[45])
 	displayedExperience = tonumber(Variables[46])
 	
-	Variables.expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - Variables.experience
-        if (Variables.expNeeded <= 0) then
+	expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
+        if (expNeeded <= 0) then
 			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
-            Variables.experience = Variables.experience - tempEXP
-			--Variables.didLevel = 0
-			--Variables[51] = Variables.didLevel
+            experience = experience - tempEXP
+			--didLevel = 0
+			--Variables[51] = didLevel
             composer.showOverlay("levelUp", Overoptions)
-            Variables.expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - Variables.experience
+            expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
         end
 	
 	allStats = "Player Name: "..player
@@ -93,9 +93,9 @@ function scene:show(event)
 	allStats = allStats.."\nConstitution: "..playerCon
 	allStats = allStats.."\nCharisma: "..playerCha
 	allStats = allStats.."\nSurvival: "..playerSur	
-	allStats = allStats.."\n\nEXP needed for next level: "..Variables.expNeeded
+	allStats = allStats.."\n\nEXP needed for next level: "..expNeeded
 	allStats = allStats.."\nTotal Experience: "..displayedExperience
-	allStats = allStats.."\n\nMonsters Slain: "..Variables.monstersKilled	
+	allStats = allStats.."\n\nMonsters Slain: "..monstersKilled	
 	
 	statsBox.text = allStats
 	if (phase == "will") then

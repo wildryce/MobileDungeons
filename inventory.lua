@@ -99,16 +99,16 @@ end
 
 function doText()
 	allStats = ""
-	if Variables.potions > 0 then allStats = allStats.."Potions: "..Variables.potions end
-	if Variables.revivalStone > 0 then allStats = allStats.."\nRevival Stones: "..Variables.revivalStone end
-	if Variables.scrap > 0 then allStats = allStats.."\nScrap: "..Variables.scrap end
-	if Variables.wood > 0 then allStats = allStats.."\nWood: "..Variables.wood end
-	if Variables.fish > 0 then allStats = allStats.."\nFish: "..Variables.fish end
-	if Variables.stone > 0 then allStats = allStats.."\nStone: "..Variables.stone end
-	if Variables.birdegg > 0 then allStats = allStats.."\nBird Eggs: "..Variables.birdegg end
-	if Variables.metal > 0 then allStats = allStats.."\nMetal: "..Variables.metal end
-	if Variables.rainbowtrout > 0 then allStats = allStats.."\nRainbow Trout: "..Variables.rainbowtrout end
-	if Variables.silvercoin > 0 then allStats = allStats.."\nSilver Coins: "..Variables.silvercoin end
+	if potions > 0 then allStats = allStats.."Potions: "..potions end
+	if revivalStone > 0 then allStats = allStats.."\nRevival Stones: "..revivalStone end
+	if scrap > 0 then allStats = allStats.."\nScrap: "..scrap end
+	if wood > 0 then allStats = allStats.."\nWood: "..wood end
+	if fish > 0 then allStats = allStats.."\nFish: "..fish end
+	if stone > 0 then allStats = allStats.."\nStone: "..stone end
+	if birdegg > 0 then allStats = allStats.."\nBird Eggs: "..birdegg end
+	if metal > 0 then allStats = allStats.."\nMetal: "..metal end
+	if rainbowtrout > 0 then allStats = allStats.."\nRainbow Trout: "..rainbowtrout end
+	if silvercoin > 0 then allStats = allStats.."\nSilver Coins: "..silvercoin end
 	if inspirePotion > 0 then allStats = allStats.."\nInspire Potions: "..inspirePotion end
 	
 	invBox.text = allStats
@@ -116,28 +116,28 @@ function doText()
 	end
 
 function Update()
-Variables.expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - xp
-    if (Variables.expNeeded <= 0) then
+expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - xp
+    if (expNeeded <= 0) then
 		tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
         xp = xp - tempEXP
-		--Variables.didLevel = 0
-		--Variables[51] = Variables.didLevel
+		--didLevel = 0
+		--Variables[51] = didLevel
         composer.showOverlay("levelUp", Overoptions)
-        Variables.expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - xp
+        expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - xp
     end
 	Variables[8] = pLevel
-	Variables[21] = Variables.potions
-	Variables[22] = Variables.revivalStone
-	Variables[23] = Variables.scrap
-	Variables[24] = Variables.wood
-	Variables[25] = Variables.fish
-	Variables[26] = Variables.stone
-	Variables[27] = Variables.birdegg
-	Variables[28] = Variables.metal
-	Variables[29] = Variables.rainbowtrout
-	Variables[30] = Variables.silvercoin
+	Variables[21] = potions
+	Variables[22] = revivalStone
+	Variables[23] = scrap
+	Variables[24] = wood
+	Variables[25] = fish
+	Variables[26] = stone
+	Variables[27] = birdegg
+	Variables[28] = metal
+	Variables[29] = rainbowtrout
+	Variables[30] = silvercoin
 	Variables[42] = xp
-	Variables[45] = Variables.expNeeded
+	Variables[45] = expNeeded
 	Variables[46] = displayedXP
 	Variables[52] = inspirePotion
 	timer.performWithDelay(500, Update)
@@ -152,17 +152,17 @@ function scene:show(event)
 	pLevel = tonumber(Variables[8])
 	xp = tonumber(Variables[42])
 	displayedXP = tonumber(Variables[46])
-	Variables.expNeeded = tonumber(Variables[45])
-	Variables.potions = tonumber(Variables[21])
-	Variables.revivalStone = tonumber(Variables[22])
-	Variables.scrap = tonumber(Variables[23])
-	Variables.wood = tonumber(Variables[24])
-	Variables.fish = tonumber(Variables[25])
-	Variables.stone = tonumber(Variables[26])
-	Variables.birdegg = tonumber(Variables[27])
-	Variables.metal = tonumber(Variables[28])
-	Variables.rainbowtrout = tonumber(Variables[29])
-	Variables.silvercoin = tonumber(Variables[30])
+	expNeeded = tonumber(Variables[45])
+	potions = tonumber(Variables[21])
+	revivalStone = tonumber(Variables[22])
+	scrap = tonumber(Variables[23])
+	wood = tonumber(Variables[24])
+	fish = tonumber(Variables[25])
+	stone = tonumber(Variables[26])
+	birdegg = tonumber(Variables[27])
+	metal = tonumber(Variables[28])
+	rainbowtrout = tonumber(Variables[29])
+	silvercoin = tonumber(Variables[30])
 	inspirePotion = tonumber(Variables[52])
 	
 	allStats = ""
