@@ -6,7 +6,6 @@
 
 -- Scene Composer
 local composer = require("composer")
-local globalData = require("globalData")
 
 local scene = composer.newScene()
 local aspectRatio = display.pixelHeight / display.pixelWidth
