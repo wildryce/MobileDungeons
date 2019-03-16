@@ -21,7 +21,7 @@ local height = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
 local uiGroup = display.newGroup()
 
 --Create Game Variables
-Variables = {firstTimeLoad, inFight, welcomeEnabled, pastTime, currentTime, welcomePopup, playerName, p_level, p_hp, p_maxhp, p_def, p_str, p_cha, p_con, p_sur, p_strMod, p_chaMod, p_conMod, p_surMod, zoulds, potions, revivalStone, scrap, wood, fish, stone, birdegg, metal, rainbowtrout, silvercoin, monster, m_level, m_hp, m_maxhp, m_def, m_str, m_con, m_strMod, m_conMod, monsterBaseExp, healedHP, experience, activityTime, monstersKilled, expNeeded, DisplayedExp, forageTime, chopTime, mineTime, fishTime, didLevel, inspirePotion}
+Variables = {Variables.firstTimeLoad, Variables.inFight, Variables.welcomeEnabled, Variables.pastTime, Variables.currentTime, Variables.welcomePopup, Variables.playerName, Variables.p_level, Variables.p_hp, Variables.p_maxhp, Variables.p_def, Variables.p_str, Variables.p_cha, Variables.p_con, Variables.p_sur, Variables.p_strMod, Variables.p_chaMod, Variables.p_conMod, Variables.p_surMod, Variables.zoulds, Variables.potions, Variables.revivalStone, Variables.scrap, Variables.wood, Variables.fish, Variables.stone, Variables.birdegg, Variables.metal, Variables.rainbowtrout, Variables.silvercoin, Variables.monster, Variables.m_level, Variables.m_hp, Variables.m_maxhp, Variables.m_def, Variables.m_str, Variables.m_con, Variables.m_strMod, Variables.m_conMod, Variables.monsterBaseExp, Variables.healedHP, Variables.experience, Variables.activityTime, Variables.monstersKilled, Variables.expNeeded, Variables.DisplayedExp, Variables.forageTime, Variables.chopTime, Variables.mineTime, Variables.fishTime, Variables.didLevel, inspirePotion}
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
 
 --[ Rectangles ]
@@ -54,10 +54,10 @@ function checkVars()
 	if Variables[13] == nil then Variables[13] = 12 end		--Cha
 	if Variables[14] == nil then Variables[14] = 12 end		--Con
 	if Variables[15] == nil then Variables[15] = 12 end		--Sur
-	if Variables[16] == nil then Variables[16] = math.floor((p_str-10)/2) end 	--StrMod
-	if Variables[17] == nil then Variables[17] = math.floor((p_cha-10)/2) end 	--ChaMod
-	if Variables[18] == nil then Variables[18] = math.floor((p_con-10)/2) end 	--ConMod
-	if Variables[19] == nil then Variables[19] = math.floor((p_sur-10)/2) end 	--SurMod
+	if Variables[16] == nil then Variables[16] = math.floor((Variables.p_str-10)/2) end 	--StrMod
+	if Variables[17] == nil then Variables[17] = math.floor((Variables.p_cha-10)/2) end 	--ChaMod
+	if Variables[18] == nil then Variables[18] = math.floor((Variables.p_con-10)/2) end 	--ConMod
+	if Variables[19] == nil then Variables[19] = math.floor((Variables.p_sur-10)/2) end 	--SurMod
 	if Variables[20] == nil then Variables[20] = 0 end	--Zoulds
 	if Variables[21] == nil then Variables[21] = 0 end	--Potions
 	if Variables[22] == nil then Variables[22] = 0 end	--Revival Stones
@@ -80,15 +80,15 @@ function checkVars()
 	if Variables[39] == nil then Variables[39] = 0 end	--Monster ConMod
 	if Variables[40] == nil then Variables[40] = 0 end	--MonsterBaseExp
 	if Variables[41] == nil then Variables[41] = 0 end	--HealedHP [REMOVE]
-	if Variables[42] == nil then Variables[42] = 0 end	--experience
-	if Variables[43] == nil then Variables[43] = 0 end	--activityTime
+	if Variables[42] == nil then Variables[42] = 0 end	--Variables.experience
+	if Variables[43] == nil then Variables[43] = 0 end	--Variables.activityTime
 	if Variables[44] == nil then Variables[44] = 0 end	--Monsters Killed
 	if Variables[45] == nil then Variables[45] = 0 end	--EXP needed
 	if Variables[46] == nil then Variables[46] = 0 end	--Displayed EXP
-	if Variables[47] == nil then Variables[47] = 0 end	--forageTime
-	if Variables[48] == nil then Variables[48] = 0 end	--chopTime
-	if Variables[49] == nil then Variables[49] = 0 end	--mineTime
-	if Variables[50] == nil then Variables[50] = 0 end	--fishTime
+	if Variables[47] == nil then Variables[47] = 0 end	--Variables.forageTime
+	if Variables[48] == nil then Variables[48] = 0 end	--Variables.chopTime
+	if Variables[49] == nil then Variables[49] = 0 end	--Variables.mineTime
+	if Variables[50] == nil then Variables[50] = 0 end	--Variables.fishTime
 	if Variables[51] == nil then Variables[51] = 1 end	--DidLevel
 	if Variables[52] == nil then Variables[52] = 0 end	--Inspire Potions
 end
@@ -200,7 +200,6 @@ function reload()
 	end 
 <<<<<<< HEAD
 
-<<<<<<< HEAD
         --[[if (Variables.welcomeEnabled and (awayTime >= 30 or regainedHP > 0)) then
 =======
 	Variables[43] = activityTime
@@ -210,37 +209,30 @@ function reload()
 	Variables[50] = fishTime
         --[[if (welcomeEnabled and (awayTime >= 30 or regainedHP > 0)) then
 >>>>>>> parent of 76d51ee... File Push
-=======
-        --[[if (welcomeEnabled and (awayTime >= 30 or regainedHP > 0)) then
->>>>>>> parent of a4ce98b... (Hopefully) completed replacing variables with "Variables.variable". cleaned up globalData.lua.
             welcomeBack.enabled = true
         else
             welcomeBack.enabled = false
         end]]
 		
-    welcomePopup = "You have been away for "
+    Variables.welcomePopup = "You have been away for "
     if (days > 0) then
-        welcomePopup = welcomePopup..days.." days "
+        Variables.welcomePopup = Variables.welcomePopup..days.." days "
     end
     if (hours > 0) then
-        welcomePopup = welcomePopup..hours.." hours "
+        Variables.welcomePopup = Variables.welcomePopup..hours.." hours "
     end
     if (minutes > 0) then
-        welcomePopup = welcomePopup..minutes.." minutes "
+        Variables.welcomePopup = Variables.welcomePopup..minutes.." minutes "
     end
     if (seconds >= 0) then
-        welcomePopup = welcomePopup..seconds.." seconds "
+        Variables.welcomePopup = Variables.welcomePopup..seconds.." seconds "
     end
     if (regainedHP > 0) then
-        welcomePopup = welcomePopup.."\nYou regained "..regainedHP.." HP"
+        Variables.welcomePopup = Variables.welcomePopup.."\nYou regained "..regainedHP.." HP"
     end
     if (monsterFlee >= 48) then
 <<<<<<< HEAD
-<<<<<<< HEAD
         Variables.welcomePopup = Variables.welcomePopup.."\n" + Variables.monster + " fled after being gone for too long."
-=======
-        welcomePopup = welcomePopup.."\n" + monster + " fled after being gone for too long."
->>>>>>> parent of a4ce98b... (Hopefully) completed replacing variables with "Variables.variable". cleaned up globalData.lua.
         Variables.inFight = 0
 =======
         welcomePopup = welcomePopup.."\n" + monster + " fled after being gone for too long."
@@ -251,17 +243,13 @@ function reload()
 	createoptions = {
 		isModal = true,
 		params = {
-			var1 = welcomePopup
+			var1 = Variables.welcomePopup
 		}
 	}
 end
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 -- display CreateCharacter if Variables.firstTimeLoad is true
-=======
--- display CreateCharacter if firstTimeLoad is true
->>>>>>> parent of a4ce98b... (Hopefully) completed replacing variables with "Variables.variable". cleaned up globalData.lua.
 Variables = loadTable("gamevariables.json")
 if (Variables.firstTimeLoad == 1) then	
 =======
