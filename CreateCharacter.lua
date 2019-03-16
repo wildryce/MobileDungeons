@@ -23,9 +23,9 @@ local function leaveCreation()
 		finished:setFillColor(1,0,0)
 		return
 	elseif string.match(userName, "%u%l") then
-		Variables.firstTimeLoad = 0
-		Variables.playerName = userName
-		saveGame()
+		Variables[1] = 0
+		Variables[7] = userName
+		listener()
 		composer.removeScene("CreateCharacter")
 		composer.gotoScene("dungeon")
 	else

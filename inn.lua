@@ -110,7 +110,7 @@ function scene:show(event)
 	local phase = event.phase
 
 	--Variables
-	Variables.inFight = tonumber(Variables[2])
+	inFight = tonumber(Variables[2])
 	HP = tonumber(Variables[9])
 	maxHP = tonumber(Variables[10])
 	Variables.zoulds = tonumber(Variables[20])
@@ -118,7 +118,7 @@ function scene:show(event)
 	function Update()
 	
 		--Save Variables
-		Variables[2] = Variables.inFight
+		Variables[2] = inFight
 		Variables[9] = HP
 		Variables[20] = Variables.zoulds 
 		zouldsText.text = "Zoulds: "..Variables.zoulds
@@ -132,12 +132,21 @@ function scene:show(event)
 end
 
 function innHeal()
+<<<<<<< HEAD
     if (HP ~= maxHP and HP ~= 0 and Variables.zoulds >= 30) then
         Variables.healedHP = maxHP - HP
         HP = HP + Variables.healedHP
         Variables.zoulds = Variables.zoulds - 30
         if Variables.inFight == 1 then
 			Variables.inFight = 2
+=======
+    if (HP ~= maxHP and HP ~= 0 and zoulds >= 30) then
+        healedHP = maxHP - HP
+        HP = HP + healedHP
+        zoulds = zoulds - 30
+        if inFight == 1 then
+			inFight = 2
+>>>>>>> parent of 76d51ee... File Push
 		end
         healLog.text = "You slept and recovered "..Variables.healedHP.." health."
     elseif (HP == 0) then
