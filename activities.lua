@@ -235,7 +235,6 @@ function scene:show(event)
 		end
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
-		end
 	end
 	
 	function Update()

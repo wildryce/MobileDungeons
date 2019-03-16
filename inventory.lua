@@ -41,9 +41,9 @@ function scene:create(event)
 		label = "INSPIRE POTION",
 		font = native.systemFontBold,	
 		fontSize = 14,
-		x = gWidth/6, 
+		x = 125/2, 
 		y = gHeight-90, 
-		width = gWidth/3, 
+		width = 125, 
 		height = 30,
 		fillColor = {default={0,1,1}, over={0,1,1}},
 		labelColor = {default={0}, over={0}},
@@ -84,8 +84,8 @@ function bControl(event)
 			composer.removeScene( "inventory" )
 			composer.gotoScene("tavern")
 		elseif event.target.id == "inspire" then
-			if Variables.inspirePotion > 0 then
-				Variables.inspirePotion = Variables.inspirePotion - 1
+			if Variables.inspirePotions > 0 then
+				Variables.inspirePotions = Variables.inspirePotions - 1
 				local iXP = math.random(20,40)*Variables.p_level
 				Variables.experience = Variables.experience + iXP
 				Variables.DisplayedExp = Variables.DisplayedExp + iXP
@@ -109,14 +109,14 @@ function doText()
 	if Variables.metal > 0 then allStats = allStats.."\nMetal: "..Variables.metal end
 	if Variables.rainbowtrout > 0 then allStats = allStats.."\nRainbow Trout: "..Variables.rainbowtrout end
 	if Variables.silvercoin > 0 then allStats = allStats.."\nSilver Coins: "..Variables.silvercoin end
-	if Variables.inspirePotion > 0 then allStats = allStats.."\nInspire Potions: "..Variables.inspirePotion end
+	if Variables.inspirePotions > 0 then allStats = allStats.."\nInspire Potions: "..Variables.inspirePotions end
 	
 	invBox.text = allStats
 	timer.performWithDelay(100, doText)
 	end
 
 function Update()
-Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - xp
+Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
     if (Variables.expNeeded <= 0) then
 		tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
         Variables.experience = Variables.experience - tempEXP

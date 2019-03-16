@@ -96,7 +96,7 @@ function scene:create(event)
 		onRelease = fightButtonTap
 	})
 	healButton = widget.newButton({
-		label = "HEAL ("..Variables.Variables.potions..")",
+		label = "HEAL ("..Variables.potions..")",
 		shape = "rect",
 		font = native.systemFontBold,
 		fontSize = 16,
@@ -268,6 +268,7 @@ function fleeButtonTap(event)
 		Variables.m_str = 0
 		Variables.m_def = 0
 		Variables.monsterBaseExp = 0
+		enableFight()
 	else	
 		playerAttackLog = "You are not currently in a fight"
 		playerHitText.text = playerAttackLog
@@ -434,7 +435,7 @@ function scene:show(event)
 			monsterAttackLog = "Critical Hit! Took "..monsterHit.." Damage"
 			monsterLog.text = monsterAttackLog
 			Variables.p_hp = Variables.p_hp - monsterHit
-		elseif monsterRoll + Variables.m_strMod >= playerDef then
+		elseif monsterRoll + Variables.m_strMod >= Variables.p_def then
 			if monsterDRoll + Variables.m_strMod  > 0 then
 				monsterHit = Variables.m_strMod + monsterDRoll
 			else
@@ -472,7 +473,7 @@ function scene:show(event)
 		end
 
 		if Variables.m_hp <= 0 and Variables.monster ~= "" and Variables.p_hp > 0 then
-			monstersKilled = monstersKilled + 1
+			Variables.monstersKilled = Variables.monstersKilled + 1
 			monsterAttackLog = monsterAttackLog.."\n"..Variables.monster.." has been slain.\n"
 			monsterLog.text = monsterAttackLog
 			generateRewards()
