@@ -125,18 +125,6 @@ function scene:show(event)
 	local sceneGroup = self.view
 	local phase = event.phase
 	
-	--Variables
-	level = tonumber(Variables[8])
-	maxHP = tonumber(Variables[10])
-	def = tonumber(Variables[11])
-	str = tonumber(Variables[12])
-	cha = tonumber(Variables[13])
-	con = tonumber(Variables[14])
-	sur = tonumber(Variables[15])
-	strMod = tonumber(Variables[16])
-	chaMod = tonumber(Variables[17])
-	conMod = tonumber(Variables[18])
-	surMod = tonumber(Variables[19])
 	--dL = tonumber(Variables[51])
 	--print(dL)
 	isOn = 0	
@@ -144,9 +132,9 @@ function scene:show(event)
 	
 	function doLevelUp()
 		--if dL == 0 then
-		level = level + 1
+		Variables.p_level = Variables.p_level + 1
 		--end
-		if (level % 4) == 0 and count > 0 then
+		if (Variables.p_level % 4) == 0 and count > 0 do
 			isOn = 1
 			strButton.isVisible = true
 			chaButton.isVisible = true
@@ -169,27 +157,14 @@ function scene:show(event)
 			timer.performWithDelay(3000, doOverlay)
 		end
 		--if dL == 0 then
-		maxHP = maxHP + (math.random(1,10)+conMod)
+		Variables.p_maxhp = Variables.maxhp + (math.random(1,10)+Variables.p_conMod)
 		--end
 		--dL = 1
 		Update()
 	end
 	
-	function Update()	
-		Variables[8] = level
-		Variables[9] = HP
-		Variables[10] = maxHP
-		Variables[11] = def
-		Variables[12] = str
-		Variables[13] = cha
-		Variables[14] = con
-		Variables[15] = sur
-		Variables[16] = strMod
-		Variables[17] = chaMod
-		Variables[18] = conMod
-		Variables[19] = surMod
-		--Variables[51] = dL
-		if count == 0 then
+	function Update()
+		if count == 0 or isOn == 0 then
 			isOn = 0
 			timer.performWithDelay(3000, doOverlay)
 		end
@@ -198,7 +173,7 @@ function scene:show(event)
 	
 	function doOverlay()
 		if isOn == 0 then
-			HP = maxHP
+			Variables.p_hp = Variables.p_maxhp
 			Update()
 			--composer.gotoScene("dungeon")
 			composer.hideOverlay()
@@ -218,25 +193,25 @@ function scene:show(event)
 end
 
 function controlButtons(event)
-	if event.phase == "ended" then
+	if event.phase == "ended" and count > 0 then
 		if event.target.id == "Strength" then
-			str = str + 1
-			strMod = math.floor((str-10)/2)
+			Variables.p_str = Variables.p_str + 1
+			Variables.p_strMod = math.floor((Variables.p_str-10)/2)
 		end
 		if event.target.id == "Charisma" then
-			cha = cha + 1
-			chaMod = math.floor((cha-10)/2)
+			Variables.p_cha = Variables.p_cha + 1
+			Variables.p_chaMod = math.floor((Variables.p_cha-10)/2)
 		end
 		if event.target.id == "Constitution" then
-			con = con + 1
-			conMod = math.floor((con-10)/2)
+			Variables.p_con = Variables.p_con + 1
+			Variables.p_conMod = math.floor((Variables.p_con-10)/2)
 		end
 		if event.target.id == "Survival" then
-			sur = sur + 1
-			surMod = math.floor((sur-10)/2)
+			Variables.p_sur = Variables.p_sur + 1
+			Variables.p_surMod = math.floor((Variables.p_sur-10)/2)
 		end
 		if event.target.id == "Health" then
-			maxHP = maxHP + conMod
+			Variables.p_maxhp = Variables.p_maxhp + Variables.p_conMod
 		end	
 		count = count - 1
 		displayText = "You have levelled up! Every second level you may choose two stats to increase.\nYou have "..count.." points left.\n(Note if you restart app you will lose this.)"

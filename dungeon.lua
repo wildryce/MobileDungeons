@@ -96,15 +96,7 @@ function scene:create(event)
 		onRelease = fightButtonTap
 	})
 	healButton = widget.newButton({
-<<<<<<< HEAD
-<<<<<<< HEAD
-		label = "HEAL ("..Variables.potions..")",
-=======
-		label = "HEAL ("..potions..")",
->>>>>>> parent of 76d51ee... File Push
-=======
 		label = "HEAL ("..Variables.Variables.potions..")",
->>>>>>> parent of a4ce98b... (Hopefully) completed replacing variables with "Variables.variable". cleaned up globalData.lua.
 		shape = "rect",
 		font = native.systemFontBold,
 		fontSize = 16,
@@ -145,7 +137,6 @@ function scene:create(event)
 
 	--Simple Variables
 	middle = (tButton.y + healButton.y)/2
-	listener()
 	Overoptions = {
 		isModal = true
     }
@@ -206,7 +197,7 @@ end
 -- [ Fight Button Action ]
 function fightButtonTap(event)
 	if event.phase == "ended" then
-		if isInFight==1 then		--If in fight and monster is alive
+		if Variables.inFight==1 then		--If in fight and Variables.monster is alive
 			fightButton:setEnabled(false)
 			fightButton:setFillColor(0.75)
 			timer.performWithDelay(2000, enableFight)
@@ -220,7 +211,7 @@ function fightButtonTap(event)
 			playerRollLog = ""
 			playerRollText.text = ""
 			playerHitText.text = ""
-			isInFight = 1
+			Variables.inFight = 1
 		end
 	end
 end
@@ -233,9 +224,8 @@ end
 -- [ Heal Button Action ]
 function healButtonTap(event)
 	if event.phase == "ended" then
-	    if playerMaxHP == playerHP then
+	    if Variables.p_maxhp == Variables.p_hp then
             playerAttackLog = "You are already at max HP."
-<<<<<<< HEAD
         elseif Variables.p_hp > 0 and Variables.p_maxhp - Variables.p_hp >= 50 and Variables.potions ~= 0 then
             healedHP = 50
             Variables.p_hp = Variables.p_hp + healedHP
@@ -249,40 +239,16 @@ function healButtonTap(event)
         elseif Variables.p_hp > 0 and Variables.p_hp < Variables.p_maxhp and Variables.potions == 0 then
             playerAttackLog = "You do not have enough potions."
         elseif Variables.p_hp <= 0 and Variables.revivalStone ~= 0 then
-<<<<<<< HEAD
-            Variables.healedHP = math.floor(Variables.p_maxhp / 2)
-            Variables.p_hp = Variables.p_hp + Variables.healedHP
-            playerAttackLog = "Revived with "..Variables.healedHP.." HP."
-=======
-        elseif playerHP > 0 and playerMaxHP - playerHP >= 50 and potions ~= 0 then
-            healedHP = 50
-            playerHP = playerHP + healedHP
-            potions = potions - 1
-            playerAttackLog = "Healed "..healedHP.." HP."
-        elseif playerHP > 0 and playerMaxHP - playerHP < 50 and potions ~= 0 then
-            healedHP = playerMaxHP - playerHP
-            playerHP = playerHP + healedHP
-            potions = potions - 1
-            playerAttackLog = "Healed "..healedHP.." HP."
-        elseif playerHP > 0 and playerHP < playerMaxHP and potions == 0 then
-            playerAttackLog = "You do not have enough potions."
-        elseif playerHP <= 0 and revivalStone ~= 0 then
-            healedHP = math.floor(playerMaxHP / 2)
-            playerHP = playerHP + healedHP
-            playerAttackLog = "Revived with "..healedHP.." HP."
->>>>>>> parent of 76d51ee... File Push
-=======
             healedHP = math.floor(Variables.p_maxhp / 2)
             Variables.p_hp = Variables.p_hp + healedHP
             playerAttackLog = "Revived with "..healedHP.." HP."
->>>>>>> parent of a4ce98b... (Hopefully) completed replacing variables with "Variables.variable". cleaned up globalData.lua.
             monsterAttackLog = ""
-            revivalStone = revivalStone - 1
-			healButton:setLabel("HEAL ("..potions..")")
+            Variables.revivalStone = Variables.revivalStone - 1
+			healButton:setLabel("HEAL ("..Variables.potions..")")
             fightButton:setEnabled(true)
 			fightButton:setFillColor(1,0,0)
 			monsterLog.text = monsterAttackLog
-        elseif playerHP <= 0 and revivalStone == 0 then
+        elseif Variables.p_hp <= 0 and Variables.revivalStone == 0 then
             playerAttackLog = "You do not have enough revival stones."
         end
 		playerHitText.text = playerAttackLog
@@ -292,16 +258,16 @@ end
 
 -- [ Flee Button Action ] 
 function fleeButtonTap(event)
-	if event.phase == "ended" and isInFight == 1 then
+	if event.phase == "ended" and Variables.inFight == 1 then
 		playerAttackLog = "You fled from battle."
 		playerHitText.text = playerAttackLog
-		isInFight = 0
-		monsterHP = 0
-		monster = ""
-		monsterHP, monsterMaxHP = 0, 0
-		monsterStr = 0
-		monsterDef = 0
-		monsterBaseExp = 0
+		Variables.inFight = 0
+		Variables.m_hp = 0
+		Variables.monster = ""
+		Variables.m_hp, Variables.m_maxhp = 0, 0
+		Variables.m_str = 0
+		Variables.m_def = 0
+		Variables.monsterBaseExp = 0
 	else	
 		playerAttackLog = "You are not currently in a fight"
 		playerHitText.text = playerAttackLog
@@ -319,39 +285,6 @@ function scene:show(event)
 	local sceneGroup = self.view
 	local phase = event.phase
 	--Variables	
-	isInFight = tonumber(Variables[2])
-	player = Variables[7]
-	playerLevel = tonumber(Variables[8])
-	playerHP = tonumber(Variables[9])
-	playerMaxHP = tonumber(Variables[10])
-	playerDef = tonumber(Variables[11])
-	playerStr = tonumber(Variables[12])
-	playerCha = tonumber(Variables[13])
-	playerCon = tonumber(Variables[14])
-	playerSur = tonumber(Variables[15])
-	playerStrMod = tonumber(Variables[16])
-	playerChaMod = tonumber(Variables[17])
-	playerConMod = tonumber(Variables[18])
-	playerSurMod = tonumber(Variables[19])
-	zoulds = tonumber(Variables[20])
-	potions = tonumber(Variables[21])
-	revivalStone = tonumber(Variables[22])
-	monster = Variables[31]
-	monsterLevel = tonumber(Variables[32])
-	monsterHP = tonumber(Variables[33])
-	monsterMaxHP = tonumber(Variables[34])
-	monsterDef = tonumber(Variables[35])
-	monsterStr = tonumber(Variables[36])
-	monsterCon = tonumber(Variables[37])
-	monsterStrMod = tonumber(Variables[38])
-	monsterConMod = tonumber(Variables[39])
-	monsterBaseExp = tonumber(Variables[40])
-	experience = tonumber(Variables[42])
-	monstersKilled = tonumber(Variables[44])
-	expNeeded = tonumber(Variables[45])
-	displayedExperience = tonumber(Variables[46])
-	--didLevel = tonumber(Variables[51])
-	inspirePotion = tonumber(Variables[52])
 	gainedExp = 0
 	playerDamage = 0
 	playerRoll = 0
@@ -360,28 +293,28 @@ function scene:show(event)
 	monsterRoll = 0
 	monsterHit = 0
 	--If Player returned from Heal/Revive
-	if isInFight == 2 then
-		monsterHP = 0
-		monster = ""
-		monsterHP, monsterMaxHP = 0, 0
-		monsterStr = 0
-		monsterDef = 0
-		monsterBaseExp = 0
+	if Variables.inFight == 2 then
+		Variables.m_hp = 0
+		Variables.monster = ""
+		Variables.m_hp, Variables.m_maxhp = 0, 0
+		Variables.m_str = 0
+		Variables.m_def = 0
+		Variables.monsterBaseExp = 0
 		monsterNameText.text = "??????"
 		monsterHealthText.text = "?? / ?? HP"
 		monsterAttackLog = "Monster fled"
 		monsterLog.text = monsterAttackLog
 		monsterRollLog = ""
 		monsterRollText.text = monsterRollLog
-		isInFight = 0
+		Variables.inFight = 0
 		playerAttackLog = ""
 		playerRollLog = ""	
 		end
 	
-	--If monster does not exist
-	if monster ~= "" then
-		monsterNameText.text = tostring(monster).." (Lvl. "..tostring(monsterLevel)..")"
-		monsterHealthText.text = tostring(monsterHP).." / "..tostring(monsterMaxHP).." HP"
+	--If Variables.monster does not exist
+	if Variables.monster ~= "" then
+		monsterNameText.text = Variables.monster.." (Lvl. "..Variables.m_level..")"
+		monsterHealthText.text = Variables.m_hp.." / "..Variables.m_maxhp.." HP"
 		monsterLog.text = monsterAttackLog
 		monsterRollText.text = monsterRollLog
 	else
@@ -390,47 +323,33 @@ function scene:show(event)
 	end
 	
 	--If Player is knocked out
-	if playerHP <= 0 then
-		playerHP = 0
-		healButton:setLabel("REVIVE ("..revivalStone..")")
+	if Variables.p_hp <= 0 then
+		Variables.p_hp = 0
+		healButton:setLabel("REVIVE ("..Variables.revivalStone..")")
 		fightButton:setFillColor(0.5)
 		fightButton:setEnabled(false)
-		monsterHP = 0
-		monster = ""
-		monsterHP, monsterMaxHP = 0, 0
-		monsterStr = 0
-		monsterDef = 0
-		monsterBaseExp = 0
+		Variables.m_hp = 0
+		Variables.monster = ""
+		Variables.m_hp, Variables.m_maxhp = 0, 0
+		Variables.m_str = 0
+		Variables.m_def = 0
+		Variables.monsterBaseExp = 0
 		playerRollLog = ""
 	else
-		healButton:setLabel("HEAL ("..potions..")")
+		healButton:setLabel("HEAL ("..Variables.potions..")")
 		fightButton:setEnabled(true)
 		fightButton:setFillColor(1,0,0)
 	end
 	
 	--Updates EXP needed
-<<<<<<< HEAD
 	Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
     if (Variables.expNeeded <= 0) then
 		tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
         Variables.experience = Variables.experience - tempEXP
-<<<<<<< HEAD
-		--Variables.didLevel = 0
-		--Variables[51] = Variables.didLevel
-=======
-	expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
-    if (expNeeded <= 0) then
-		tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
-        experience = experience - tempEXP
 		--didLevel = 0
 		--Variables[51] = didLevel
->>>>>>> parent of 76d51ee... File Push
-=======
-		--didLevel = 0
-		--Variables[51] = didLevel
->>>>>>> parent of a4ce98b... (Hopefully) completed replacing variables with "Variables.variable". cleaned up globalData.lua.
         composer.showOverlay("levelUp", Overoptions)
-        expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
+        Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
     end
 	
 	--[[if didLevel == 0 then
@@ -438,273 +357,199 @@ function scene:show(event)
 		composer.showOverlay("levelUp", Overoptions)
 	end]]
 	
-<<<<<<< HEAD
 	playerNameText.text = Variables.playerName.." (Lvl. "..Variables.p_level..")"
 	playerHealthText.text = Variables.p_hp.." / "..Variables.p_maxhp.." HP"
-=======
-	playerNameText.text = tostring(player).." (Lvl. "..tostring(playerLevel)..")"
-	playerHealthText.text = tostring(playerHP).." / "..tostring(playerMaxHP).." HP"
->>>>>>> parent of 76d51ee... File Push
 	playerHitText.text = playerAttackLog
 	playerRollText.text = playerRollLog
 	
-	-- [ Select Monster ]
+	-- [ Select Variables.monster ]
 	function chooseMonster()
-		if monster == "" then
+		if Variables.monster == "" then
 			mLength = table.getn(monsterList)
-			monsterListChoice = playerLevel +4
+			monsterListChoice = Variables.p_level + 4
 			if monsterListChoice > 20 then
 				monsterSelect = math.random(mLength)
 			else
 				monsterSelect = math.random(monsterListChoice)
 			end
 		
-<<<<<<< HEAD
 			local mList = monsterList[monsterSelect]	--Fetches One Variables.monster Stats Table
 			Variables.m_level = math.random(Variables.p_level-2, Variables.p_level+2)
 			if Variables.m_level < 1 then
 				Variables.m_level = 1
-=======
-			local mList = monsterList[monsterSelect]	--Fetches One Monster Stats Table
-			monsterLevel = math.random(playerLevel-2, playerLevel+3)
-			if monsterLevel < 1 then
-				monsterLevel = 1
->>>>>>> parent of 76d51ee... File Push
 			end
-			monster = mList[1]
-			monsterHP, monsterMaxHP = mList[2], mList[2]
-			monsterStr = mList[3]
-			monsterDef = mList[4]
-			monsterBaseExp = mList[5]
-			monsterNameText.text = tostring(monster).." (Lvl. "..tostring(monsterLevel)..")"
-			monsterHealthText.text = tostring(monsterHP).." / "..tostring(monsterMaxHP).." HP"
+			Variables.monster = mList[1]
+			Variables.m_hp, Variables.m_maxhp = mList[2], mList[2]
+			Variables.m_str = mList[3]
+			Variables.m_def = mList[4]
+			Variables.monsterBaseExp = mList[5]
+			monsterNameText.text = Variables.monster.." (Lvl. "..Variables.m_level..")"
+			monsterHealthText.text = Variables.m_hp.." / "..Variables.m_maxhp.." HP"
 			monsterAttackLog = ""
 		end
 	end
 	
 	-- [ Player Attack ]
 	function PlayerAttack()
-		playerRoll = math.random(1,20)
-		playerRollLog = "1d20 + "..playerStrMod.." = "..playerRoll
+		playerRoll = math.random(1,20) + Variables.p_strMod
+		playerRollLog = "1d20 + "..Variables.p_strMod.." = "..playerRoll
 		playerRollText.text = playerRollLog
 		if playerRoll == 20 then
-			playerHit = (playerStrMod + math.random(1,9))*2
+			playerHit = (Variables.p_strMod + math.random(1,9))*2
 			playerAttackLog = "Critical Hit! Dealt "..playerHit.." Damage"
 			playerHitText.text = playerAttackLog
-			monsterHP = monsterHP - playerHit
-		elseif (playerRoll + playerStrMod) >= monsterDef then
-			playerHit = playerStrMod + math.random(1,9)
+			Variables.m_hp = Variables.m_hp - playerHit
+		elseif (playerRoll + Variables.p_strMod) >= Variables.m_def then
+			playerHit = Variables.p_strMod + math.random(1,9)
 			playerAttackLog = "Dealt "..playerHit.." Damage"
 			playerHitText.text = playerAttackLog
-			monsterHP = monsterHP - playerHit
+			Variables.m_hp = Variables.m_hp - playerHit
 		else
-			playerAttackLog = "Attack missed "..monster
+			playerAttackLog = "Attack missed "..Variables.monster
 			playerHitText.text = playerAttackLog
 		end
 		playerHit = 0
 		playerRoll = 0
 	end
 	
-	-- [ Monster Attack ]
+	-- [ Variables.monster Attack ]
 	function MonsterAttack()
-		monsterRoll = math.random(1,20)
-		monsterStrMod = math.floor((monsterStr-10)/2)
-		tempStrMod = math.abs(monsterStrMod)
-		if monsterStrMod < 0 then
+		Variables.m_strMod = math.floor((Variables.m_str-10)/2)
+		tempStrMod = math.abs(Variables.m_strMod)
+		if Variables.m_strMod < 0 then
+			monsterRoll = math.random(1,20) + tempStrMod
 			monsterRollLog = "1d20 - "..tempStrMod.." = "..monsterRoll
 		else
-			monsterRollLog = "1d20 + "..monsterStrMod.." = "..monsterRoll
+			monsterRoll = math.random(1,20) + Variables.m_strMod
+			monsterRollLog = "1d20 + "..Variables.m_strMod.." = "..monsterRoll
 		end
 		monsterRollText.text = monsterRollLog
 		monsterDRoll = math.random(1,9)
 		if monsterRoll == 20 then
-			if monsterDRoll + monsterStrMod  > 0 then
-				monsterHit = (monsterStrMod + monsterDRoll)*2
+			if monsterDRoll + Variables.m_strMod  > 0 then
+				monsterHit = (Variables.m_strMod + monsterDRoll)*2
 			else
 				monsterHit = monsterDRoll*2
 			end
 			monsterAttackLog = "Critical Hit! Took "..monsterHit.." Damage"
 			monsterLog.text = monsterAttackLog
-			playerHP = playerHP - monsterHit
-		elseif monsterRoll + monsterStrMod >= playerDef then
-			if monsterDRoll + monsterStrMod  > 0 then
-				monsterHit = monsterStrMod + monsterDRoll
+			Variables.p_hp = Variables.p_hp - monsterHit
+		elseif monsterRoll + Variables.m_strMod >= playerDef then
+			if monsterDRoll + Variables.m_strMod  > 0 then
+				monsterHit = Variables.m_strMod + monsterDRoll
 			else
 				monsterHit = monsterDRoll
 			end
 			monsterAttackLog = "Took "..monsterHit.." Damage"
 			monsterLog.text = monsterAttackLog
-			playerHP = playerHP - monsterHit
+			Variables.p_hp = Variables.p_hp - monsterHit
 		else
-			monsterAttackLog = monster.."'s attack missed."
+			monsterAttackLog = Variables.monster.."'s attack missed."
 			monsterLog.text = monsterAttackLog
 		end
 	end
 	
 	-- [ Update Variables ]
 	function Update()
-		if monsterHP == nil then
-			monsterHP = 0
+		if Variables.m_hp == nil then
+			Variables.m_hp = 0
 		end
 		
-		if isInFight == 2 then
-			monsterHP = 0
-			monster = ""
-			monsterHP, monsterMaxHP = 0, 0
-			monsterStr = 0
-			monsterDef = 0
-			monsterBaseExp = 0
+		if Variables.inFight == 2 then
+			Variables.m_hp = 0
+			Variables.monster = ""
+			Variables.m_hp, Variables.m_maxhp = 0, 0
+			Variables.m_str = 0
+			Variables.m_def = 0
+			Variables.monsterBaseExp = 0
 			monsterNameText.text = "??????"
 			monsterHealthText.text = "?? / ?? HP"
 			monsterAttackLog = "Monster fled"
 			monsterLog.text = monsterAttackLog
 			monsterRollLog = ""
 			monsterRollText.text = monsterRollLog
-			isInFight = 0
+			Variables.inFight = 0
 		end
 
-<<<<<<< HEAD
 		if Variables.m_hp <= 0 and Variables.monster ~= "" and Variables.p_hp > 0 then
 			monstersKilled = monstersKilled + 1
 			monsterAttackLog = monsterAttackLog.."\n"..Variables.monster.." has been slain.\n"
-=======
-		if monsterHP <= 0 and monster ~= "" and playerHP > 0 then
-			monstersKilled = monstersKilled + 1
-			monsterAttackLog = monsterAttackLog.."\n"..monster.." has been slain.\n"
->>>>>>> parent of 76d51ee... File Push
 			monsterLog.text = monsterAttackLog
 			generateRewards()
-			monster = ""
-			monsterHP, monsterMaxHP = 0, 0
-			monsterStr = 0
-			monsterDef = 0
-			monsterBaseExp = 0
+			Variables.monster = ""
+			Variables.m_hp, Variables.m_maxhp = 0, 0
+			Variables.m_str = 0
+			Variables.m_def = 0
+			Variables.monsterBaseExp = 0
 			monsterNameText.text = "??????"
 			monsterHealthText.text = "?? / ?? HP"
-			isInFight = 0
+			Variables.inFight = 0
 		end
 		
-		if playerHP <= 0 then
+		if Variables.p_hp <= 0 then
 			playerAttackLog = "You have been knocked out!"
 			playerHitText.text = playerAttackLog
-			playerHP = 0
-			healButton:setLabel("REVIVE ("..revivalStone..")")
+			Variables.p_hp = 0
+			healButton:setLabel("REVIVE ("..Variables.revivalStone..")")
 			fightButton:setFillColor(0.5)
 			fightButton:setEnabled(false)
-			monsterHP = 0
-			monster = ""
-			monsterHP, monsterMaxHP = 0, 0
-			monsterStr = 0
-			monsterDef = 0
-			monsterBaseExp = 0
+			Variables.m_hp = 0
+			Variables.monster = ""
+			Variables.m_hp, Variables.m_maxhp = 0, 0
+			Variables.m_str = 0
+			Variables.m_def = 0
+			Variables.monsterBaseExp = 0
 			monsterNameText.text = "??????"
 			monsterHealthText.text = "?? / ?? HP"
-			isInFight = 0
+			Variables.inFight = 0
 		else
-			healButton:setLabel("HEAL ("..potions..")")
+			healButton:setLabel("HEAL ("..Variables.potions..")")
 			--fightButton:setEnabled(true)
 			--fightButton:setFillColor(1,0,0)
 		end
 		
-<<<<<<< HEAD
 		Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
         if (Variables.expNeeded <= 0) then
 			tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
             Variables.experience = Variables.experience - tempEXP
-<<<<<<< HEAD
-			--Variables.didLevel = 0
-			--Variables[51] = Variables.didLevel
-=======
-		expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
-        if (expNeeded <= 0) then
-			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
-            experience = experience - tempEXP
 			--didLevel = 0
 			--Variables[51] = didLevel
->>>>>>> parent of 76d51ee... File Push
-=======
-			--didLevel = 0
-			--Variables[51] = didLevel
->>>>>>> parent of a4ce98b... (Hopefully) completed replacing variables with "Variables.variable". cleaned up globalData.lua.
             composer.showOverlay("levelUp", Overoptions)
-            expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
+            Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
         end
 		
-<<<<<<< HEAD
 		playerNameText.text = Variables.playerName.." (Lvl. "..Variables.p_level..")"
 		playerHealthText.text = Variables.p_hp.." / "..Variables.p_maxhp.." HP"
 		
 		if Variables.monster ~= "" and Variables.inFight == 1 then
 			monsterNameText.text = Variables.monster.." (Lvl. "..Variables.m_level..")"
 			monsterHealthText.text = Variables.m_hp.." / "..Variables.m_maxhp.." HP"
-=======
-		playerNameText.text = tostring(player).." (Lvl. "..tostring(playerLevel)..")"
-		playerHealthText.text = tostring(playerHP).." / "..tostring(playerMaxHP).." HP"
-		
-		if monster ~= "" and isInFight == 1 then
-			monsterNameText.text = tostring(monster).." (Lvl. "..tostring(monsterLevel)..")"
-			monsterHealthText.text = tostring(monsterHP).." / "..tostring(monsterMaxHP).." HP"
->>>>>>> parent of 76d51ee... File Push
 			monsterLog.text = monsterAttackLog
 			monsterRollText.text = monsterRollLog
-			isInFight = 1
+			Variables.inFight = 1
 		else
 			monsterNameText.text = "??????"
 			monsterHealthText.text = "?? / ?? HP"
 		end
 		
-		--Save Variables
-		Variables[2] = isInFight
-		Variables[4] = os.time()
-		Variables[7] = player
-		Variables[8] = playerLevel
-		Variables[9] = playerHP
-		Variables[10] = playerMaxHP
-		Variables[11] = playerDef
-		Variables[12] = playerStr
-		Variables[13] = playerCha
-		Variables[14] = playerCon
-		Variables[15] = playerSur
-		Variables[16] = playerStrMod
-		Variables[17] = playerChaMod
-		Variables[18] = playerConMod
-		Variables[19] = playerSurMod
-		Variables[20] = zoulds
-		Variables[21] = potions
-		Variables[22] = revivalStone
-		Variables[31] = monster
-		Variables[32] = monsterLevel
-		Variables[33] = monsterHP
-		Variables[34] = monsterMaxHP
-		Variables[35] = monsterDef
-		Variables[36] = monsterStr
-		Variables[37] = monsterCon
-		Variables[38] = monsterStrMod
-		Variables[39] = monsterConMod
-		Variables[40] = monsterBaseExp
-		Variables[42] = experience
-		Variables[44] = monstersKilled
-		Variables[45] = expNeeded
-		Variables[46] = displayedExperience
-		--Variables[51] = didLevel
-		Variables[52] = inspirePotion
+		
 		aTimer = timer.performWithDelay(100, Update)
 	end
 	
 	-- [ Generates the Rewards ]
 	function generateRewards()
-		levelModifierExp = playerLevel/3
+		levelModifierExp = Variables.p_level/3
 		if levelModifierExp <= 0 then
 			levelModifierExp = 1
 		end
 		
 		modifierExp = math.random(1,7) * levelModifierExp
-		if monsterLevel < playerLevel then
-			gainedExp = math.floor((monsterBaseExp*modifierExp)/3)
-		elseif monsterLevel > playerLevel then
-			gainedExp = math.floor((1.5*monsterBaseExp*modifierExp)/3)
+		if Variables.m_level < Variables.p_level then
+			gainedExp = math.floor((Variables.monsterBaseExp*modifierExp)/3)
+		elseif Variables.m_level > Variables.p_level then
+			gainedExp = math.floor((1.5*Variables.monsterBaseExp*modifierExp)/3)
 		else
-			gainedExp = math.floor((1.25*monsterBaseExp*modifierExp)/3)
+			gainedExp = math.floor((1.25*Variables.monsterBaseExp*modifierExp)/3)
 		end
 		if gainedExp == 0 then
 			gainedExp = 1
@@ -712,7 +557,6 @@ function scene:show(event)
 		monsterAttackLog = monsterAttackLog.."Gained "..gainedExp.." EXP."
 		
 		
-<<<<<<< HEAD
 		Variables.experience = Variables.experience + gainedExp
         Variables.displayedExp =  Variables.displayedExp + gainedExp
 		findZoulds = math.random(1,3)
@@ -720,26 +564,17 @@ function scene:show(event)
 			zouldsFound = math.floor((1.25 * math.random(2, 5) * Variables.p_level)/2)
 			Variables.zoulds = Variables.zoulds + zouldsFound
 			monsterAttackLog = monsterAttackLog.." "..zouldsFound.." zoulds found."
-=======
-		experience = experience + gainedExp
-        displayedExperience =  displayedExperience + gainedExp
-		findZoulds = math.random(1,3)
-		if findZoulds ==3 then
-			zouldsFound = math.floor((1.25 * math.random(2, 5) * playerLevel)/2)
-			zoulds = zoulds + zouldsFound
-			monsterAttackLog = monsterAttackLog.." "..zouldsFound.." Zoulds found."
->>>>>>> parent of 76d51ee... File Push
 		end
 		
 		potionFound = math.random(0,5)
         if potionFound == 4 then
-            potions = potions + 1
+            Variables.potions = Variables.potions + 1
             monsterAttackLog = monsterAttackLog.." Found 1 potion.\n"
         end
  
         revivalFound = math.random(0, 49)
         if revivalFound == 48 then
-            revivalStone = revivalStone + 1
+            Variables.revivalStone = Variables.revivalStone + 1
             monsterAttackLog = monsterAttackLog.." Found 1 Revival Stone."
         end
 		monsterLog.text = monsterAttackLog
@@ -752,23 +587,6 @@ function scene:show(event)
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
 	end
-end
-
-function pullVariables()
-	playerLevel = tonumber(Variables[8])
-	playerHP = tonumber(Variables[9])
-	playerMaxHP = tonumber(Variables[10])
-	playerDef = tonumber(Variables[11])
-	playerStr = tonumber(Variables[12])
-	playerCha = tonumber(Variables[13])
-	playerCon = tonumber(Variables[14])
-	playerSur = tonumber(Variables[15])
-	playerStrMod = tonumber(Variables[16])
-	playerChaMod = tonumber(Variables[17])
-	playerConMod = tonumber(Variables[18])
-	playerSurMod = tonumber(Variables[19])
-	playerHealthText.text = tostring(playerHP).." / "..tostring(playerMaxHP).." HP"
-	Update()
 end
 
 -- hide()

@@ -147,8 +147,8 @@ end
 
 function enable()
 	if Variables.forageTime > 0 and Variables.activityTime == 1 then
-		forageTime = forageTime - 1
-		forageButton:setLabel("FORAGE ("..forageTime..")")
+		Variables.forageTime = Variables.forageTime - 1
+		forageButton:setLabel("FORAGE ("..Variables.forageTime..")")
 		forageButton:setEnabled(false)
 		fishButton:setEnabled(false)
 		mineButton:setEnabled(false)
@@ -157,12 +157,12 @@ function enable()
 		fishButton:setFillColor(0.5)
 		mineButton:setFillColor(0.5)
 		chopButton:setFillColor(0.5)
-		if (activityTime == 1) then
+		if (Variables.activityTime == 1) then
 			eTimer = timer.performWithDelay(1000, enable)
 		end
 	elseif Variables.fishTime > 0 and Variables.activityTime == 1 then
-		fishTime = fishTime - 1
-		fishButton:setLabel("FISH ("..fishTime..")")
+		Variables.fishTime = Variables.fishTime - 1
+		fishButton:setLabel("FISH ("..Variables.fishTime..")")
 		forageButton:setEnabled(false)
 		fishButton:setEnabled(false)
 		mineButton:setEnabled(false)
@@ -171,12 +171,12 @@ function enable()
 		fishButton:setFillColor(0.5)
 		mineButton:setFillColor(0.5)
 		chopButton:setFillColor(0.5)
-		if (activityTime == 1) then
+		if (Variables.activityTime == 1) then
 			eTimer = timer.performWithDelay(1000, enable)
 		end
-	elseif chopTime > 0 and activityTime == 1 then
-		chopTime = chopTime - 1
-		chopButton:setLabel("CHOP ("..chopTime..")")
+	elseif Variables.chopTime > 0 and Variables.activityTime == 1 then
+		Variables.chopTime = Variables.chopTime - 1
+		chopButton:setLabel("CHOP ("..Variables.chopTime..")")
 		forageButton:setEnabled(false)
 		fishButton:setEnabled(false)
 		mineButton:setEnabled(false)
@@ -185,12 +185,12 @@ function enable()
 		fishButton:setFillColor(0.5)
 		mineButton:setFillColor(0.5)
 		chopButton:setFillColor(0.5)
-		if (activityTime == 1) then
+		if (Variables.activityTime == 1) then
 			eTimer = timer.performWithDelay(1000, enable)
 		end
-	elseif mineTime > 0 and activityTime == 1 then
-		mineTime = mineTime - 1
-		mineButton:setLabel("MINE ("..mineTime..")")
+	elseif Variables.mineTime > 0 and Variables.activityTime == 1 then
+		Variables.mineTime = Variables.mineTime - 1
+		mineButton:setLabel("MINE ("..Variables.mineTime..")")
 		forageButton:setEnabled(false)
 		fishButton:setEnabled(false)
 		mineButton:setEnabled(false)
@@ -199,11 +199,11 @@ function enable()
 		fishButton:setFillColor(0.5)
 		mineButton:setFillColor(0.5)	
 		chopButton:setFillColor(0.5)
-		if (activityTime == 1) then
+		if (Variables.activityTime == 1) then
 			eTimer = timer.performWithDelay(1000, enable)
 		end
-	elseif activityTime == 0 then
-		activityTime = 0
+	elseif Variables.activityTime == 0 then
+		Variables.activityTime = 0
 	else
 		forageButton:setLabel("FORAGE")
 		fishButton:setLabel("FISH")
@@ -218,96 +218,38 @@ function enable()
 		mineButton:setFillColor(1,0.5,0)
 		chopButton:setFillColor(1,0,0)
 	end
-	offUpdate()
 end
 	
-function offUpdate()
-	Variables[8] = playerLevel
-	Variables[43] = activityTime
-	Variables[47] = forageTime
-	Variables[48] = chopTime
-	Variables[49] = mineTime
-	Variables[50] = fishTime
-end
 
 -- show()
 function scene:show(event)
 	local sceneGroup = self.view
 	local phase = event.phase
 	
-	--Variables needed
-	playerLevel = tonumber(Variables[8])
-	playerSurMod = tonumber(Variables[19])
-	zoulds = tonumber(Variables[20])
-	potions = tonumber(Variables[21])
-	revivalStone = tonumber(Variables[22])
-	scrap = tonumber(Variables[23])
-	wood = tonumber(Variables[24])
-	fish = tonumber(Variables[25])
-	stone = tonumber(Variables[26])
-	birdegg = tonumber(Variables[27])
-	metal = tonumber(Variables[28])
-	rainbowtrout = tonumber(Variables[29])
-	silvercoin = tonumber(Variables[30])
-	experience = tonumber(Variables[42])
-	activityTime = tonumber(Variables[43])
-	expNeeded = tonumber(Variables[45])
-	displayedExperience = tonumber(Variables[46])
-	--didLevel = tonumber(Variables[51])
-	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
-		--activityTime = 0
-		--forageTime = tonumber( Variables[47])
-		--chopTime = tonumber(Variables[48])
-		--mineTime = tonumber(Variables[49])
-		--fishTime = tonumber(Variables[50])
-		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
+		if Variables.forageTime > 0 or Variables.mineTime > 0 or Variables.fishTime > 0 or Variables.chopTime > 0 then
 			changeActive()
-			--timer.pause(eTimer)
 		else
-			activityTime = 0
+			Variables.activityTime = 0
 		end
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
-		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
-			--eTimer = timer.performWithDelay(500,enable)
 		end
 	end
 	
 	function Update()
-		expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
-        if (expNeeded <= 0) then
-			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
-            experience = experience - tempEXP
+		Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
+        if (Variables.expNeeded <= 0) then
+			tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
+            Variables.experience = Variables.experience - tempEXP
 			--didLevel = 0
 			--Variables[51] = didLevel
             composer.showOverlay("levelUp", Overoptions)
-            expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
+            Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
 		end
-		--Save Variables
-		Variables[8] = playerLevel
-		Variables[20] = zoulds
-		Variables[21] = potions
-		Variables[22] = revivalStone
-		Variables[23] = scrap
-		Variables[24] = wood
-		Variables[25] = fish
-		Variables[26] = stone
-		Variables[27] = birdegg
-		Variables[28] = metal
-		Variables[29] = rainbowtrout
-		Variables[30] = silvercoin
-		Variables[42] = experience
-		Variables[43] = activityTime
-		Variables[45] = expNeeded
-		Variables[46] = displayedExperience
-		Variables[47] = forageTime
-		Variables[48] = chopTime
-		Variables[49] = mineTime
-		Variables[50] = fishTime
 		
-		if activityTime == 0 then
+		if Variables.activityTime == 0 then
 			forageButton:setLabel("FORAGE")
 			fishButton:setLabel("FISH")
 			chopButton:setLabel("CHOP")
@@ -329,20 +271,20 @@ end
 
 function activityPress(event)
 
-	gainedExp = math.random(1,2) * (playerSurMod)
-	experience = experience + gainedExp
-	displayedExperience = displayedExperience + gainedExp
+	gainedExp = math.random(1,2) * (Variables.p_surMod)
+	Variables.experience = Variables.experience + gainedExp
+	Variables.displayedExp = Variables.displayedExp + gainedExp
 	displayText = ""
 	local special = math.random(1,10)
 	if event.phase == "ended" and event.target.id == "chop" then
-		chopTime = 30
-		activityTime = 1
+		Variables.chopTime = 30
+		Variables.activityTime = 1
 		enable()
-		tempwood = (math.random(1,3) + (playerSurMod))
-		if wood == nil then
-			wood = tempwood
+		tempwood = (math.random(1,3) + (Variables.p_surMod))
+		if Variables.wood == nil then
+			Variables.wood = tempwood
 		else
-			wood = wood + tempwood
+			Variables.wood = Variables.wood + tempwood
 		end
 		displayText = "Wood (+"..tempwood.."), "
 		if special == 9 then
@@ -350,48 +292,48 @@ function activityPress(event)
 		end
 	end
 	if event.phase == "ended" and event.target.id == "forage" then
-		forageTime = 30
-		activityTime = 1
+		Variables.forageTime = 30
+		Variables.activityTime = 1
 		enable()
-		tempscrap = (math.random(1,3) + (playerSurMod))
-		if scrap == nil then
-			scrap = tempscrap
+		tempscrap = (math.random(1,3) + (Variables.p_surMod))
+		if Variables.scrap == nil then
+			Variables.scrap = tempscrap
 		else
-			scrap = scrap + tempscrap
+			Variables.scrap = Variables.scrap + tempscrap
 		end
 		displayText = "Scrap (+"..tempscrap.."), "
 		isZoulds = math.random(10)
 		if isZoulds >= 9 then
 			tempZoulds = math.random(5)
-			if zoulds == nil then
-				zoulds = tempZoulds
+			if Variables.zoulds == nil then
+				Variables.zoulds = tempZoulds
 			else
-				zoulds = zoulds + tempZoulds
+				Variables.zoulds = Variables.zoulds + tempZoulds
 			end
 			displayText = displayText.."Zoulds (+"..tempZoulds.."), "
 		end
 	end
 	if event.phase == "ended" and event.target.id == "mine" then
-		mineTime = 30
-		activityTime = 1
+		Variables.mineTime = 30
+		Variables.activityTime = 1
 		enable()
-		tempstone = (math.random(1,3) + (playerSurMod))
-		if stone == 0 then
-			stone = tempstone
+		tempstone = (math.random(1,3) + (Variables.p_surMod))
+		if Variables.stone == 0 then
+			Variables.stone = tempstone
 		else
-			stone = stone + tempstone
+			Variables.stone = Variables.stone + tempstone
 		end
 		displayText = "Stone (+"..tempstone.."), "
 	end
 	if event.phase == "ended" and event.target.id == "fish" then
-		fishTime = 30
-		activityTime = 1		
+		Variables.fishTime = 30
+		Variables.activityTime = 1		
 		enable()
-		tempfish = (math.random(1,3) + (playerSurMod))
-		if fish == nil then
-			fish = tempfish
+		tempfish = (math.random(1,3) + (Variables.p_surMod))
+		if Variables.fish == nil then
+			Variables.fish = tempfish
 		else
-			fish = fish + tempfish
+			Variables.fish = Variables.fish + tempfish
 		end
 		displayText = "Fish (+"..tempfish.."), "
 	end
@@ -406,7 +348,7 @@ function activityPress(event)
 end
 
 function changeActive()
-	activityTime = 1
+	Variables.activityTime = 1
 end
 
 -- hide()
@@ -417,16 +359,14 @@ function scene:hide( event )
 	
 	if ( phase == "will" ) then
 		-- Code here runs when the scene is on screen (but is about to go off screen)
-		activityTime = 1
-		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
-		end
+		Variables.activityTime = 1
 	elseif ( phase == "did" ) then
 		-- Code here runs immediately after the scene goes entirely off screen
-		if forageTime > 0 or mineTime > 0 or fishTime > 0 or chopTime > 0 then
+		if Variables.forageTime > 0 or Variables.mineTime > 0 or Variables.fishTime > 0 or Variables.chopTime > 0 then
 			changeActive()
 			Update()
 		else
-			activityTime = 0
+			Variables.activityTime = 0
 		end
 	end
 end

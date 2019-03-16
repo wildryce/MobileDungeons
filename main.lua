@@ -7,6 +7,7 @@
 local composer = require( "composer" )
 local globalData = require("globalData")
 local widget = require("widget")
+local json = require("json")
 
 local fonts = native.getFontNames()
 
@@ -21,7 +22,7 @@ local height = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
 local uiGroup = display.newGroup()
 
 --Create Game Variables
-Variables = {Variables.firstTimeLoad, Variables.inFight, Variables.welcomeEnabled, Variables.pastTime, Variables.currentTime, Variables.welcomePopup, Variables.playerName, Variables.p_level, Variables.p_hp, Variables.p_maxhp, Variables.p_def, Variables.p_str, Variables.p_cha, Variables.p_con, Variables.p_sur, Variables.p_strMod, Variables.p_chaMod, Variables.p_conMod, Variables.p_surMod, Variables.zoulds, Variables.potions, Variables.revivalStone, Variables.scrap, Variables.wood, Variables.fish, Variables.stone, Variables.birdegg, Variables.metal, Variables.rainbowtrout, Variables.silvercoin, Variables.monster, Variables.m_level, Variables.m_hp, Variables.m_maxhp, Variables.m_def, Variables.m_str, Variables.m_con, Variables.m_strMod, Variables.m_conMod, Variables.monsterBaseExp, Variables.healedHP, Variables.experience, Variables.activityTime, Variables.monstersKilled, Variables.expNeeded, Variables.DisplayedExp, Variables.forageTime, Variables.chopTime, Variables.mineTime, Variables.fishTime, Variables.didLevel, inspirePotion}
+Variables = {}
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
 
 --[ Rectangles ]
@@ -39,64 +40,92 @@ local loop = 0
 
 -- Main game variables
 function checkVars()
-	if Variables[1] == nil then Variables[1] = 1 end		--FirstTimeLoad
-	if Variables[2] == nil then Variables[2] = 0 end		--InFight
-	if Variables[3] == nil then Variables[3] = 1 end		--WelcomeEnabled
-	if Variables[4] == nil then Variables[4] = 0 end		--Past Time
-	if Variables[5] == nil then Variables[5] = 0 end		--Curr Time (REMOVE)
-	if Variables[6] == nil then Variables[6] = "" end		--Welcome Popup (REMOVE)
-	if Variables[7] == nil then Variables[7] = "" end		--Player Name
-	if Variables[8] == nil then Variables[8] = 1 end		--P_Level
-	if Variables[9] == nil then Variables[9] = 50 end		--Curr HP
-	if Variables[10] == nil then Variables[10] = 50 end		--MaxHP
-	if Variables[11] == nil then Variables[11] = 14 end		--Def (AC)
-	if Variables[12] == nil then Variables[12] = 12 end		--Str
-	if Variables[13] == nil then Variables[13] = 12 end		--Cha
-	if Variables[14] == nil then Variables[14] = 12 end		--Con
-	if Variables[15] == nil then Variables[15] = 12 end		--Sur
-	if Variables[16] == nil then Variables[16] = math.floor((Variables.p_str-10)/2) end 	--StrMod
-	if Variables[17] == nil then Variables[17] = math.floor((Variables.p_cha-10)/2) end 	--ChaMod
-	if Variables[18] == nil then Variables[18] = math.floor((Variables.p_con-10)/2) end 	--ConMod
-	if Variables[19] == nil then Variables[19] = math.floor((Variables.p_sur-10)/2) end 	--SurMod
-	if Variables[20] == nil then Variables[20] = 0 end	--Zoulds
-	if Variables[21] == nil then Variables[21] = 0 end	--Potions
-	if Variables[22] == nil then Variables[22] = 0 end	--Revival Stones
-	if Variables[23] == nil then Variables[23] = 0 end	--Scrap
-	if Variables[24] == nil then Variables[24] = 0 end	--Wood
-	if Variables[25] == nil then Variables[25] = 0 end	--Fish
-	if Variables[26] == nil then Variables[26] = 0 end	--Stone
-	if Variables[27] == nil then Variables[27] = 0 end	--Bird Egg
-	if Variables[28] == nil then Variables[28] = 0 end	--Metal
-	if Variables[29] == nil then Variables[29] = 0 end	--Rainbow Trout
-	if Variables[30] == nil then Variables[30] = 0 end	--Silver Coin
-	if Variables[31] == nil then Variables[31] = "" end	--Monster
-	if Variables[32] == nil then Variables[32] = 0 end	--Monster Level
-	if Variables[33] == nil then Variables[33] = 0 end	--Monster Curr HP
-	if Variables[34] == nil then Variables[34] = 0 end	--Monster Max HP
-	if Variables[35] == nil then Variables[35] = 0 end	--Monster Def
-	if Variables[36] == nil then Variables[36] = 0 end	--Monster Str
-	if Variables[37] == nil then Variables[37] = 0 end	--Monster Con
-	if Variables[38] == nil then Variables[38] = 0 end	--Monster StrMod
-	if Variables[39] == nil then Variables[39] = 0 end	--Monster ConMod
-	if Variables[40] == nil then Variables[40] = 0 end	--MonsterBaseExp
-	if Variables[41] == nil then Variables[41] = 0 end	--HealedHP [REMOVE]
-	if Variables[42] == nil then Variables[42] = 0 end	--Variables.experience
-	if Variables[43] == nil then Variables[43] = 0 end	--Variables.activityTime
-	if Variables[44] == nil then Variables[44] = 0 end	--Monsters Killed
-	if Variables[45] == nil then Variables[45] = 0 end	--EXP needed
-	if Variables[46] == nil then Variables[46] = 0 end	--Displayed EXP
-	if Variables[47] == nil then Variables[47] = 0 end	--Variables.forageTime
-	if Variables[48] == nil then Variables[48] = 0 end	--Variables.chopTime
-	if Variables[49] == nil then Variables[49] = 0 end	--Variables.mineTime
-	if Variables[50] == nil then Variables[50] = 0 end	--Variables.fishTime
-	if Variables[51] == nil then Variables[51] = 1 end	--DidLevel
-	if Variables[52] == nil then Variables[52] = 0 end	--Inspire Potions
+	Variables.firstTimeLoad  = 1	--FirstTimeLoad
+	--[[Variables[2] = 0	--InFight
+	Variables[3]  = 1 		--WelcomeEnabled
+	Variables[4] = 0 		--Past Time
+	Variables[5] = 0 		--Curr Time (REMOVE)
+	Variables[6] == nil then Variables[6] = ""		--Welcome Popup (REMOVE)
+	Variables[7] == nil then Variables[7] = ""		--Player Name
+	Variables[8] == nil then Variables[8] = 1 		--P_Level
+	Variables[9] == nil then Variables[9] = 50 		--Curr HP
+	Variables[10] == nil then Variables[10] = 50 	--MaxHP
+	Variables[11] == nil then Variables[11] = 14 	--Def (AC)
+	Variables[12] == nil then Variables[12] = 12 	--Str
+	Variables[13] == nil then Variables[13] = 12 	--Cha
+	Variables[14] == nil then Variables[14] = 12 	--Con
+	Variables[15] == nil then Variables[15] = 12 	--Sur
+	Variables[16] == nil then Variables[16] = math.floor((p_str-10)/2)  	--StrMod
+	Variables[17] == nil then Variables[17] = math.floor((p_cha-10)/2)  	--ChaMod
+	Variables[18] == nil then Variables[18] = math.floor((p_con-10)/2)  	--ConMod
+	Variables[19] == nil then Variables[19] = math.floor((p_sur-10)/2)  	--SurMod
+	Variables[20] == nil then Variables[20] = 0 	--Zoulds
+	Variables[21] == nil then Variables[21] = 0 	--Potions
+	Variables[22] == nil then Variables[22] = 0 	--Revival Stones
+	Variables[23] == nil then Variables[23] = 0 	--Scrap
+	Variables[24] == nil then Variables[24] = 0 	--Wood
+	Variables[25] == nil then Variables[25] = 0 	--Fish
+	Variables[26] == nil then Variables[26] = 0 	--Stone
+	Variables[27] == nil then Variables[27] = 0 	--Bird Egg
+	Variables[28] == nil then Variables[28] = 0		--Metal
+	Variables[29] == nil then Variables[29] = 0		--Rainbow Trout
+	Variables[30] == nil then Variables[30] = 0		--Silver Coin
+	Variables[31] == nil then Variables[31] = ""	--Monster
+	Variables[32] == nil then Variables[32] = 0		--Monster Level
+	Variables[33] == nil then Variables[33] = 0		--Monster Curr HP
+	Variables[34] == nil then Variables[34] = 0		--Monster Max HP
+	Variables[35] == nil then Variables[35] = 0		--Monster Def
+	Variables[36] == nil then Variables[36] = 0		--Monster Str
+	Variables[37] == nil then Variables[37] = 0		--Monster Con
+	Variables[38] == nil then Variables[38] = 0		--Monster StrMod
+	Variables[39] == nil then Variables[39] = 0		--Monster ConMod
+	Variables[40] == nil then Variables[40] = 0		--MonsterBaseExp
+	Variables[41] == nil then Variables[41] = 0		--HealedHP [REMOVE]
+	Variables[42] == nil then Variables[42] = 0		--experience
+	Variables[43] == nil then Variables[43] = 0		--activityTime
+	Variables[44] == nil then Variables[44] = 0		--Monsters Killed
+	Variables[45] == nil then Variables[45] = 0		--EXP needed
+	Variables[46] == nil then Variables[46] = 0		--Displayed EXP
+	Variables[47] == nil then Variables[47] = 0		--forageTime
+	Variables[48] == nil then Variables[48] = 0		--chopTime
+	Variables[49] == nil then Variables[49] = 0		--mineTime
+	Variables[50] == nil then Variables[50] = 0		--fishTime
+	Variables[51] == nil then Variables[51] = 1		--DidLevel
+	Variables[52] == nil then Variables[52] = 0		--Inspire Potions]]
 end
 
 -- Hide status bar
 display.setStatusBar( display.HiddenStatusBar )
 
--- Load Game Files
+function saveTable(t, filename)
+	local path = system.pathForFile(filename, system.DocumentsDirectory)
+	local file = io.open(path, "w")
+	if file then
+		local contents = json.encode(t)
+		file:write(contents)
+		io.close(file)
+		print("Saved!")
+		return true
+	else
+		return false
+	end
+end
+
+function loadTable(filename)
+	local path = system.pathForFile(filename, system.DocumentsDirectory)
+	local contents = ""
+	local myTable = {}
+	local file = io.open(path, "r")
+	if file then
+		local contents = file:read("*a")
+		myTable = json.decode(contents)
+		io.close(file)
+		print("Loaded!")
+		return myTable
+	end
+	return nil
+end
+--[[ Load Game Files
 filePath = system.pathForFile( "gamevariables.txt", system.DocumentsDirectory )
 file = io.open(filePath, "r")
 if file then
@@ -119,9 +148,9 @@ else
 	checkVars()
 end
 -- Seed the random number generator
-math.randomseed( os.time() )
+math.randomseed( os.time() )]]
 
-function listener()
+--[[function listener()
 	Variables[4] = os.time()
 	--print("Saving...")
 	file = io.open(filePath, "w")
@@ -133,15 +162,18 @@ function listener()
 	file:close()
 	--print("Done Saving")
 	timer.performWithDelay(500, listener)
-end
+end]]
 
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
 
+function saveGame()
+	saveTable(Variables, "gamevariables.json")
+	timer.performWithDelay(500, saveGame)
+end
 
 function reload()
 	--a - math.floor(a/b)*b
-	pastTime = tonumber(Variables[4])
-	difference = os.difftime(os.time(), pastTime)
+	difference = os.difftime(os.time(), Variables.pastTime)
 	days = math.floor(difference/86400)
 	local remaining = difference % 86400
 	hours = math.floor(remaining/3600)
@@ -156,112 +188,87 @@ function reload()
 	offlineHealth = minutes + (hours*60) + (days*24) 
 	changeTime = seconds + (minutes * 60) + (hours * 60) + (days * 24)
     regainedHP = 0
-	p_hp = tonumber(Variables[9])
-	p_maxhp = tonumber(Variables[10])
     if (offlineHealth >= 1) then
-        while (p_hp < p_maxhp and offlineHealth >= 1) do
-            p_hp = p_hp + 1
+        while (Variables.p_hp < Variables.p_maxhp and offlineHealth >= 1) do
+            Variables.p_hp = Variables.p_hp + 1
                 offlineHealth = offlineHealth - 1
                 regainedHP = regainedHP + 1
         end
-        if (p_hp >= p_maxhp) then
-            p_hp = p_maxhp
+        if (Variables.p_hp >= Variables.p_maxhp) then
+            Variables.p_hp = Variables.p_maxhp
         end
     end
-	
-	Variables[9] = p_hp
-	
-	activityTime = tonumber(Variables[43])
-	forageTime = tonumber(Variables[47])
-	chopTime = tonumber(Variables[48])
-	mineTime = tonumber(Variables[49])
-	fishTime = tonumber(Variables[50])
-	inFight = tonumber(Variables[2])
     
-	forageTime = forageTime - changeTime
-    if (forageTime < 0) then
-        forageTime = 0
+	Variables.forageTime = Variables.forageTime - changeTime
+    if (Variables.forageTime < 0) then
+        Variables.forageTime = 0
     end
-    chopTime = chopTime - changeTime
-    if (chopTime < 0) then
-        chopTime = 0
+    Variables.chopTime = Variables.chopTime - changeTime
+    if (Variables.chopTime < 0) then
+        Variables.chopTime = 0
 		
     end
-    fishTime = fishTime - changeTime
-    if (fishTime < 0) then
-        fishTime = 0
+    Variables.fishTime = Variables.fishTime - changeTime
+    if (Variables.fishTime < 0) then
+        Variables.fishTime = 0
 	end
-    mineTime = mineTime - changeTime
-    if (mineTime < 0) then
-        mineTime = 0
+    Variables.mineTime = Variables.mineTime - changeTime
+    if (Variables.mineTime < 0) then
+        Variables.mineTime = 0
     end
-	if mineTime == 0 and chopTime == 0 and fishTime == 0 and forageTime == 0 then
-		activityTime = 0
+	if Variables.mineTime == 0 and Variables.chopTime == 0 and Variables.fishTime == 0 and Variables.forageTime == 0 then
+		Variables.activityTime = 0
 	end 
-<<<<<<< HEAD
 
-        --[[if (Variables.welcomeEnabled and (awayTime >= 30 or regainedHP > 0)) then
-=======
-	Variables[43] = activityTime
-	Variables[47] = forageTime
-	Variables[48] = chopTime
-	Variables[49] = mineTime
-	Variables[50] = fishTime
         --[[if (welcomeEnabled and (awayTime >= 30 or regainedHP > 0)) then
->>>>>>> parent of 76d51ee... File Push
             welcomeBack.enabled = true
         else
             welcomeBack.enabled = false
         end]]
 		
-    Variables.welcomePopup = "You have been away for "
+    welcomePopup = "You have been away for "
     if (days > 0) then
-        Variables.welcomePopup = Variables.welcomePopup..days.." days "
+        welcomePopup = welcomePopup..days.." days "
     end
     if (hours > 0) then
-        Variables.welcomePopup = Variables.welcomePopup..hours.." hours "
+        welcomePopup = welcomePopup..hours.." hours "
     end
     if (minutes > 0) then
-        Variables.welcomePopup = Variables.welcomePopup..minutes.." minutes "
+        welcomePopup = welcomePopup..minutes.." minutes "
     end
     if (seconds >= 0) then
-        Variables.welcomePopup = Variables.welcomePopup..seconds.." seconds "
+        welcomePopup = welcomePopup..seconds.." seconds "
     end
     if (regainedHP > 0) then
-        Variables.welcomePopup = Variables.welcomePopup.."\nYou regained "..regainedHP.." HP"
+        welcomePopup = welcomePopup.."\nYou regained "..regainedHP.." HP"
     end
     if (monsterFlee >= 48) then
-<<<<<<< HEAD
-        Variables.welcomePopup = Variables.welcomePopup.."\n" + Variables.monster + " fled after being gone for too long."
-        Variables.inFight = 0
-=======
         welcomePopup = welcomePopup.."\n" + monster + " fled after being gone for too long."
-        inFight = 0
->>>>>>> parent of 76d51ee... File Push
+        Variables.inFight = 0
     end
-	Variables[2] = inFight
+	
 	createoptions = {
 		isModal = true,
 		params = {
-			var1 = Variables.welcomePopup
+			var1 = welcomePopup
 		}
 	}
 end
 
-<<<<<<< HEAD
--- display CreateCharacter if Variables.firstTimeLoad is true
-Variables = loadTable("gamevariables.json")
-if (Variables.firstTimeLoad == 1) then	
-=======
 -- display CreateCharacter if firstTimeLoad is true
-if (Variables[1] == 1) then	
->>>>>>> parent of 76d51ee... File Push
+local path = system.pathForFile(filename, system.DocumentsDirectory)
+local file = io.open(path, "r")
+if file then
+	Variables = loadTable("gamevariables.json")
+end
+checkVars()
+if (Variables.firstTimeLoad == 1) then	
 	-- Create Character
 	composer.gotoScene("CreateCharacter")
 else	
 	-- Dungeon Scene
 	reload()
-	checkVars()
+	--checkVars()
 	composer.gotoScene("dungeon")
 	composer.loadScene("tavern")
 	--if tonumber(Variables[52]) == 1 then

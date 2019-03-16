@@ -61,41 +61,27 @@ function scene:show(event)
 	local sceneGroup = self.view
 	local phase = event.phase
 	
-	--Variables
-	player = Variables[7]
-	playerLevel = tonumber(Variables[8])
-	playerMaxHP = tonumber(Variables[10])
-	playerDef = tonumber(Variables[11])
-	playerStr = tonumber(Variables[12])
-	playerCha = tonumber(Variables[13])
-	playerCon = tonumber(Variables[14])
-	playerSur = tonumber(Variables[15])
-	experience = Variables[42]
-	monstersKilled = tonumber(Variables[44])
-	expNeeded = tonumber(Variables[45])
-	displayedExperience = tonumber(Variables[46])
-	
-	expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
-        if (expNeeded <= 0) then
-			tempEXP = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10)
-            experience = experience - tempEXP
+	Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
+        if (Variables.expNeeded <= 0) then
+			tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
+            Variables.experience = Variables.experience - tempEXP
 			--didLevel = 0
 			--Variables[51] = didLevel
             composer.showOverlay("levelUp", Overoptions)
-            expNeeded = ((50 * (playerLevel^3) + 300 * playerLevel + 450) / 10) - experience
-        end
+            Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
+		end
 	
-	allStats = "Player Name: "..player
-	allStats = allStats.."\nLevel: "..playerLevel
-	allStats = allStats.."\nHealth Points: "..playerMaxHP
-	allStats = allStats.."\nStrength: "..playerStr
-	allStats = allStats.."\nDefense: "..playerDef
-	allStats = allStats.."\nConstitution: "..playerCon
-	allStats = allStats.."\nCharisma: "..playerCha
-	allStats = allStats.."\nSurvival: "..playerSur	
-	allStats = allStats.."\n\nEXP needed for next level: "..expNeeded
-	allStats = allStats.."\nTotal Experience: "..displayedExperience
-	allStats = allStats.."\n\nMonsters Slain: "..monstersKilled	
+	allStats = "Player Name: "..Variables.playerName
+	allStats = allStats.."\nLevel: "..Variables.p_level
+	allStats = allStats.."\nHealth Points: "..Variables.p_maxhp
+	allStats = allStats.."\nStrength: "..Variables.p_str
+	allStats = allStats.."\nDefense: "..Variables.p_def
+	allStats = allStats.."\nConstitution: "..Variables.p_con
+	allStats = allStats.."\nCharisma: "..Variables.p_cha
+	allStats = allStats.."\nSurvival: "..Variables.p_sur	
+	allStats = allStats.."\n\nEXP needed for next level: "..Variables.expNeeded
+	allStats = allStats.."\nTotal Experience: "..Variables.displayedExp
+	allStats = allStats.."\n\nMonsters Slain: "..Variables.monstersKilled	
 	
 	statsBox.text = allStats
 	if (phase == "will") then
