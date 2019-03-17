@@ -516,7 +516,7 @@ function scene:show(event)
 			monsterNameText.text = "??????"
 			monsterHealthText.text = "?? / ?? HP"
 		end
-		print("Updating...")
+		--print("Updating...")
 		aTimer = timer.performWithDelay(100, Update)
 	end
 	

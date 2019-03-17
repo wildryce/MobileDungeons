@@ -177,6 +177,21 @@ function saveGame()
 	timer.performWithDelay(500, saveGame)
 end
 
+local function onSystemEvent( event )
+	if event.type == "applicationSuspend" then
+		saveGame()
+	end
+	if event.type == "applicationResume" then
+		reload()
+		if difference > 250 then
+		composer.showOverlay("backToGame", createoptions)
+	end
+	end
+    print( "System event name and type: " .. event.name, event.type )
+end
+  
+Runtime:addEventListener( "system", onSystemEvent )
+
 function reload()
 	-- Seed the random number generator
 	math.randomseed( os.time() )
