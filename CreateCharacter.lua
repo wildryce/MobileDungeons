@@ -13,7 +13,9 @@ local width = aspectRatio > 1.5 and 320 or math.ceil( 480 / aspectRatio )
 local height = aspectRatio < 1.5 and 480 or math.ceil( 320 * aspectRatio )
 
 local function leaveCreation()
+		print(userName)
 	if userName == nil then
+		print("userisnil")
 		finished = display.newText(uiGroup, "X Invalid Name", 220, 195)
 		finished:setFillColor(1,0,0)
 		return
@@ -21,13 +23,15 @@ local function leaveCreation()
 		finished = display.newText(uiGroup, "X Too Long", 205, 195)
 		finished:setFillColor(1,0,0)
 		return
-	elseif string.match(userName, "%u%l") then
+	elseif string.match(userName, "%u") or string.match(userName, "%l") or string.match(userName, "%u%l")then
+		print("string.match")
 		Variables.firstTimeLoad = 0
 		Variables.playerName = userName
 		saveGame()
 		composer.removeScene("CreateCharacter")
 		composer.gotoScene("dungeon")
 	else
+		print("fail")
 		finished = display.newText(uiGroup, "X Invalid Name", 220, 195)
 		finished:setFillColor(1,0,0)
 		return
