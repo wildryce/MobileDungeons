@@ -472,7 +472,7 @@ function scene:show(event)
 			Variables.inFight = 0
 		end
 
-		if Variables.m_hp <= 0 and Variables.monster ~= "" and Variables.p_hp > 0 then
+		if Variables.m_hp <= 0 and Variables.monster ~= "" and Variables.monster ~= nil and Variables.p_hp > 0 then
 			Variables.monstersKilled = Variables.monstersKilled + 1
 			monsterAttackLog = monsterAttackLog.."\n"..Variables.monster.." has been slain.\n"
 			monsterLog.text = monsterAttackLog
@@ -532,8 +532,6 @@ function scene:show(event)
 			monsterNameText.text = "??????"
 			monsterHealthText.text = "?? / ?? HP"
 		end
-		
-		
 		aTimer = timer.performWithDelay(100, Update)
 	end
 	

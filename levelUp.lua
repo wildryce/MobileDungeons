@@ -158,6 +158,7 @@ function scene:show(event)
 		end
 		--if dL == 0 then
 		Variables.p_maxhp = Variables.p_maxhp + (math.random(1,10)+Variables.p_conMod)
+		Variables.p_hp = Variables.p_maxhp
 		--end
 		--dL = 1
 		Update()
@@ -173,7 +174,6 @@ function scene:show(event)
 	
 	function doOverlay()
 		if isOn == 0 then
-			Variables.p_hp = Variables.p_maxhp
 			Update()
 			--composer.gotoScene("dungeon")
 			composer.hideOverlay()
