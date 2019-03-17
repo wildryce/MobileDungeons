@@ -474,6 +474,7 @@ function scene:show(event)
 
 		if Variables.m_hp <= 0 and Variables.monster ~= "" and Variables.monster ~= nil and Variables.p_hp > 0 then
 			Variables.monstersKilled = Variables.monstersKilled + 1
+			if monsterAttackLog == nil then monsterAttackLog = "" end
 			monsterAttackLog = monsterAttackLog.."\n"..Variables.monster.." has been slain.\n"
 			monsterLog.text = monsterAttackLog
 			generateRewards()
