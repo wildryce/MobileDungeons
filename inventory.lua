@@ -88,7 +88,6 @@ function bControl(event)
 				Variables.inspirePotions = Variables.inspirePotions - 1
 				local iXP = math.random(20,40)*Variables.p_level
 				Variables.experience = Variables.experience + iXP
-				Variables.DisplayedExp = Variables.DisplayedExp + iXP
 				itemUsage.text = "Gained "..iXP.." Experience."
 			else
 				itemUsage.text = "Not enough items."
@@ -114,19 +113,6 @@ function doText()
 	invBox.text = allStats
 	timer.performWithDelay(100, doText)
 	end
-
-function Update()
-Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
-    if (Variables.expNeeded <= 0) then
-		tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
-        Variables.experience = Variables.experience - tempEXP
-		--didLevel = 0
-		--Variables[51] = didLevel
-        composer.showOverlay("levelUp", Overoptions)
-        Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
-    end
-	timer.performWithDelay(500, Update)
-end
 
 -- show()
 function scene:show(event)

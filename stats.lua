@@ -61,16 +61,6 @@ function scene:show(event)
 	local sceneGroup = self.view
 	local phase = event.phase
 	
-	Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
-        if (Variables.expNeeded <= 0) then
-			tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
-            Variables.experience = Variables.experience - tempEXP
-			--didLevel = 0
-			--Variables[51] = didLevel
-            composer.showOverlay("levelUp", Overoptions)
-            Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
-		end
-	
 	allStats = "Player Name: "..Variables.playerName
 	allStats = allStats.."\nLevel: "..Variables.p_level
 	allStats = allStats.."\nHealth Points: "..Variables.p_maxhp
@@ -80,7 +70,7 @@ function scene:show(event)
 	allStats = allStats.."\nCharisma: "..Variables.p_cha
 	allStats = allStats.."\nSurvival: "..Variables.p_sur	
 	allStats = allStats.."\n\nEXP needed for next level: "..Variables.expNeeded
-	allStats = allStats.."\nTotal Experience: "..Variables.displayedExp
+	allStats = allStats.."\nTotal Experience: "..Variables.experience
 	allStats = allStats.."\n\nMonsters Slain: "..Variables.monstersKilled	
 	
 	statsBox.text = allStats

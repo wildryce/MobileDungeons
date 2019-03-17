@@ -1,21 +1,32 @@
-V.0.1 Push Update Notes
+V.0.1.1 Handlers Push Notes
 
-CREATECHARACTER.LUA
-- Updated how the textbox handles newlines or pressing enter.
+ACTIVITIES.LUA
+- Removed any instances of the expNeeded calculation handlers.
+- Removed any instances of the variable 'displayedExp'.
 
-INN.LUA
-- Balanced the cost to heal/revive at the inn.
+DUNGEON.LUA
+- Made levelTestButton visible and functional for testing purposes. Updated how the buttons functionality works to better test.
+- Removed any instances of the expNeeded calculation handlers.
+- Removed any instances of the variable 'displayedExp'.
 
 INVENTORY.LUA
-- Added update() function to handle saving variable updates and doText() function to handle item list updates.
+- Removed any instances of the variable 'displayedExp'.
+- Removed the Update() function that handled the expNeeded calculation.
 
 LEVELUP.LUA
-- Fixed a possible timer issue that existed on certain levelups.
-- Player should no longer get instantly sent to the dungeon screen on levelup anymore.
+- Hardcoded button and text locations to handle overlapping better. There should no longer be an issue where the text every 4th level feeds under the buttons.
+- Removed player level increase handler in the script.
+- Removed unused variable 'isOn' as it broke how the functions fired.
+- Removed some function calls that caused overlaps that fed over to next overlay show.
+- Changed how buttons and text are displayed on load slightly.
+- Removed a lot of unnecessary code located in the doOverlay() function.
 
 MAIN.LUA
-- Fixed issue with safeguard. Now variables should properly get checked and saved if an issue is found.
+- Removed unused variables (loop, displayedExp)
+- Gave 10 inspire potions and 1000 zoulds on first time load of game for testing purposes.
+- Moved expNeeded calculation handler here. Modified the way the calculation is handled. Exists in the checkLevel() function
 
-SHOP.LUA
-- Updated prices to balance the game some more. Although itis harder to gain zoulds, some prices have gone up (selling some down) as before it was quite easy to get whatever with little work. This should hopefully make the game the little bit more leaned on the work-for-it side.
+STATS.LUA
+- Removed any instances of the expNeeded calculation handlers.
+- Removed any instances of the variable 'displayedExp'. Replaced with the variable 'experience'.
 

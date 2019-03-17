@@ -35,7 +35,6 @@ versionText:setFillColor(0)
 
 --[ Text ]
 local title = display.newText(uiGroup, "Mobile Dungeons", 115, 48, "Consolas", 27)
-local loop = 0
 
 -- Main game variables
 function checkVars()
@@ -56,7 +55,7 @@ function checkVars()
 	Variables.p_chaMod=1			--Players Charisma Modifier
 	Variables.p_conMod=1			--Players Constitution Modifier
 	Variables.p_surMod=1			--Players Survival Modifier
-	Variables.zoulds=0				--Players current Zoulds
+	Variables.zoulds=1000			--Players current Zoulds
 	Variables.potions=5				--Players current Potions
 	Variables.revivalStone=1		--Players current Revival Stones
 	Variables.scrap=0				--Players Scrap count
@@ -81,13 +80,12 @@ function checkVars()
 	Variables.activityTime=0		--Controller for when Activities are running
 	Variables.monstersKilled=0		--Players monster kill count
 	Variables.expNeeded=0			--How much Experience the player need to level up
-	Variables.displayedExp=0		--How much experience is required to reach the next level
 	Variables.forageTime=0			--How much time is left to forage
 	Variables.chopTime=0			--How much time is left to chop
 	Variables.mineTime=0			--How much time is left to mine
 	Variables.fishTime=0			--How much time is left to fish
 	Variables.didLevel=1			--Detects whether player has levelled up or not
-	Variables.inspirePotions=0		--Potions of Inspiration. Grants player a massive XP gain.
+	Variables.inspirePotions=10		--Potions of Inspiration. Grants player a massive XP gain.
 	saveTable(Variables, "gamevariables.json")
 end
 
@@ -101,7 +99,7 @@ function saveTable(t, filename)
 		local contents = json.encode(t)
 		file:write(contents)
 		io.close(file)
-		print("Saved!")
+		--print("Saved!")
 		return true
 	else
 		return false
@@ -117,10 +115,35 @@ function loadTable(filename)
 		local contents = file:read("*a")
 		myTable = json.decode(contents)
 		io.close(file)
-		print("Loaded!")
+		--print("Loaded!")
 		return myTable
 	end
 	checkVars()
+end
+
+function checkLevel()
+	if Variables.p_level ~= 1 then
+		local testLevel = Variables.p_level
+		Variables.expNeeded = 0
+		while testLevel >= 1 do
+			Variables.expNeeded = Variables.expNeeded + ((50 * (testLevel^3) + 300 * testLevel + 450) / 10)
+			testLevel = testLevel - 1
+		end
+		Variables.expNeeded = Variables.expNeeded - Variables.experience
+		--print("After level 1.")
+	else
+		Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
+		--print("Level 1.")
+	end
+
+    if (Variables.expNeeded <= 0) then
+		--didLevel = 0
+		--Variables[51] = didLevel
+		Variables.p_level = Variables.p_level + 1
+        composer.showOverlay("levelUp", Overoptions)
+        Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) + ((50 * ((Variables.p_level-1)^3) + 300 * (Variables.p_level-1) + 450) / 10) - Variables.experience
+    end
+	timer.performWithDelay(100, checkLevel)
 end
 
 -- Monster Lists (Name, Health, Strength, Defense, Exp)
@@ -158,7 +181,7 @@ function reload()
 	-- Seed the random number generator
 	math.randomseed( os.time() )
 	--a - math.floor(a/b)*b
-	print(Variables.pastTime.."       "..os.time())
+	--print(Variables.pastTime.."       "..os.time())
 	difference = os.difftime(os.time(), Variables.pastTime)
 	days = math.floor(difference/86400)
 	local remaining = difference % 86400
@@ -229,7 +252,7 @@ function reload()
         welcomePopup = welcomePopup.."\nYou regained "..regainedHP.." HP"
     end
     if (monsterFlee >= 48 and Variables.inFight == 1) then
-		print(Variables.inFight)
+		--print(Variables.inFight)
         welcomePopup = welcomePopup.."\n"..Variables.monster.." fled after being gone for too long."
         Variables.inFight = 0
     end
@@ -244,8 +267,9 @@ end
 
 -- display CreateCharacter if firstTimeLoad is true
 Variables = loadTable("gamevariables.json")
-print(Variables)
+--print(Variables)
 Variables = loadTable("gamevariables.json")
+checkLevel()
 if Variables.firstTimeLoad == 0 then
 -- Dungeon Scene
 	reload()

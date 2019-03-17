@@ -108,7 +108,7 @@ function scene:create(event)
 		fillColor = {default={1,0.5,0}, over={1,0.5,0}},
 		onRelease = healButtonTap
 	})	
-	--[[levelTestButton = widget.newButton({
+	levelTestButton = widget.newButton({
 		label = "Level Up",
 		shape = "rect",
 		font = native.systemFontBold,
@@ -120,7 +120,7 @@ function scene:create(event)
 		height = 30,
 		fillColor = {default={1,0,1}, over={1,0,1}},
 		onRelease = loadLevelUp
-	})]]
+	})
 	fleeButton = widget.newButton({
 		label = "FLEE",
 		shape = "rect",
@@ -184,7 +184,7 @@ function scene:create(event)
 	sceneGroup:insert(monsterHealthText)
 	sceneGroup:insert(monsterRollText)
 	sceneGroup:insert(monsterLog)
-	--sceneGroup:insert(levelTestButton)
+	sceneGroup:insert(levelTestButton)
 end
 
 -- [[ Scene Switch Event]]
@@ -275,11 +275,13 @@ function fleeButtonTap(event)
 	end
 end
 
---[[function loadLevelUp(event)	
+function loadLevelUp(event)	
 	if event.phase == "ended" then
+		Variables.experience = Variables.experience + Variables.expNeeded
+		Variables.p_level = Variables.p_level + 1
 		composer.showOverlay("levelUp", Overoptions)
 	end
-end]]
+end
 
 -- show()
 function scene:show(event)
@@ -343,15 +345,6 @@ function scene:show(event)
 	end
 	
 	--Updates EXP needed
-	Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
-    if (Variables.expNeeded <= 0) then
-		tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
-        Variables.experience = Variables.experience - tempEXP
-		--didLevel = 0
-		--Variables[51] = didLevel
-        composer.showOverlay("levelUp", Overoptions)
-        Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
-    end
 	
 	--[[if didLevel == 0 then
 		print("Did")
@@ -392,8 +385,8 @@ function scene:show(event)
 	
 	-- [ Player Attack ]
 	function PlayerAttack()
-		playerRoll = math.random(1,20) + Variables.p_strMod
-		playerRollLog = "1d20 + "..Variables.p_strMod.." = "..playerRoll
+		playerRoll = math.random(1,20)
+		playerRollLog = "1d20 + "..Variables.p_strMod.." = "..tostring(playerRoll + Variables.p_strMod)
 		playerRollText.text = playerRollLog
 		if playerRoll == 20 then
 			playerHit = (Variables.p_strMod + math.random(1,9))*2
@@ -418,11 +411,11 @@ function scene:show(event)
 		Variables.m_strMod = math.floor((Variables.m_str-10)/2)
 		tempStrMod = math.abs(Variables.m_strMod)
 		if Variables.m_strMod < 0 then
-			monsterRoll = math.random(1,20) + tempStrMod
-			monsterRollLog = "1d20 - "..tempStrMod.." = "..monsterRoll
+			monsterRoll = math.random(1,20)
+			monsterRollLog = "1d20 - "..tempStrMod.." = "..tostring(monsterRoll - tempStrMod)
 		else
-			monsterRoll = math.random(1,20) + Variables.m_strMod
-			monsterRollLog = "1d20 + "..Variables.m_strMod.." = "..monsterRoll
+			monsterRoll = math.random(1,20)
+			monsterRollLog = "1d20 + "..Variables.m_strMod.." = "..tostring(monsterRoll + Variables.m_strMod)
 		end
 		monsterRollText.text = monsterRollLog
 		monsterDRoll = math.random(1,9)
@@ -510,16 +503,6 @@ function scene:show(event)
 			--fightButton:setFillColor(1,0,0)
 		end
 		
-		Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
-        if (Variables.expNeeded <= 0) then
-			tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
-            Variables.experience = Variables.experience - tempEXP
-			--didLevel = 0
-			--Variables[51] = didLevel
-            composer.showOverlay("levelUp", Overoptions)
-            Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
-        end
-		
 		playerNameText.text = Variables.playerName.." (Lvl. "..Variables.p_level..")"
 		playerHealthText.text = Variables.p_hp.." / "..Variables.p_maxhp.." HP"
 		
@@ -533,6 +516,7 @@ function scene:show(event)
 			monsterNameText.text = "??????"
 			monsterHealthText.text = "?? / ?? HP"
 		end
+		print("Updating...")
 		aTimer = timer.performWithDelay(100, Update)
 	end
 	
@@ -558,7 +542,6 @@ function scene:show(event)
 		
 		
 		Variables.experience = Variables.experience + gainedExp
-        Variables.displayedExp =  Variables.displayedExp + gainedExp
 		findZoulds = math.random(1,3)
 		if findZoulds ==3 then
 			zouldsFound = math.floor((1.25 * math.random(2, 5) * Variables.p_level)/2)

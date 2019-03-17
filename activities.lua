@@ -237,17 +237,7 @@ function scene:show(event)
 		-- code runs when scene is entirely on screen
 	end
 	
-	function Update()
-		Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
-        if (Variables.expNeeded <= 0) then
-			tempEXP = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10)
-            Variables.experience = Variables.experience - tempEXP
-			--didLevel = 0
-			--Variables[51] = didLevel
-            composer.showOverlay("levelUp", Overoptions)
-            Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) - Variables.experience
-		end
-		
+	function Update()		
 		if Variables.activityTime == 0 then
 			forageButton:setLabel("FORAGE")
 			fishButton:setLabel("FISH")
@@ -272,7 +262,6 @@ function activityPress(event)
 
 	gainedExp = math.random(1,2) * (Variables.p_surMod)
 	Variables.experience = Variables.experience + gainedExp
-	Variables.displayedExp = Variables.displayedExp + gainedExp
 	displayText = ""
 	local special = math.random(1,10)
 	if event.phase == "ended" and event.target.id == "chop" then
