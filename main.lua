@@ -146,19 +146,19 @@ function checkLevel()
 	timer.performWithDelay(100, checkLevel)
 end
 
--- Monster Lists (Name, Health, Strength, Defense, Exp)
-kobold = {"Kobold", 5, 7, 12, 3}
-goblin = {"Goblin", 7, 8, 15, 4}
-pseudoDragon = {"Pseudodragon", 7, 6, 13, 5}
-imp = {"Imp", 10, 6, 13, 6}
-wolf = {"Wolf", 11, 12, 13, 7}
-skeleton = {"Skeleton", 13, 10, 13, 8}
-fairy = {"Fairy", 15, 4, 15, 2}
-ooze = {"Ooze", 22, 12, 8, 10}
-ghoul = {"Ghoul", 22, 13, 12, 12}
-satyr = {"Satyr", 31, 12, 14, 13}
-hellhound = {"HellHound", 45, 17, 15, 14}
-werewolf = {"Werewolf", 58, 15, 11, 16}
+-- Monster Lists (Name, Health, Strength, Defense, Exp, Damage)
+kobold = {"Kobold", 5, 7, 12, 3, 4}
+goblin = {"Goblin", 7, 8, 15, 4, 6}
+pseudoDragon = {"Pseudodragon", 7, 6, 13, 5, 4}
+imp = {"Imp", 10, 6, 13, 6, 4}
+wolf = {"Wolf", 11, 12, 13, 7, 8}
+skeleton = {"Skeleton", 13, 10, 13, 8, 6}
+fairy = {"Fairy", 15, 4, 15, 2, 4}
+ooze = {"Ooze", 22, 12, 8, 10, 6}
+ghoul = {"Ghoul", 22, 13, 12, 12, 8}
+satyr = {"Satyr", 31, 12, 14, 13, 8}
+hellhound = {"HellHound", 45, 17, 15, 14, 8}
+werewolf = {"Werewolf", 58, 15, 11, 16, 8}
 mimic = {"Mimic", 58, 17, 12, 17}
 undeadKnight = {"Undead Knight", 60, 14, 18, 25}
 windWraith = {"Wind Wraith", 67, 6, 13, 22}
@@ -207,7 +207,7 @@ function reload()
 	seconds = remaining
 	--print(difference)
 	--print(days.."D "..hours.."H "..minutes.."M "..seconds.."S ")
-    monsterFlee = hours + (days * 24)
+    monsterFlee = minutes + (hours * 60) + (days * 24)
 	awayTime = minutes + (hours*60) + (days*24)
 	offlineHealth = minutes + (hours*60) + (days*24) 
 	changeTime = seconds + (minutes * 60) + (hours * 60) + (days * 24)
@@ -266,7 +266,7 @@ function reload()
     if (regainedHP > 0) then
         welcomePopup = welcomePopup.."\nYou regained "..regainedHP.." HP"
     end
-    if (monsterFlee >= 48 and Variables.inFight == 1) then
+    if (monsterFlee >= 30 and Variables.inFight == 1) then
 		--print(Variables.inFight)
         welcomePopup = welcomePopup.."\n"..Variables.monster.." fled after being gone for too long."
         Variables.inFight = 0
