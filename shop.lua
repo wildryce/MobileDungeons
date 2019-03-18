@@ -35,32 +35,32 @@ function scene:create(event)
 	
 -- Shop Variables
 	-- Base Prices
-	hpotionBasePrice 		= 15
-	inspirepotionBasePrice= 150
-	rstoneBasePrice 		= 50
-	woodBasePrice 		= 5
-	stoneBasePrice 		= 5
-	fishBasePrice 		= 5
-	scrapBasePrice 		= 3
-	eggBasePrice 			= 2
+	hpotionBasePrice 			= 15
+	inspirepotionBasePrice		= 150
+	rstoneBasePrice 			= 50
+	woodBasePrice 				= 5
+	stoneBasePrice 				= 5
+	fishBasePrice 				= 5
+	scrapBasePrice 				= 3
+	eggBasePrice 				= 2
 	-- Buy Prices
-	hpotionPrice 			= math.ceil(hpotionBasePrice - ((Variables.p_chaMod/10)*(hpotionBasePrice)))
-	inspirepotionPrice	= math.ceil(inspirepotionBasePrice - ((Variables.p_chaMod/10)*(inspirepotionBasePrice)))
-	rstonePrice			= math.ceil(rstoneBasePrice - ((Variables.p_chaMod/10)*(rstoneBasePrice)))
-	woodPrice				= math.ceil(woodBasePrice - ((Variables.p_chaMod/10)*(woodBasePrice)))
-	stonePrice			= math.ceil(stoneBasePrice - ((Variables.p_chaMod/10)*(stoneBasePrice)))
-	fishPrice				= math.ceil(fishBasePrice - ((Variables.p_chaMod/10)*(fishBasePrice)))
-	scrapPrice			= math.ceil(scrapBasePrice - ((Variables.p_chaMod/10)*(scrapBasePrice)))
-	eggPrice				= math.ceil(eggBasePrice - ((Variables.p_chaMod/10)*(eggBasePrice)))
+	hpotionPrice 				= math.ceil(hpotionBasePrice - ((Variables.p_chaMod/10)*(hpotionBasePrice)))
+	inspirepotionPrice			= math.ceil(inspirepotionBasePrice - ((Variables.p_chaMod/10)*(inspirepotionBasePrice)))
+	rstonePrice					= math.ceil(rstoneBasePrice - ((Variables.p_chaMod/10)*(rstoneBasePrice)))
+	woodPrice					= math.ceil(woodBasePrice - ((Variables.p_chaMod/10)*(woodBasePrice)))
+	stonePrice					= math.ceil(stoneBasePrice - ((Variables.p_chaMod/10)*(stoneBasePrice)))
+	fishPrice					= math.ceil(fishBasePrice - ((Variables.p_chaMod/10)*(fishBasePrice)))
+	scrapPrice					= math.ceil(scrapBasePrice - ((Variables.p_chaMod/10)*(scrapBasePrice)))
+	eggPrice					= math.ceil(eggBasePrice - ((Variables.p_chaMod/10)*(eggBasePrice)))
 	-- Sell prices
-	hpotionSellPrice 		= math.floor((hpotionBasePrice/2)*((Variables.p_chaMod/10)+1))
-	inspirepotionSellPrice= math.floor((inspirepotionBasePrice/2)*((Variables.p_chaMod/10)+1))
-	rstoneSellPrice		= math.floor((rstoneBasePrice/2.5)*((Variables.p_chaMod/10)+1))
-	woodSellPrice			= math.floor((woodBasePrice/5)*((Variables.p_chaMod/10)+1))
-	stoneSellPrice		= math.floor((stoneBasePrice/5)*((Variables.p_chaMod/10)+1))
-	fishSellPrice			= math.floor((fishBasePrice/5)*((Variables.p_chaMod/10)+1))
-	scrapSellPrice		= math.floor((scrapBasePrice/3)*((Variables.p_chaMod/10)+1))
-	eggSellPrice			= math.floor((eggBasePrice/2)*((Variables.p_chaMod/10)+1))
+	hpotionSellPrice 			= math.floor((hpotionBasePrice/2)*((Variables.p_chaMod/10)+1))
+	inspirepotionSellPrice		= math.floor((inspirepotionBasePrice/2)*((Variables.p_chaMod/10)+1))
+	rstoneSellPrice				= math.floor((rstoneBasePrice/2.5)*((Variables.p_chaMod/10)+1))
+	woodSellPrice				= math.floor((woodBasePrice/5)*((Variables.p_chaMod/10)+1))
+	stoneSellPrice				= math.floor((stoneBasePrice/5)*((Variables.p_chaMod/10)+1))
+	fishSellPrice				= math.floor((fishBasePrice/5)*((Variables.p_chaMod/10)+1))
+	scrapSellPrice				= math.floor((scrapBasePrice/3)*((Variables.p_chaMod/10)+1))
+	eggSellPrice				= math.floor((eggBasePrice/2)*((Variables.p_chaMod/10)+1))
 	
 	--[Buttons]
 	leave = widget.newButton({
