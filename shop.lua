@@ -9,6 +9,7 @@ local composer = require("composer")
 local scene = composer.newScene()
 local widget = require("widget")
 
+
 -- create()
 function scene:create(event)
 	local aspectRatio = display.pixelHeight / display.pixelWidth
@@ -31,6 +32,35 @@ function scene:create(event)
 	Overoptions = {
 		isModal = true
     }
+	
+-- Shop Variables
+	-- Base Prices
+	hpotionBasePrice 		= 15
+	inspirepotionBasePrice= 150
+	rstoneBasePrice 		= 50
+	woodBasePrice 		= 5
+	stoneBasePrice 		= 5
+	fishBasePrice 		= 5
+	scrapBasePrice 		= 3
+	eggBasePrice 			= 2
+	-- Buy Prices
+	hpotionPrice 			= math.ceil(hpotionBasePrice - ((Variables.p_chaMod/10)*(hpotionBasePrice)))
+	inspirepotionPrice	= math.ceil(inspirepotionBasePrice - ((Variables.p_chaMod/10)*(inspirepotionBasePrice)))
+	rstonePrice			= math.ceil(rstoneBasePrice - ((Variables.p_chaMod/10)*(rstoneBasePrice)))
+	woodPrice				= math.ceil(woodBasePrice - ((Variables.p_chaMod/10)*(woodBasePrice)))
+	stonePrice			= math.ceil(stoneBasePrice - ((Variables.p_chaMod/10)*(stoneBasePrice)))
+	fishPrice				= math.ceil(fishBasePrice - ((Variables.p_chaMod/10)*(fishBasePrice)))
+	scrapPrice			= math.ceil(scrapBasePrice - ((Variables.p_chaMod/10)*(scrapBasePrice)))
+	eggPrice				= math.ceil(eggBasePrice - ((Variables.p_chaMod/10)*(eggBasePrice)))
+	-- Sell prices
+	hpotionSellPrice 		= math.floor((hpotionBasePrice/2)*((Variables.p_chaMod/10)+1))
+	inspirepotionSellPrice= math.floor((inspirepotionBasePrice/2)*((Variables.p_chaMod/10)+1))
+	rstoneSellPrice		= math.floor((rstoneBasePrice/2.5)*((Variables.p_chaMod/10)+1))
+	woodSellPrice			= math.floor((woodBasePrice/5)*((Variables.p_chaMod/10)+1))
+	stoneSellPrice		= math.floor((stoneBasePrice/5)*((Variables.p_chaMod/10)+1))
+	fishSellPrice			= math.floor((fishBasePrice/5)*((Variables.p_chaMod/10)+1))
+	scrapSellPrice		= math.floor((scrapBasePrice/3)*((Variables.p_chaMod/10)+1))
+	eggSellPrice			= math.floor((eggBasePrice/2)*((Variables.p_chaMod/10)+1))
 	
 	--[Buttons]
 	leave = widget.newButton({
@@ -60,7 +90,6 @@ function scene:create(event)
 	
 	--TextBoxes
 	zouldsText = display.newText(zouldsOptions)
-	
 	--Modifiers
 	zouldsText:setFillColor(0)
 	background:setFillColor(1)
@@ -76,7 +105,7 @@ function scene:create(event)
 	potionCountText:setFillColor(0)
 	local hpotionBuy = widget.newButton({
 	id = "HPOTIONBUY",
-	label = "Buy\n15 Zoulds",
+	label = "Buy\n" .. hpotionPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -90,7 +119,7 @@ function scene:create(event)
 	hpotionBuy.x, hpotionBuy.y = scrollView.width - 105, bX
 	local hpotionSell = widget.newButton({
 	id = "HPOTIONSELL",
-	label = "Sell\n8 Zoulds",
+	label = "Sell\n" .. hpotionSellPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -115,7 +144,7 @@ function scene:create(event)
 	inspireCountText:setFillColor(0)
 	local inspireBuy = widget.newButton({
 	id = "INSPIREBUY",
-	label = "Buy\n150 Zoulds",
+	label = "Buy\n" .. inspirepotionPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -129,7 +158,7 @@ function scene:create(event)
 	inspireBuy.x, inspireBuy.y = scrollView.width - 105, bX
 	local inspireSell = widget.newButton({
 	id = "INSPIRESELL",
-	label = "Sell\n75 Zoulds",
+	label = "Sell\n" .. inspirepotionSellPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -154,7 +183,7 @@ function scene:create(event)
 	reviveCountText:setFillColor(0)
 	local rstoneBuy = widget.newButton({
 	id = "RSTONEBUY",
-	label = "Buy\n50 Zoulds",
+	label = "Buy\n" .. rstonePrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -168,7 +197,7 @@ function scene:create(event)
 	rstoneBuy.x, rstoneBuy.y = scrollView.width - 105, bX
 	local rstoneSell = widget.newButton({
 	id = "RSTONESELL",
-	label = "Sell\n20 Zoulds",
+	label = "Sell\n" .. rstoneSellPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -193,7 +222,7 @@ function scene:create(event)
 	woodCountText:setFillColor(0)
 	local woodBuy = widget.newButton({
 	id = "WOODBUY",
-	label = "Buy\n5 Zoulds",
+	label = "Buy\n" .. woodPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -207,7 +236,7 @@ function scene:create(event)
 	woodBuy.x, woodBuy.y = scrollView.width - 105, bX
 	local woodSell = widget.newButton({
 	id = "WOODSELL",
-	label = "Sell\n1 Zoulds",
+	label = "Sell\n" .. woodSellPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -232,7 +261,7 @@ function scene:create(event)
 	stoneCountText:setFillColor(0)
 	local stoneBuy = widget.newButton({
 	id = "STONEBUY",
-	label = "Buy\n5 Zoulds",
+	label = "Buy\n" .. stonePrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -246,7 +275,7 @@ function scene:create(event)
 	stoneBuy.x, stoneBuy.y = scrollView.width - 105, bX
 	local stoneSell = widget.newButton({
 	id = "STONESELL",
-	label = "Sell\n1 Zoulds",
+	label = "Sell\n" .. stoneSellPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -271,7 +300,7 @@ function scene:create(event)
 	fishCountText:setFillColor(0)
 	local fishBuy = widget.newButton({
 	id = "FISHBUY",
-	label = "Buy\n5 Zoulds",
+	label = "Buy\n" .. fishPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -285,7 +314,7 @@ function scene:create(event)
 	fishBuy.x, fishBuy.y = scrollView.width - 105, bX
 	local fishSell = widget.newButton({
 	id = "FISHSELL",
-	label = "Sell\n1 Zoulds",
+	label = "Sell\n" .. fishSellPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -310,7 +339,7 @@ function scene:create(event)
 	scrapCountText:setFillColor(0)
 	local scrapBuy = widget.newButton({
 	id = "SCRAPBUY",
-	label = "Buy\n3 Zoulds",
+	label = "Buy\n" .. scrapPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -324,7 +353,7 @@ function scene:create(event)
 	scrapBuy.x, scrapBuy.y = scrollView.width - 105, bX
 	local scrapSell = widget.newButton({
 	id = "SCRAPSELL",
-	label = "Sell\n1 Zoulds",
+	label = "Sell\n" .. scrapSellPrice .. " Zoulds",
 	labelColor = {default={0,0,0}, over={0,0,0}},
 	fontSize = 10,
 	shape = "roundedrect",
@@ -442,10 +471,13 @@ end
 
 function buysell(event)
 	bID = event.target.id
+	
+	
+	
 	if event.phase == "ended" then
 		if bID == "HPOTIONBUY" then
-			if Variables.zoulds >= 15 then
-				Variables.zoulds = Variables.zoulds - 15
+			if Variables.zoulds >= hPotionPrice then
+				Variables.zoulds = Variables.zoulds - hpotionPrice
 				Variables.potions = Variables.potions + 1
 			else
 				doOverlay()
@@ -453,13 +485,13 @@ function buysell(event)
 		elseif bID == "HPOTIONSELL" then
 			if Variables.potions > 0 then
 				Variables.potions = Variables.potions - 1
-				Variables.zoulds = Variables.zoulds + 8
+				Variables.zoulds = Variables.zoulds + hpotionSellPrice
 			else
 				doOverlay()
 			end
 		elseif bID == "INSPIREBUY" then
-			if Variables.zoulds >= 150 then
-				Variables.zoulds = Variables.zoulds - 150
+			if Variables.zoulds >= inspirepotionPrice then
+				Variables.zoulds = Variables.zoulds - inspirepotionPrice
 				Variables.inspirePotions = Variables.inspirePotions + 1
 			else
 				doOverlay()
@@ -467,13 +499,13 @@ function buysell(event)
 		elseif bID == "INSPIRESELL" then
 			if Variables.inspirePotions > 0 then
 				Variables.inspirePotions = Variables.inspirePotions - 1
-				Variables.zoulds = Variables.zoulds + 75
+				Variables.zoulds = Variables.zoulds + inspirepotionSellPrice
 			else
 				doOverlay()
 			end
 		elseif bID == "RSTONEBUY" then
-			if Variables.zoulds >= 50 then
-				Variables.zoulds = Variables.zoulds - 50
+			if Variables.zoulds >= rstonePrice then
+				Variables.zoulds = Variables.zoulds - rstonePrice
 				Variables.revivalStone = Variables.revivalStone + 1
 			else
 				doOverlay()
@@ -481,13 +513,13 @@ function buysell(event)
 		elseif bID == "RSTONESELL" then
 			if Variables.revivalStone > 0 then
 				Variables.revivalStone = Variables.revivalStone - 1
-				Variables.zoulds = Variables.zoulds + 20
+				Variables.zoulds = Variables.zoulds + rstoneSellPrice
 			else
 				doOverlay()
 			end
 		elseif bID == "WOODBUY" then
-			if Variables.zoulds >= 5 then
-				Variables.zoulds = Variables.zoulds - 5
+			if Variables.zoulds >= woodPrice then
+				Variables.zoulds = Variables.zoulds - woodPrice
 				Variables.wood = Variables.wood + 1
 			else
 				doOverlay()
@@ -495,13 +527,13 @@ function buysell(event)
 		elseif bID == "WOODSELL" then
 			if Variables.wood > 0 then
 				Variables.wood = Variables.wood - 1
-				Variables.zoulds = Variables.zoulds + 1
+				Variables.zoulds = Variables.zoulds + woodSellPrice
 			else
 				doOverlay()
 			end
 		elseif bID == "STONEBUY" then
-			if Variables.zoulds >= 5 then
-				Variables.zoulds = Variables.zoulds - 5
+			if Variables.zoulds >= stonePrice then
+				Variables.zoulds = Variables.zoulds - stonePrice
 				Variables.stone = Variables.stone + 1
 			else
 				doOverlay()
@@ -509,13 +541,13 @@ function buysell(event)
 		elseif bID == "STONESELL" then
 			if Variables.stone > 0 then
 				Variables.stone = Variables.stone - 1
-				Variables.zoulds = Variables.zoulds + 1
+				Variables.zoulds = Variables.zoulds + stoneSellPrice
 			else
 				doOverlay()
 			end
 		elseif bID == "FISHBUY" then
-			if Variables.zoulds >= 5 then
-				Variables.zoulds = Variables.zoulds - 5
+			if Variables.zoulds >= fishPrice then
+				Variables.zoulds = Variables.zoulds - fishPrice
 				Variables.fish = Variables.fish + 1
 			else
 				doOverlay()
@@ -523,13 +555,13 @@ function buysell(event)
 		elseif bID == "FISHSELL" then
 			if Variables.fish > 0 then
 				Variables.fish = Variables.fish - 1
-				Variables.zoulds = Variables.zoulds + 1
+				Variables.zoulds = Variables.zoulds + fishSellPrice
 			else
 				doOverlay()
 			end
 		elseif bID == "SCRAPBUY" then
-			if Variables.zoulds >= 3 then
-				Variables.zoulds = Variables.zoulds - 3
+			if Variables.zoulds >= scrapPrice then
+				Variables.zoulds = Variables.zoulds - scrapPrice
 				Variables.scrap = Variables.scrap + 1
 			else
 				doOverlay()
@@ -537,13 +569,13 @@ function buysell(event)
 		elseif bID == "SCRAPSELL" then
 			if Variables.scrap > 0 then
 				Variables.scrap = Variables.scrap - 1
-				Variables.zoulds = Variables.zoulds + 1
+				Variables.zoulds = Variables.zoulds + scrapSellPrice
 			else
 				doOverlay()
 			end
 		elseif bID == "EGGBUY" then
-			if Variables.zoulds >= 2 then
-				Variables.zoulds = Variables.zoulds - 2
+			if Variables.zoulds >= eggPrice then
+				Variables.zoulds = Variables.zoulds - eggPrice
 				Variables.birdegg = Variables.birdegg + 1
 			else
 				doOverlay()
@@ -551,7 +583,7 @@ function buysell(event)
 		elseif bID == "EGGSELL" then
 			if Variables.birdegg > 0 then
 				Variables.birdegg = Variables.birdegg - 1
-				Variables.zoulds = Variables.zoulds + 1
+				Variables.zoulds = Variables.zoulds + eggSellPrice
 			else
 				doOverlay()
 			end

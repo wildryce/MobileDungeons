@@ -1,4 +1,5 @@
 -----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 --
 -- dungeon.lua
 --
@@ -200,7 +201,7 @@ function fightButtonTap(event)
 		if Variables.inFight==1 then		--If in fight and Variables.monster is alive
 			fightButton:setEnabled(false)
 			fightButton:setFillColor(0.75)
-			timer.performWithDelay(2000, enableFight)
+			timer.performWithDelay(1000, enableFight)
 			PlayerAttack()
 			MonsterAttack()
 		else						--Check if not in a fight
