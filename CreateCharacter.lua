@@ -29,7 +29,8 @@ local function leaveCreation()
 		Variables.playerName = userName
 		saveGame()
 		composer.removeScene("CreateCharacter")
-		composer.gotoScene("dungeon")
+		composer.gotoScene("dungeon")				--comment this to implement CharacterSelection.lua
+		--composer.gotoScene("CharacterSelection")		--uncomment this to implement CharacterSelection.lua
 	else
 		print("fail")
 		finished = display.newText(uiGroup, "X Invalid Name", 220, 195)
