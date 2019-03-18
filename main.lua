@@ -7,7 +7,6 @@
 local composer = require( "composer" )
 local widget = require("widget")
 local json = require("json")
-local dice = require("diceRoll")
 
 local fonts = native.getFontNames()
 
@@ -36,10 +35,6 @@ versionText:setFillColor(0)
 
 --[ Text ]
 local title = display.newText(uiGroup, "Mobile Dungeons", 115, 48, "Consolas", 27)
-
-	print("Calling function...")
-	dice.testFunction()
-	dice.secondTestFunction()
 
 -- Main game variables
 function checkVars()
@@ -151,28 +146,28 @@ function checkLevel()
 	timer.performWithDelay(100, checkLevel)
 end
 
--- Monster Lists (Name, Health, Strength, Defense, Exp, Damage)
-kobold = {"Kobold", 5, 7, 12, 3, 4}
-goblin = {"Goblin", 7, 8, 15, 4, 6}
-pseudoDragon = {"Pseudodragon", 7, 6, 13, 5, 4}
-imp = {"Imp", 10, 6, 13, 6, 4}
-wolf = {"Wolf", 11, 12, 13, 7, 8}
-skeleton = {"Skeleton", 13, 10, 13, 8, 6}
-fairy = {"Fairy", 15, 4, 15, 2, 4}
-ooze = {"Ooze", 22, 12, 8, 10, 6}
-ghoul = {"Ghoul", 22, 13, 12, 12, 8}
-satyr = {"Satyr", 31, 12, 14, 13, 8}
-hellhound = {"HellHound", 45, 17, 15, 14, 8}
-werewolf = {"Werewolf", 58, 15, 11, 16, 8}
-mimic = {"Mimic", 58, 17, 12, 17}
-undeadKnight = {"Undead Knight", 60, 14, 18, 25}
-windWraith = {"Wind Wraith", 67, 6, 13, 22}
-wanyuudoo = {"Wanyuudoo", 68, 14, 13, 23}
-kappa = {"Kappa", 76, 19, 16, 24}
-couatl = {"Couatl", 97, 16, 19, 29}
-chimera = {"Chimera", 114, 19, 14, 32}
-lich = {"Lich", 135, 11, 17, 45}
-yukiOnna = {"Yuki-Onna", 143, 12, 16, 49}
+-- Monster Lists (Name, Health, Strength, Defense, Exp, DiceCount ,DiceType)
+kobold = {		"name":"Kobold", 		"health":5, "strength":7, 	"defense":12, "exp":3, "diceCount":1, "diceType":4}
+goblin = {		"name":"Goblin", 		"health":7, "strength":8, 	"defense":15, "exp":4, "diceCount":1, "diceType":6}
+pseudoDragon = {"name":"Pseudodragon", 	"health":7, "strength":6, 	"defense":13, "exp":5, "diceCount":1, "diceType":4}
+imp = {			"name":"Imp", 			"health":10, "strength":6, 	"defense":13, "exp":6, "diceCount":1, "diceType":4}
+wolf = {		"name":"Wolf", 			"health":11, "strength":12, "defense":13, "exp":7, "diceCount":2, "diceType":4}
+skeleton = {	"name":"Skeleton", 		"health":13, "strength":10, "defense":13, "exp":8, "diceCount":1, "diceType":6}
+fairy = {		"name":"Fairy", 		"health":15, "strength":4, 	"defense":15, "exp":2, "diceCount":1, "diceType":4}
+ooze = {		"name":"Ooze", 			"health":22, "strength":12, "defense":8, "exp":10, "diceCount":1, "diceType":6}
+ghoul = {		"name":"Ghoul", 		"health":22, "strength":13, "defense":12, "exp":12, "diceCount":2, "diceType":4}
+satyr = {		"name":"Satyr", 		"health":31, "strength":12, "defense":14, "exp":13, "diceCount":2, "diceType":4}
+hellhound = {	"name":"HellHound", 	"health":45, "strength":17, "defense":15, "exp":14, "diceCount":1, "diceType":8}
+werewolf = {	"name":"Werewolf", 		"health":58, "strength":15, "defense":11, "exp":16, "diceCount":1, "diceType":8}
+mimic = {		"name":"Mimic", 		"health":58, "strength":17, "defense":12, "exp":17, "diceCount":2, "diceType":4}
+undeadKnight = {"name":"Undead Knight", "health":60, "strength":14, "defense":18, "exp":25, "diceCount":2, "diceType":6}
+windWraith = {	"name":"Wind Wraith", 	"health":67, "strength":6, 	"defense":13, "exp":22, "diceCount":2, "diceType":8}
+wanyuudou = {	"name":"Wanyuudou", 	"health":68, "strength":14, "defense":13, "exp":23, "diceCount":2, "diceType":8}
+kappa = {		"name":"Kappa", 		"health":76, "strength":19, "defense":16, "exp":24, "diceCount":1, "diceType":8}
+couatl = {		"name":"Couatl", 		"health":97, "strength":16, "defense":19, "exp":29, "diceCount":2, "diceType":6}
+chimera = {		"name":"Chimera", 		"health":114, "strength":19, "defense":14, "exp":32, "diceCount":2, "diceType":6}
+lich = {		"name":"Lich", 			"health":135, "strength":11, "defense":17, "exp":45, "diceCount":3, "diceType":6}
+yukiOnna = {	"name":"Yuki-Onna", 	"health":143, "strength":12, "defense":16, "exp":49, "diceCount":2, "diceType":6}
 
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
 
