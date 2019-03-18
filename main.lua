@@ -7,6 +7,7 @@
 local composer = require( "composer" )
 local widget = require("widget")
 local json = require("json")
+local dice = require("diceRoll")
 
 local fonts = native.getFontNames()
 
@@ -35,6 +36,10 @@ versionText:setFillColor(0)
 
 --[ Text ]
 local title = display.newText(uiGroup, "Mobile Dungeons", 115, 48, "Consolas", 27)
+
+	print("Calling function...")
+	dice.testFunction()
+	dice.secondTestFunction()
 
 -- Main game variables
 function checkVars()
