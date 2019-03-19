@@ -379,6 +379,7 @@ function scene:show(event)
 			Variables.m_str = mList[3]
 			Variables.m_def = mList[4]
 			Variables.monsterBaseExp = mList[5]
+			Variables.diceCount, Variables.diceType = mList[6], mList[7]
 			monsterNameText.text = Variables.monster.." (Lvl. "..Variables.m_level..")"
 			monsterHealthText.text = Variables.m_hp.." / "..Variables.m_maxhp.." HP"
 			monsterAttackLog = ""
@@ -420,7 +421,7 @@ function scene:show(event)
 			monsterRollLog = "1d20 + "..Variables.m_strMod.." = "..tostring(monsterRoll + Variables.m_strMod)
 		end
 		monsterRollText.text = monsterRollLog
-		monsterDRoll = dice.rollDie(1,8)
+		monsterDRoll = dice.rollDie(Variables.diceCount, Variables.diceType)
 		if monsterRoll == 20 then
 			if monsterDRoll + Variables.m_strMod  > 0 then
 				monsterHit = (Variables.m_strMod + monsterDRoll)*2

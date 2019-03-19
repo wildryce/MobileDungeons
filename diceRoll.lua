@@ -18,29 +18,30 @@ return M--]]
 local M = {}
 
 local function rollDie(number,die)
+	--Change this to a while statement??? Saves processesing power and cuts code down.
 	if number == 1 then
 		local rollResult = math.random(1,die)
 		return rollResult
 	elseif number == 2 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die))
+		local rollResult = (math.random(1,die)) + (math.random(1,die))
 		return rollResult
 	elseif number == 3 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
+		local rollResult = (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die))
 		return rollResult
 	elseif number == 4 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
+		local rollResult = (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die))
 		return rollResult
 	elseif number == 5 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
+		local rollResult = (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die))
 		return rollResult
 	elseif number == 6 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
+		local rollResult = (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die))
 		return rollResult
 	elseif number == 7 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
+		local rollResult = (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die))
 		return rollResult
 	elseif number == 8 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
+		local rollResult = (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die))
 		return rollResult
 	end
 end
