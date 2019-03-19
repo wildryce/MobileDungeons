@@ -147,7 +147,7 @@ function checkLevel()
 end
 
 -- Monster Lists (Name, Health, Strength, Defense, Exp, DiceCount ,DiceType)
-kobold = {		"name":"Kobold", 		"health":5, "strength":7, 	"defense":12, "exp":3, "diceCount":1, "diceType":4}
+--[[kobold = {		"name":"Kobold", 		"health":5, "strength":7, 	"defense":12, "exp":3, "diceCount":1, "diceType":4}
 goblin = {		"name":"Goblin", 		"health":7, "strength":8, 	"defense":15, "exp":4, "diceCount":1, "diceType":6}
 pseudoDragon = {"name":"Pseudodragon", 	"health":7, "strength":6, 	"defense":13, "exp":5, "diceCount":1, "diceType":4}
 imp = {			"name":"Imp", 			"health":10, "strength":6, 	"defense":13, "exp":6, "diceCount":1, "diceType":4}
@@ -170,7 +170,7 @@ lich = {		"name":"Lich", 			"health":135, "strength":11, "defense":17, "exp":45,
 yukiOnna = {	"name":"Yuki-Onna", 	"health":143, "strength":12, "defense":16, "exp":49, "diceCount":2, "diceType":6}
 
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
-
+--]]
 function saveGame()
 	Variables.pastTime = os.time()
 	saveTable(Variables, "gamevariables.json")

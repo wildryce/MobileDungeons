@@ -9,6 +9,7 @@
 local composer = require("composer")
 local scene = composer.newScene()
 local widget = require("widget")
+local dice = require("diceRoll")
 
 -- create()
 function scene:create(event)
@@ -412,14 +413,14 @@ function scene:show(event)
 		Variables.m_strMod = math.floor((Variables.m_str-10)/2)
 		tempStrMod = math.abs(Variables.m_strMod)
 		if Variables.m_strMod < 0 then
-			monsterRoll = math.random(1,20)
+			monsterRoll = dice.rollDie(1,20)
 			monsterRollLog = "1d20 - "..tempStrMod.." = "..tostring(monsterRoll - tempStrMod)
 		else
-			monsterRoll = math.random(1,20)
+			monsterRoll = dice.rollDie(1,20)
 			monsterRollLog = "1d20 + "..Variables.m_strMod.." = "..tostring(monsterRoll + Variables.m_strMod)
 		end
 		monsterRollText.text = monsterRollLog
-		monsterDRoll = math.random(1,9)
+		monsterDRoll = dice.rollDie(1,8)
 		if monsterRoll == 20 then
 			if monsterDRoll + Variables.m_strMod  > 0 then
 				monsterHit = (Variables.m_strMod + monsterDRoll)*2

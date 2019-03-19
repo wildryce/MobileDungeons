@@ -25,22 +25,22 @@ local function rollDie(number,die)
 		local rollResult = (math.Random(1,die)) + (math.Random(1,die))
 		return rollResult
 	elseif number == 3 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die)+ (math.Random(1,die))
+		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
 		return rollResult
 	elseif number == 4 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die))
+		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
 		return rollResult
 	elseif number == 5 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die))
+		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
 		return rollResult
 	elseif number == 6 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die))
+		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
 		return rollResult
 	elseif number == 7 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die))
+		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
 		return rollResult
 	elseif number == 8 then
-		local rollResult = (math.Random(1,die)) + (math.Random(1,die+ (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die)+ (math.Random(1,die))
+		local rollResult = (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die)) + (math.Random(1,die))
 		return rollResult
 	end
 end
