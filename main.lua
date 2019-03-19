@@ -145,6 +145,11 @@ function checkLevel()
         composer.showOverlay("levelUp", Overoptions)
         Variables.expNeeded = ((50 * (Variables.p_level^3) + 300 * Variables.p_level + 450) / 10) + ((50 * ((Variables.p_level-1)^3) + 300 * (Variables.p_level-1) + 450) / 10) - Variables.experience
     end
+	
+	Variables.p_strMod = math.floor((Variables.p_str-10)/2)
+	Variables.p_chaMod = math.floor((Variables.p_cha-10)/2)
+	Variables.p_conMod = math.floor((Variables.p_con-10)/2)
+	Variables.p_surMod = math.floor((Variables.p_sur-10)/2)
 	timer.performWithDelay(100, checkLevel)
 end
 
