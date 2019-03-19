@@ -18,8 +18,7 @@ return M--]]
 local M = {}
 
 local function rollDie(number,die)
-	--Change this to a while statement??? Saves processesing power and cuts code down.
-	if number == 1 then
+	--[[if number == 1 then
 		local rollResult = math.random(1,die)
 		return rollResult
 	elseif number == 2 then
@@ -43,7 +42,20 @@ local function rollDie(number,die)
 	elseif number == 8 then
 		local rollResult = (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die)) + (math.random(1,die))
 		return rollResult
+	end--]]
+	local x = 1
+	local rollTotal = 0
+	
+	while( x <= number ) do
+		
+		local rollResult = math.random(1,die)
+		rollTotal = rollTotal + rollResult
+		x = x + 1
+		
 	end
+	
+	return rollTotal
+	
 end
 
 M.rollDie = rollDie

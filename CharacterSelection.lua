@@ -115,7 +115,6 @@ end
 	end
 	
 	function buttonPressed(event)
-		print(stat1used, stat2used, stat3used, stat4used)
 		if event.phase == "ended" and event.target.id == "strength" then
 			if stat1used == false then
 				--composer.removeScene("CharacterSelection")
@@ -131,7 +130,6 @@ end
 			elseif stat4used == false then
 				Variables.p_str = stat4
 				stat4used = true
-				print(p_str, p_cha, p_con, p_sur)
 				composer.removeScene("CharacterSelection")
 				composer.gotoScene("dungeon")
 			end
@@ -150,7 +148,6 @@ end
 			elseif stat4used == false then
 				Variables.p_cha = stat4
 				stat4used = true
-				print(p_str, p_cha, p_con, p_sur)
 				composer.removeScene("CharacterSelection")
 				composer.gotoScene("dungeon")
 			end
@@ -169,7 +166,6 @@ end
 			elseif stat4used == false then
 				Variables.p_con = stat4
 				stat4used = true
-				print(p_str, p_cha, p_con, p_sur)
 				composer.removeScene("CharacterSelection")
 				composer.gotoScene("dungeon")
 			end
@@ -188,7 +184,6 @@ end
 			elseif stat4used == false then
 				Variables.p_sur = stat4
 				stat4used = true
-				print(p_str, p_cha, p_con, p_sur)
 				composer.removeScene("CharacterSelection")
 				composer.gotoScene("dungeon")
 			end
