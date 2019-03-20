@@ -153,7 +153,12 @@ function scene:show(event)
 			levelTitle2.text = "Level Up!"
 		end
 		--if dL == 0 then
-		Variables.p_maxhp = Variables.p_maxhp + (math.random(1,10)+Variables.p_conMod)
+		if Variables.p_conMod <= 0 then 
+			extraHealth = math.random(1,10)
+		else
+			extraHealth = math.random(1,10) + Variables.p_conMod
+		end
+		Variables.p_maxhp = Variables.p_maxhp + extraHealth
 		Variables.p_hp = Variables.p_maxhp
 		--end
 		--dL = 1
@@ -205,7 +210,11 @@ function controlButtons(event)
 			Variables.p_surMod = math.floor((Variables.p_sur-10)/2)
 		end
 		if event.target.id == "Health" then
-			Variables.p_maxhp = Variables.p_maxhp + Variables.p_conMod
+			if Variables.p_conMod <= 0 then
+				Variables.p_maxhp = Variables.p_maxhp + math.random(1,10)
+			else
+				Variables.p_maxhp = Variables.p_maxhp + Variables.p_conMod
+			end
 		end	
 		count = count - 1
 		displayText = "You have levelled up! Every second level you may choose two stats to increase.\nYou have "..count.." points left.\n(Note if you restart app you will lose this.)"

@@ -397,7 +397,11 @@ function scene:show(event)
 			playerHitText.text = playerAttackLog
 			Variables.m_hp = Variables.m_hp - playerHit
 		elseif (playerRoll + Variables.p_strMod) >= Variables.m_def then
-			playerHit = Variables.p_strMod + math.random(1,9)
+			if Variables.p_strMod <= 0 then
+				playerHit = math.random(1,8)
+			else
+				playerHit = Variables.p_strMod + math.random(1,8)
+			end
 			playerAttackLog = "Dealt "..playerHit.." Damage"
 			playerHitText.text = playerAttackLog
 			Variables.m_hp = Variables.m_hp - playerHit

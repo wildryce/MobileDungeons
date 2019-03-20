@@ -259,8 +259,8 @@ end
 
 
 function activityPress(event)
-	print(Variables.p_surMod)
 	gainedExp = math.random(1,2) * (Variables.p_surMod)
+	if gainedExp <= 0 then gainedExp = 1 end
 	Variables.experience = Variables.experience + gainedExp
 	displayText = ""
 	local special = math.random(1,10)
