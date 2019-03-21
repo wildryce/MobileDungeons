@@ -38,56 +38,57 @@ local title = display.newText(uiGroup, "Mobile Dungeons", 115, 48, "Consolas", 2
 
 -- Main game variables
 function checkVars()
-	Variables.firstTimeLoad = 1	--FirstTimeLoad
-	Variables.inFight = 0		--InFight
-	Variables.welcomeEnabled = 1 	--WelcomeEnabled
-	Variables.pastTime = 0 			--Past Time
-	Variables.playerName = ""		--Players Name
-	Variables.p_level = 1 			--Players Level
-	Variables.p_hp = 50 			--Players Current HP
-	Variables.p_maxhp = 50 			--Players Max HP
-	Variables.p_def = 14 			--Players Defense (AC)
-	Variables.p_str=12				--Players Strength
-	Variables.p_cha=12				--Players Charisma
-	Variables.p_con=12				--Players Constitution
-	Variables.p_sur=12				--Players Survival
-	Variables.p_strMod=1			--Players Strength Modifier
-	Variables.p_chaMod=1			--Players Charisma Modifier
-	Variables.p_conMod=1			--Players Constitution Modifier
-	Variables.p_surMod=1			--Players Survival Modifier
-	Variables.zoulds=1000			--Players current Zoulds
-	Variables.potions=5				--Players current Potions
-	Variables.revivalStone=1		--Players current Revival Stones
-	Variables.scrap=0				--Players Scrap count
-	Variables.wood=0				--Players Wood count
-	Variables.fish=0				--Players Fish count
-	Variables.stone=0				--Players Stone count
-	Variables.birdegg=0				--Players Bird Egg count
-	Variables.metal=0				--Players Metal count
-	Variables.rainbowtrout=0		--Players Rainbow Trout count
-	Variables.silvercoin=0			--Players Silver Coin count
-	Variables.monster=''			--Monster Name
-	Variables.m_level=1				--Monsters level
-	Variables.m_hp=10				--Monsters current health
-	Variables.m_maxhp=10			--Monsters max health
-	Variables.m_def=10				--Monsters defense
-	Variables.m_str=10				--Monsters Strength
-	Variables.m_con = 10			--Monsters Constitution
-	Variables.m_strMod=0			--Monsters Strength Modifier
-	Variables.m_conMod=0			--Monsters Constitution Modifier
-	Variables.diceCount=0			--The amount of dice the monster can roll
-	Variables.diceType=0			--The type of dice to be rolled
-	Variables.monsterBaseExp=10		--Base Experience for all monsters Killed
-	Variables.experience=0			--Players current Experience
-	Variables.activityTime=0		--Controller for when Activities are running
-	Variables.monstersKilled=0		--Players monster kill count
-	Variables.expNeeded=0			--How much Experience the player need to level up
-	Variables.forageTime=0			--How much time is left to forage
-	Variables.chopTime=0			--How much time is left to chop
-	Variables.mineTime=0			--How much time is left to mine
-	Variables.fishTime=0			--How much time is left to fish
-	Variables.didLevel=1			--Detects whether player has levelled up or not
-	Variables.inspirePotions=10		--Potions of Inspiration. Grants player a massive XP gain.
+	Variables.activityTime=0				--Controller for when Activities are running
+	Variables.birdegg			=0			--Players Bird Egg count
+	Variables.chopTime			=0			--How much time is left to chop
+	Variables.diceCount			=0			--The amount of dice the monster can roll
+	Variables.diceType			=0			--The type of dice to be rolled
+	Variables.didLevel			=1			--Detects whether player has levelled up or not
+	Variables.experience		=0			--Players current Experience
+	Variables.expNeeded			=0			--How much Experience the player need to level up
+	Variables.fish				=0			--Players Fish count
+	Variables.fishTime			=0			--How much time is left to fish
+	Variables.forageTime		=0			--How much time is left to forage
+	Variables.inFight			=0			--InFight
+	Variables.inspirePotions	=10			--Potions of Inspiration. Grants player a massive XP gain.
+	Variables.m_con				=10			--Monsters Constitution
+	Variables.m_conMod			=0			--Monsters Constitution Modifier
+	Variables.m_def				=10			--Monsters defense
+	Variables.m_hp				=10			--Monsters current health
+	Variables.m_level			=1			--Monsters level
+	Variables.m_maxhp			=10			--Monsters max health
+	Variables.m_str				=10			--Monsters Strength
+	Variables.m_strMod			=0			--Monsters Strength Modifier
+	Variables.metal				=0			--Players Metal count
+	Variables.mineTime			=0			--How much time is left to mine
+	Variables.monster			=''			--Monster Name
+	Variables.monsterBaseExp	=10			--Base Experience for all monsters Killed
+	Variables.monstersKilled	=0			--Players monster kill count
+	Variables.p_cha				=12			--Players Charisma
+	Variables.p_chaMod			=1			--Players Charisma Modifier
+	Variables.p_con				=12			--Players Constitution
+	Variables.p_conMod			=1			--Players Constitution Modifier
+	Variables.p_def				=14 		--Players Defense (AC)
+	Variables.p_hp				=50 		--Players Current HP
+	Variables.p_level			=1 			--Players Level
+	Variables.p_maxhp			=50 		--Players Max HP
+	Variables.p_str				=12			--Players Strength
+	Variables.p_strMod			=1			--Players Strength Modifier
+	Variables.p_sur				=12			--Players Survival
+	Variables.p_surMod			=1			--Players Survival Modifier
+	Variables.pastTime			=0 			--Past Time
+	Variables.playerName		=""			--Players Name
+	Variables.playerRace		=''			--Players Race
+	Variables.potions			=5			--Players current Potions
+	Variables.rainbowtrout		=0			--Players Rainbow Trout count
+	Variables.revivalStone		=1			--Players current Revival Stones
+	Variables.scrap				=0			--Players Scrap count
+	Variables.silvercoin		=0			--Players Silver Coin count
+	Variables.stone				=0			--Players Stone count
+	Variables.welcomeEnabled	=1 			--WelcomeEnabled
+	Variables.wood				=0			--Players Wood count
+	Variables.zoulds			=1000		--Players current Zoulds
+	Variables.firstTimeLoad		=1			--FirstTimeLoad
 	saveTable(Variables, "gamevariables.json")
 end
 
@@ -152,29 +153,36 @@ function checkLevel()
 	Variables.p_surMod = math.floor((Variables.p_sur-10)/2)
 	timer.performWithDelay(100, checkLevel)
 end
+-- Player stat tables (	Name,		str,		con,		cha,		srv)
+orc = {					"Orc",		16,		12,		8,		10}
+elf = {					"Elf",		8,		10,		16,		12}
+human = {				"Human",	10,		8,		12,		16}
+dwarf = {				"Dwarf",	12,		16,		10,		8}
 
--- Monster Lists (Name,		 Health, Strength, Defense, Exp, DiceCount ,DiceType)
-kobold = {		"Kobold", 		5,  	7, 		12, 	3, 		1, 		4}
-goblin = {		"Goblin", 		7,  	8, 		15, 	4, 		1, 		6}
-pseudoDragon = {"Pseudodragon", 7,  	6, 		13, 	5, 		1, 		4}
-imp = {			"Imp", 			10, 	6, 		13, 	6, 		1, 		4}
-wolf = {		"Wolf", 		11, 	12, 	13, 	7, 		2, 		4}
-skeleton = {	"Skeleton", 	13, 	10, 	13, 	8, 		1, 		6}
-fairy = {		"Fairy", 		15, 	4, 		15, 	2, 		1, 		4}
-ooze = {		"Ooze", 		22, 	12, 	8, 		10, 	1, 		6}
-ghoul = {		"Ghoul", 		22, 	13, 	12, 	12, 	2, 		4}
-satyr = {		"Satyr", 		31, 	12, 	14, 	13, 	2, 		4}
-hellhound = {	"HellHound", 	45, 	17, 	15, 	14, 	1, 		8}
-werewolf = {	"Werewolf", 	58, 	15, 	11, 	16, 	1, 		8}
-mimic = {		"Mimic", 		58, 	17, 	12, 	17, 	2, 		4}
-undeadKnight = {"Undead Knight",60, 	14, 	18, 	25, 	2, 		6}
-windWraith = {	"Wind Wraith", 	67, 	6, 		13, 	22, 	2, 		8}
-wanyuudou = {	"Wanyuudou", 	68, 	14, 	13, 	23, 	2, 		8}
-kappa = {		"Kappa", 		76, 	19, 	16, 	24, 	1, 		8}
-couatl = {		"Couatl", 		97, 	16, 	19, 	29, 	2, 		6}
-chimera = {		"Chimera", 		114,	19, 	14, 	32, 	2, 		6}
-lich = {		"Lich", 		135,	11, 	17, 	45, 	3, 		6}
-yukiOnna = {	"Yuki-Onna", 	143,	12, 	16, 	49, 	2, 		6}
+raceList = {human,dwarf,elf,orc}
+
+-- Monster stat tables(Name,		 Health, Strength, Defense, Exp, DiceCount ,DiceType)
+kobold = {			"Kobold", 		5,  	7, 		12, 	3, 		1, 		4}
+goblin = {			"Goblin", 		7,  	8, 		15, 	4, 		1, 		6}
+pseudoDragon = {	"Pseudodragon", 7,  	6, 		13, 	5, 		1, 		4}
+imp = {				"Imp", 			10, 	6, 		13, 	6, 		1, 		4}
+wolf = {			"Wolf", 		11, 	12, 	13, 	7, 		2, 		4}
+skeleton = {		"Skeleton", 	13, 	10, 	13, 	8, 		1, 		6}
+fairy = {			"Fairy", 		15, 	4, 		15, 	2, 		1, 		4}
+ooze = {			"Ooze", 		22, 	12, 	8, 		10, 	1, 		6}
+ghoul = {			"Ghoul", 		22, 	13, 	12, 	12, 	2, 		4}
+satyr = {			"Satyr", 		31, 	12, 	14, 	13, 	2, 		4}
+hellhound = {		"HellHound", 	45, 	17, 	15, 	14, 	1, 		8}
+werewolf = {		"Werewolf", 	58, 	15, 	11, 	16, 	1, 		8}
+mimic = {			"Mimic", 		58, 	17, 	12, 	17, 	2, 		4}
+undeadKnight = {	"Undead Knight",60, 	14, 	18, 	25, 	2, 		6}
+windWraith = {		"Wind Wraith", 	67, 	6, 		13, 	22, 	2, 		8}
+wanyuudou = {		"Wanyuudou", 	68, 	14, 	13, 	23, 	2, 		8}
+kappa = {			"Kappa", 		76, 	19, 	16, 	24, 	1, 		8}
+couatl = {			"Couatl", 		97, 	16, 	19, 	29, 	2, 		6}
+chimera = {			"Chimera", 		114,	19, 	14, 	32, 	2, 		6}
+lich = {			"Lich", 		135,	11, 	17, 	45, 	3, 		6}
+yukiOnna = {		"Yuki-Onna", 	143,	12, 	16, 	49, 	2, 		6}
 
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
 

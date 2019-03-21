@@ -25,22 +25,14 @@ function scene:create(event)
 	title:setFillColor(0)
 	local title1 = display.newText(uiGroup, "Now we need to decide where your strengths lie.", display.contentCenterX, 115, native.systemFontBold, 13)
 	title1:setFillColor(0)
-	local title2 = display.newText(uiGroup, "Please select your attributes from best to worst.", display.contentCenterX, 130, native.systemFontBold, 13)
+	local title2 = display.newText(uiGroup, "Please select your race.", display.contentCenterX, 130, native.systemFontBold, 13)
 	title2:setFillColor(0)
 	finished = display.newText(uiGroup, "", 205, 195)
 	
-	stat1		=16
-	stat2		=12
-	stat3		=10
-	stat4		=8
-	stat1used	=false
-	stat2used	=false
-	stat3used	=false
-	stat4used	=false
-	
-	strbutton = widget.newButton({
-		id = "strength",
-		label = "STRENGTH",
+	--Create a button labelled HUMAN
+	humanButton = widget.newButton({
+		id = "human",
+		label = "HUMAN",
 		shape = "rect",
 		x = display.contentCenterX, 
 		y = 200, 
@@ -51,9 +43,10 @@ function scene:create(event)
 		labelColor = {default={1}},
 		onRelease = buttonPressed
 	})
-	chabutton = widget.newButton({
-		id = "charisma",
-		label = "CHARISMA",
+	--Create a button labelled DWARF
+	dwarfButton = widget.newButton({
+		id = "dwarf",
+		label = "DWARF",
 		shape = "rect",
 		x = display.contentCenterX, 
 		y = 300, 
@@ -64,9 +57,10 @@ function scene:create(event)
 		labelColor = {default={1}},
 		onRelease = buttonPressed
 	})
-	conbutton = widget.newButton({
-		id = "constitution",
-		label = "CONSTITUTION",
+	--Create a button labelled ELF
+	elfButton = widget.newButton({
+		id = "elf",
+		label = "ELF",
 		shape = "rect",
 		x = display.contentCenterX, 
 		y = 400, 
@@ -77,9 +71,10 @@ function scene:create(event)
 		labelColor = {default={1}},
 		onRelease = buttonPressed
 	})
-	srvbutton = widget.newButton({
-		id = "survival",
-		label = "SURVIVAL",
+	--Create a button labelled ORC
+	orcButton = widget.newButton({
+		id = "orc",
+		label = "ORC",
 		shape = "rect",
 		x = display.contentCenterX, 
 		y = 500, 
@@ -91,11 +86,12 @@ function scene:create(event)
 		onRelease = buttonPressed
 	})
 	
+	--Add all elements to sceneGroup
 	sceneGroup:insert(background)
-	sceneGroup:insert(strbutton)
-	sceneGroup:insert(chabutton)
-	sceneGroup:insert(conbutton)
-	sceneGroup:insert(srvbutton)
+	sceneGroup:insert(humanButton)
+	sceneGroup:insert(dwarfButton)
+	sceneGroup:insert(elfButton)
+	sceneGroup:insert(orcButton)
 	sceneGroup:insert(title)
 	sceneGroup:insert(title1)
 	sceneGroup:insert(title2)
@@ -114,80 +110,63 @@ end
 		end
 	end
 	
+	--Calls whenever a button is pressed and figures out which button has been pressed
+	--Stat tables are located in main.lua
 	function buttonPressed(event)
-		if event.phase == "ended" and event.target.id == "strength" then
-			if stat1used == false then
-				--composer.removeScene("CharacterSelection")
-				--composer.gotoScene("dungeon")
-				Variables.p_str = stat1
-				stat1used = true
-			elseif stat2used == false then
-				Variables.p_str = stat2
-				stat2used = true
-			elseif stat3used == false then
-				Variables.p_str = stat3
-				stat3used = true
-			elseif stat4used == false then
-				Variables.p_str = stat4
-				stat4used = true
-				composer.removeScene("CharacterSelection")
-				composer.gotoScene("dungeon")
-			end
-			strbutton:removeSelf()
+		--If the human button has been pressed then set the players stats according to the human stat table.
+		if event.phase == "ended" and event.target.id == "human" then
+
+			local rList = raceList[1]
+			Variables.playerRace = rList[1]
+			Variables.p_str = rList[2]
+			Variables.p_con = rList[3]
+			Variables.p_cha = rList[4]
+			Variables.p_sur = rList[5]
+			--Continues on to the dungeon scene
+			composer.removeScene("CharacterSelection")
+			composer.gotoScene("dungeon")
 		end
-		if event.phase == "ended" and event.target.id == "charisma" then
-			if stat1used == false then
-				Variables.p_cha = stat1
-				stat1used = true
-			elseif stat2used == false then
-				Variables.p_cha = stat2
-				stat2used = true
-			elseif stat3used == false then
-				Variables.p_cha = stat3
-				stat3used = true
-			elseif stat4used == false then
-				Variables.p_cha = stat4
-				stat4used = true
-				composer.removeScene("CharacterSelection")
-				composer.gotoScene("dungeon")
-			end
-			chabutton:removeSelf()
+		--If the dwarf button has been pressed then set the players stats according to the dwarf stat table.
+		if event.phase == "ended" and event.target.id == "dwarf" then
+			
+			local rList = raceList[2]
+			Variables.playerRace = rList[1]
+			Variables.p_str = rList[2]
+			Variables.p_con = rList[3]
+			Variables.p_cha = rList[4]
+			Variables.p_sur = rList[5]
+			--Continues on to the dungeon scene
+			composer.removeScene("CharacterSelection")
+			composer.gotoScene("dungeon")
+
 		end
-		if event.phase == "ended" and event.target.id == "constitution" then
-			if stat1used == false then
-				Variables.p_con = stat1
-				stat1used = true
-			elseif stat2used == false then
-				Variables.p_con = stat2
-				stat2used = true
-			elseif stat3used == false then
-				Variables.p_con = stat3
-				stat3used = true
-			elseif stat4used == false then
-				Variables.p_con = stat4
-				stat4used = true
-				composer.removeScene("CharacterSelection")
-				composer.gotoScene("dungeon")
-			end
-			conbutton:removeSelf()
+		--If the elf button has been pressed then set the players stats according to the elf stat table.
+		if event.phase == "ended" and event.target.id == "elf" then
+			
+			local rList = raceList[3]
+			Variables.playerRace = rList[1]
+			Variables.p_str = rList[2]
+			Variables.p_con = rList[3]
+			Variables.p_cha = rList[4]
+			Variables.p_sur = rList[5]
+			--Continues on to the dungeon scene
+			composer.removeScene("CharacterSelection")
+			composer.gotoScene("dungeon")
+			
 		end
-		if event.phase == "ended" and event.target.id == "survival" then
-			if stat1used == false then
-				Variables.p_sur = stat1
-				stat1used = true
-			elseif stat2used == false then
-				Variables.p_sur = stat2
-				stat2used = true
-			elseif stat3used == false then
-				Variables.p_sur = stat3
-				stat3used = true
-			elseif stat4used == false then
-				Variables.p_sur = stat4
-				stat4used = true
-				composer.removeScene("CharacterSelection")
-				composer.gotoScene("dungeon")
-			end
-			srvbutton:removeSelf()
+		--If the orc button has been pressed then set the players stats according to the orc stat table.
+		if event.phase == "ended" and event.target.id == "orc" then
+			
+			local rList = raceList[4]
+			Variables.playerRace = rList[1]
+			Variables.p_str = rList[2]
+			Variables.p_con = rList[3]
+			Variables.p_cha = rList[4]
+			Variables.p_sur = rList[5]
+			--Continues on to the dungeon scene
+			composer.removeScene("CharacterSelection")
+			composer.gotoScene("dungeon")
+			
 		end
 	end
 	

@@ -62,6 +62,7 @@ function scene:show(event)
 	local phase = event.phase
 	
 	allStats = "Player Name: "..Variables.playerName
+	allStats = allStats.."\nRace: "..Variables.playerRace
 	allStats = allStats.."\nLevel: "..Variables.p_level
 	allStats = allStats.."\nHealth Points: "..Variables.p_maxhp
 	allStats = allStats.."\nStrength: "..Variables.p_str
