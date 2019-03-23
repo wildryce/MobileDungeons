@@ -38,12 +38,13 @@ local title = display.newText(uiGroup, "Mobile Dungeons", 115, 48, "Consolas", 2
 
 -- Main game variables
 function checkVars()
-	Variables.activityTime=0				--Controller for when Activities are running
+	Variables.activityTime		=0			--Controller for when Activities are running
 	Variables.birdegg			=0			--Players Bird Egg count
 	Variables.chopTime			=0			--How much time is left to chop
 	Variables.diceCount			=0			--The amount of dice the monster can roll
 	Variables.diceType			=0			--The type of dice to be rolled
 	Variables.didLevel			=1			--Detects whether player has levelled up or not
+	Variables.equippedArmour	=''			--The armour the player currently has equipped
 	Variables.experience		=0			--Players current Experience
 	Variables.expNeeded			=0			--How much Experience the player need to level up
 	Variables.fish				=0			--Players Fish count
@@ -185,6 +186,19 @@ lich = {			"Lich", 		135,	11, 	17, 	45, 	3, 		6}
 yukiOnna = {		"Yuki-Onna", 	143,	12, 	16, 	49, 	2, 		6}
 
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
+
+-- Armour List(	Type,				Bonus,	Weight)
+padded = {		"Padded", 			1,		"Light"}
+leather = {		"Leather",			2,		"Light"}
+studded = {		"Studded Leather",	3,		"Light"}
+hide = {		"Hide",				4,		"Medium"}
+scale = {		"Scale",			5,		"Medium"}
+chain = {		"Chainmail",		6,		"Medium"}
+splint = {		"Splintmail",		7,		"Heavy"}
+half = {		"Half Plate",		8,		"Heavy"}
+full = {		"Full Plate",		9,		"Heavy"}
+
+armourList = {padded,leather,studded,hide,scale,chain,splint,half,full}
 
 function saveGame()
 	Variables.pastTime = os.time()

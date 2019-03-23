@@ -66,6 +66,7 @@ function scene:show(event)
 	allStats = allStats.."\nLevel: "..Variables.p_level
 	allStats = allStats.."\nHealth Points: "..Variables.p_maxhp
 	allStats = allStats.."\nStrength: "..Variables.p_str
+	allStats = allStats.."\nArmour: "..Variables.equippedArmour
 	allStats = allStats.."\nDefense: "..Variables.p_def
 	allStats = allStats.."\nConstitution: "..Variables.p_con
 	allStats = allStats.."\nCharisma: "..Variables.p_cha

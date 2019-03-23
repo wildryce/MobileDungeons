@@ -122,6 +122,10 @@ end
 			Variables.p_con = rList[3]
 			Variables.p_cha = rList[4]
 			Variables.p_sur = rList[5]
+			--Choose the player's armour (Leather)
+			local aList = armourList[2]
+			Variables.equippedArmour = aList[1]
+			Variables.p_def = (12 + aList[2])
 			--Continues on to the dungeon scene
 			composer.removeScene("CharacterSelection")
 			composer.gotoScene("dungeon")
@@ -135,6 +139,10 @@ end
 			Variables.p_con = rList[3]
 			Variables.p_cha = rList[4]
 			Variables.p_sur = rList[5]
+			--Choose the player's armour (Studded Leather)
+			local aList = armourList[3]
+			Variables.equippedArmour = aList[1]
+			Variables.p_def = (12 + aList[2])
 			--Continues on to the dungeon scene
 			composer.removeScene("CharacterSelection")
 			composer.gotoScene("dungeon")
@@ -149,6 +157,11 @@ end
 			Variables.p_con = rList[3]
 			Variables.p_cha = rList[4]
 			Variables.p_sur = rList[5]
+			--Choose the player's armour (Padded)
+			local aList = armourList[1]
+			Variables.equippedArmour = aList[1]
+			Variables.p_def = (12 + aList[2])
+			
 			--Continues on to the dungeon scene
 			composer.removeScene("CharacterSelection")
 			composer.gotoScene("dungeon")
@@ -163,6 +176,10 @@ end
 			Variables.p_con = rList[3]
 			Variables.p_cha = rList[4]
 			Variables.p_sur = rList[5]
+			--Choose the player's armour (Hide)
+			local aList = armourList[4]
+			Variables.equippedArmour = aList[1]
+			Variables.p_def = (12 + aList[2])
 			--Continues on to the dungeon scene
 			composer.removeScene("CharacterSelection")
 			composer.gotoScene("dungeon")
