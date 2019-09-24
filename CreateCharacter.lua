@@ -25,7 +25,6 @@ local function leaveCreation()
 		return
 	elseif string.match(userName, "%u") or string.match(userName, "%l") or string.match(userName, "%u%l")then
 		print("string.match")
-		Variables.firstTimeLoad = 0
 		Variables.playerName = userName
 		saveGame()
 		composer.removeScene("CreateCharacter")

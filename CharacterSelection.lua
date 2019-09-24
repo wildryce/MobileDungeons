@@ -35,7 +35,7 @@ function scene:create(event)
 		label = "HUMAN",
 		shape = "rect",
 		x = display.contentCenterX, 
-		y = 200, 
+		y = (display.contentCenterY - (gHeight/5)) + 50, 
 		width = gWidth/2.5, 
 		height = 30,
 		fillColor = {default={1,0.5,0,1}, over={1,0.5,0,1}},
@@ -49,7 +49,7 @@ function scene:create(event)
 		label = "DWARF",
 		shape = "rect",
 		x = display.contentCenterX, 
-		y = 300, 
+		y = (display.contentCenterY - (gHeight/15))  + 50, 
 		width = gWidth/2.5, 
 		height = 30,
 		fillColor = {default={1,0.5,0,1}, over={1,0.5,0,1}},
@@ -63,7 +63,7 @@ function scene:create(event)
 		label = "ELF",
 		shape = "rect",
 		x = display.contentCenterX, 
-		y = 400, 
+		y = (display.contentCenterY + (gHeight/15)) + 50, 
 		width = gWidth/2.5, 
 		height = 30,
 		fillColor = {default={1,0.5,0,1}, over={1,0.5,0,1}},
@@ -77,7 +77,7 @@ function scene:create(event)
 		label = "ORC",
 		shape = "rect",
 		x = display.contentCenterX, 
-		y = 500, 
+		y = (display.contentCenterY + (gHeight/5)) + 50, 
 		width = gWidth/2.5, 
 		height = 30,
 		fillColor = {default={1,0.5,0,1}, over={1,0.5,0,1}},
@@ -127,6 +127,7 @@ end
 			Variables.equippedArmour = aList[1]
 			Variables.p_def = (12 + aList[2])
 			--Continues on to the dungeon scene
+			Variables.firstTimeLoad = 0
 			composer.removeScene("CharacterSelection")
 			composer.gotoScene("dungeon")
 		end
@@ -144,6 +145,7 @@ end
 			Variables.equippedArmour = aList[1]
 			Variables.p_def = (12 + aList[2])
 			--Continues on to the dungeon scene
+			Variables.firstTimeLoad = 0
 			composer.removeScene("CharacterSelection")
 			composer.gotoScene("dungeon")
 
@@ -161,8 +163,8 @@ end
 			local aList = armourList[1]
 			Variables.equippedArmour = aList[1]
 			Variables.p_def = (12 + aList[2])
-			
 			--Continues on to the dungeon scene
+			Variables.firstTimeLoad = 0
 			composer.removeScene("CharacterSelection")
 			composer.gotoScene("dungeon")
 			
@@ -181,6 +183,7 @@ end
 			Variables.equippedArmour = aList[1]
 			Variables.p_def = (12 + aList[2])
 			--Continues on to the dungeon scene
+			Variables.firstTimeLoad = 0
 			composer.removeScene("CharacterSelection")
 			composer.gotoScene("dungeon")
 			

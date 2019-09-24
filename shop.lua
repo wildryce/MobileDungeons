@@ -90,373 +90,135 @@ function scene:create(event)
 	
 	--TextBoxes
 	zouldsText = display.newText(zouldsOptions)
+	
+	--Lists
+	itemNames = {"Health Potion", "Inspire Potion", "Revival Stone", "Wood", "Stone", "Fish", "Scrap", "Egg"}
+	items = {Variables.potions, Variables.inspirePotions, Variables.revivalStone, Variables.wood, Variables.stone, Variables.fish, Variables.scrap, Variables.birdegg}
+	itemSprites = {"Sprites/hpotion.png", "Sprites/inspirePotion.png", "Sprites/revivalstone.png", "Sprites/wood.png", "Sprites/stone.png", "Sprites/fish.png", "Sprites/scrap.png", "Sprites/egg.png",}
+	buttonBuyID = {"HPOTIONBUY", "INSPIREBUY", "RSTONEBUY", "WOODBUY", "STONEBUY", "FISHBUY", "SCRAPBUY", "EGGBUY"}
+	buttonSellID = {"HPOTIONSELL", "INSPIRESELL", "RSTONESELL", "WOODSELL", "STONESELL", "FISHSELL", "SCRAPSELL", "EGGSELL"}
+	buttonBuyPrice = {hpotionPrice, inspirepotionPrice, rstonePrice, woodPrice, stonePrice, fishPrice, scrapPrice, eggPrice}
+	buttonSellPrice = {hpotionSellPrice, inspirepotionSellPrice, rstoneSellPrice, woodSellPrice, stoneSellPrice, fishSellPrice, scrapSellPrice, eggSellPrice}
+	
 	--Modifiers
 	zouldsText:setFillColor(0)
 	background:setFillColor(1)
-	bX = 35
-	tX = 25
-	potionBox = display.newRoundedRect(scrollView.width/2+7, bX, scrollView.width-27, 45, 7)
-	potionBox:setFillColor(1,0.75,0, 0.75)
-	potionImg = display.newImageRect("Sprites/hpotion.png", 40, 55)
-	potionImg.x, potionImg.y = 25, bX
-	potionText = display.newText("Health Potion", 100, tX, 100, 14, native.systemFontBold, 12, "left")
-	potionText:setFillColor(0)
-	potionCountText = display.newText("Owned: "..Variables.potions, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
+	xPos = 60
+	yPos = 60
+	btnX = 40
+	btnY = 85
+	textY = 53
+	bX = 25
+
+	--Displays all shop items
+	for i = 1, 8 do
+		if(i % 3 == 1) then
+			xPos = gWidth/6
+			btnX = xPos
+		end
+		if(i % 3 == 2) then
+			xPos = gWidth/2
+			btnX = xPos
+		end
+		if(i % 3 == 0) then
+			xPos = gWidth - (display.contentCenterX/3)
+			btnX = xPos
+		end
+		
+		--Displays gridbox for each item in shop (3 per row)
+		newBox = display.newRoundedRect(xPos, yPos, 80, 80, 7)
+		newBox:setFillColor(1,0.75,0, 0.75)
+		
+		--Displays each shop items sprite
+		newSprite = display.newImageRect(itemSprites[i], 30, 40)
+		newSprite.x, newSprite.y = xPos, bX
+		
+		--Displays each shop items names
+		newItemText = display.newText(itemNames[i], xPos, textY, native.systemFontBold, 10, "center")
+		newItemText:setFillColor(0)
+		
+		--Creates Buy Button for each shop item
+		newBtnBuy = widget.newButton({
+			id = buttonBuyID[i],
+			label = "Buy\n¤ " .. buttonBuyPrice[i],
+			labelColor = {default={0,0,0}, over={0,0,0}},
+			fontSize = 9,
+			shape = "roundedrect",
+			fillColor = {default={0,1,0}, over={0,1,0,0.5}},
+			strokeWidth = 1,
+			strokeColor = {default={0,0,0}, over={0,0,0}},
+			width = 30,
+			height = 20,
+			cornerRadius = 5,
+			onRelease = buysell})
+		newBtnBuy.x, newBtnBuy.y = btnX-20, btnY
+		
+		--Creates Sell Button for each shop item
+		newBtnSell = widget.newButton({
+			id = buttonSellID[i],
+			label = "Sell\n¤ " .. buttonSellPrice[i],
+			labelColor = {default={0,0,0}, over={0,0,0}},
+			fontSize = 9,
+			shape = "roundedrect",
+			fillColor = {default={1,0,0}, over={1,0,0,0.5}},
+			strokeWidth = 1,
+			strokeColor = {default={0,0,0}, over={0,0,0}},
+			width = 30,
+			height = 20,
+			cornerRadius = 5,
+			onRelease = buysell})
+		newBtnSell.x, newBtnSell.y = btnX+20, btnY
+		
+		scrollView:insert(newBox)
+		scrollView:insert(newSprite)
+		scrollView:insert(newItemText)
+		scrollView:insert(newBtnBuy)
+		scrollView:insert(newBtnSell)
+		
+		--Updates Y value of attributes after 3 grid items
+		if(i % 3 == 0) then
+			yPos = yPos + 120
+			btnY = btnY + 120
+			textY = textY + 120
+			bX = bX + 120
+		end
+	end	
+	
+	--Display Objects
+	--R1
+	potionCountText = display.newText("Owned: "..Variables.potions, gWidth/6, 64, native.systemFontBold, 8, "center")
+	inspireCountText = display.newText("Owned: "..Variables.inspirePotions, gWidth/2, 64, native.systemFontBold, 8, "center")
+	reviveCountText = display.newText("Owned: "..Variables.revivalStone, gWidth - (display.contentCenterX/3), 64, native.systemFontBold, 8, "center")
 	potionCountText:setFillColor(0)
-	local hpotionBuy = widget.newButton({
-	id = "HPOTIONBUY",
-	label = "Buy\n" .. hpotionPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={0,1,0}, over={0,1,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	hpotionBuy.x, hpotionBuy.y = scrollView.width - 105, bX
-	local hpotionSell = widget.newButton({
-	id = "HPOTIONSELL",
-	label = "Sell\n" .. hpotionSellPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={1,0,0}, over={1,0,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	hpotionSell.x, hpotionSell.y = scrollView.width - 40, bX
-	bX = bX + 70
-	tX = tX + 70
-	
-	inspireBox = display.newRoundedRect(scrollView.width/2+7, bX, scrollView.width-27, 45, 7)
-	inspireBox:setFillColor(1,0.75,0, 0.75)
-	inspireImg = display.newImageRect("Sprites/inspirePotion.png", 40, 55)
-	inspireImg.x, inspireImg.y = 25, bX
-	inspireText = display.newText("Inpire Potion", 100, tX, 100, 14, native.systemFontBold, 12, "left")
-	inspireText:setFillColor(0)
-	inspireCountText = display.newText("Owned: "..Variables.inspirePotions, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
 	inspireCountText:setFillColor(0)
-	local inspireBuy = widget.newButton({
-	id = "INSPIREBUY",
-	label = "Buy\n" .. inspirepotionPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={0,1,0}, over={0,1,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	inspireBuy.x, inspireBuy.y = scrollView.width - 105, bX
-	local inspireSell = widget.newButton({
-	id = "INSPIRESELL",
-	label = "Sell\n" .. inspirepotionSellPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={1,0,0}, over={1,0,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	inspireSell.x, inspireSell.y = scrollView.width - 40, bX
-	bX = bX + 70
-	tX = tX + 70
-	
-	reviveBox = display.newRoundedRect(scrollView.width/2+7, bX, scrollView.width-27, 45, 7)
-	reviveBox:setFillColor(1,0.75,0, 0.75)
-	reviveImg = display.newImageRect("Sprites/revivalstone.png", 40, 55)
-	reviveImg.x, reviveImg.y = 25, bX
-	reviveText = display.newText("Revival Stone", 100, tX, 100, 14, native.systemFontBold, 12, "left")
-	reviveText:setFillColor(0)
-	reviveCountText = display.newText("Owned: "..Variables.revivalStone, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
 	reviveCountText:setFillColor(0)
-	local rstoneBuy = widget.newButton({
-	id = "RSTONEBUY",
-	label = "Buy\n" .. rstonePrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={0,1,0}, over={0,1,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	rstoneBuy.x, rstoneBuy.y = scrollView.width - 105, bX
-	local rstoneSell = widget.newButton({
-	id = "RSTONESELL",
-	label = "Sell\n" .. rstoneSellPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={1,0,0}, over={1,0,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	rstoneSell.x, rstoneSell.y = scrollView.width - 40, bX
-	bX = bX + 70
-	tX = tX + 70
-	
-	woodBox = display.newRoundedRect(scrollView.width/2+7, bX, scrollView.width-27, 45, 7)
-	woodBox:setFillColor(1,0.75,0, 0.75)
-	woodImg = display.newImageRect("Sprites/wood.png", 40, 55)
-	woodImg.x, woodImg.y = 25, bX
-	woodText = display.newText("Wood", 100, tX, 100, 14, native.systemFontBold, 12, "left")
-	woodText:setFillColor(0)
-	woodCountText = display.newText("Owned: "..Variables.wood, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
+	--R2
+	woodCountText = display.newText("Owned: "..Variables.wood, gWidth/6, 184, native.systemFontBold, 8, "center")
+	stoneCountText = display.newText("Owned: "..Variables.stone, gWidth/2, 184, native.systemFontBold, 8, "center")
+	fishCountText = display.newText("Owned: "..Variables.fish, gWidth - (display.contentCenterX/3), 184, native.systemFontBold, 8, "center")
 	woodCountText:setFillColor(0)
-	local woodBuy = widget.newButton({
-	id = "WOODBUY",
-	label = "Buy\n" .. woodPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={0,1,0}, over={0,1,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	woodBuy.x, woodBuy.y = scrollView.width - 105, bX
-	local woodSell = widget.newButton({
-	id = "WOODSELL",
-	label = "Sell\n" .. woodSellPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={1,0,0}, over={1,0,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	woodSell.x, woodSell.y = scrollView.width - 40, bX
-	bX = bX + 70
-	tX = tX + 70
-	
-	stoneBox = display.newRoundedRect(scrollView.width/2+7, bX, scrollView.width-27, 45, 7)
-	stoneBox:setFillColor(1,0.75,0, 0.75)
-	stoneImg = display.newImageRect("Sprites/stone.png", 40, 55)
-	stoneImg.x, stoneImg.y = 25, bX
-	stoneText = display.newText("Stone", 100, tX, 100, 14, native.systemFontBold, 12, "left")
-	stoneText:setFillColor(0)
-	stoneCountText = display.newText("Owned: "..Variables.stone, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
 	stoneCountText:setFillColor(0)
-	local stoneBuy = widget.newButton({
-	id = "STONEBUY",
-	label = "Buy\n" .. stonePrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={0,1,0}, over={0,1,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	stoneBuy.x, stoneBuy.y = scrollView.width - 105, bX
-	local stoneSell = widget.newButton({
-	id = "STONESELL",
-	label = "Sell\n" .. stoneSellPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={1,0,0}, over={1,0,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	stoneSell.x, stoneSell.y = scrollView.width - 40, bX
-	bX = bX + 70
-	tX = tX + 70
-	
-	fishBox = display.newRoundedRect(scrollView.width/2+7, bX, scrollView.width-27, 45, 7)
-	fishBox:setFillColor(1,0.75,0, 0.75)
-	fishImg = display.newImageRect("Sprites/fish.png", 40, 55)
-	fishImg.x, fishImg.y = 25, bX
-	fishText = display.newText("Fish", 100, tX, 100, 14, native.systemFontBold, 12, "left")
-	fishText:setFillColor(0)
-	fishCountText = display.newText("Owned: "..Variables.fish, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
 	fishCountText:setFillColor(0)
-	local fishBuy = widget.newButton({
-	id = "FISHBUY",
-	label = "Buy\n" .. fishPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={0,1,0}, over={0,1,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	fishBuy.x, fishBuy.y = scrollView.width - 105, bX
-	local fishSell = widget.newButton({
-	id = "FISHSELL",
-	label = "Sell\n" .. fishSellPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={1,0,0}, over={1,0,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	fishSell.x, fishSell.y = scrollView.width - 40, bX
-	bX = bX + 70
-	tX = tX + 70
-	
-	scrapBox = display.newRoundedRect(scrollView.width/2+7, bX, scrollView.width-27, 45, 7)
-	scrapBox:setFillColor(1,0.75,0, 0.75)
-	scrapImg = display.newImageRect("Sprites/scrap.png", 40, 55)
-	scrapImg.x, scrapImg.y = 25, bX
-	scrapText = display.newText("Scrap", 100, tX, 100, 14, native.systemFontBold, 12, "left")
-	scrapText:setFillColor(0)
-	scrapCountText = display.newText("Owned: "..Variables.scrap, 100, tX+20, 100, 14, native.systemFontBold, 10, "left")
+	--R3
+	scrapCountText = display.newText("Owned: "..Variables.scrap, gWidth/6, 304, native.systemFontBold, 8, "center")
+	eggCountText = display.newText("Owned: "..Variables.birdegg, gWidth/2, 304, native.systemFontBold, 8, "center")
 	scrapCountText:setFillColor(0)
-	local scrapBuy = widget.newButton({
-	id = "SCRAPBUY",
-	label = "Buy\n" .. scrapPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={0,1,0}, over={0,1,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	scrapBuy.x, scrapBuy.y = scrollView.width - 105, bX
-	local scrapSell = widget.newButton({
-	id = "SCRAPSELL",
-	label = "Sell\n" .. scrapSellPrice .. " Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={1,0,0}, over={1,0,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	scrapSell.x, scrapSell.y = scrollView.width - 40, bX
-	bX = bX + 70
-	tX = tX + 70
+	eggCountText:setFillColor(0)
 	
-	--[[eggBox = display.newRoundedRect(scrollView.width/2+7, scrapBox.y+70, scrollView.width-27, 45, 7)
-	eggBox:setFillColor(1,0.75,0, 0.75)
-	eggImg = display.newImageRect("Sprites/egg.png", 40, 55)
-	eggImg.x, eggImg.y = 25, scrapImg.y+70
-	eggText = display.newText("Bird Egg", 100, scrapText.y+70, 100, 14, native.systemFontBold, 12, "left")
-	eggText:setFillColor(0)
-	eggCountText = display.newText("Owned: "..Variables.birdegg, 100, scrapCountText.y+70, 100, 14, native.systemFontBold, 10, "left")
-	eggCountText:setFillColor(0)]]
+	--Adds all display count objects to the scrollview
+	scrollView:insert(potionCountText)
+	scrollView:insert(inspireCountText)
+	scrollView:insert(reviveCountText)
+	scrollView:insert(woodCountText)
+	scrollView:insert(stoneCountText)
+	scrollView:insert(fishCountText)
+	scrollView:insert(scrapCountText)
+	scrollView:insert(eggCountText)
 	
-	--[[local eggBuy = widget.newButton({
-	id = "EGGBUY",
-	label = "Buy\n4 Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={0,1,0}, over={0,1,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	eggBuy.x, eggBuy.y = scrollView.width - 105, 455
-	local eggSell = widget.newButton({
-	id = "EGGSELL",
-	label = "Sell\n2 Zoulds",
-	labelColor = {default={0,0,0}, over={0,0,0}},
-	fontSize = 10,
-	shape = "roundedrect",
-	fillColor = {default={1,0,0}, over={1,0,0,0.5}},
-	strokeWidth = 1,
-	strokeColor = {default={0,0,0}, over={0,0,0}},
-	width = 55,
-	height = 30,
-	cornerRadius = 7,
-	onRelease = buysell})
-	eggSell.x, eggSell.y = scrollView.width - 40, 455]]
-	
+	--Adds final attributes to the main scene
 	sceneGroup:insert(background)
 	sceneGroup:insert(leave)
 	sceneGroup:insert(zouldsText)
-	scrollView:insert(potionBox)
-	scrollView:insert(potionImg)
-	scrollView:insert(hpotionBuy)
-	scrollView:insert(hpotionSell)
-	scrollView:insert(potionText)
-	scrollView:insert(potionCountText)
-	scrollView:insert(inspireBox)
-	scrollView:insert(inspireImg)
-	scrollView:insert(inspireBuy)
-	scrollView:insert(inspireSell)
-	scrollView:insert(inspireText)
-	scrollView:insert(inspireCountText)
-	scrollView:insert(reviveBox)
-	scrollView:insert(reviveImg)
-	scrollView:insert(rstoneBuy)
-	scrollView:insert(rstoneSell)
-	scrollView:insert(reviveText)
-	scrollView:insert(reviveCountText)
-	scrollView:insert(woodBox)
-	scrollView:insert(woodImg)
-	scrollView:insert(woodBuy)
-	scrollView:insert(woodSell)
-	scrollView:insert(woodText)
-	scrollView:insert(woodCountText)
-	scrollView:insert(stoneBox)
-	scrollView:insert(stoneImg)
-	scrollView:insert(stoneBuy)
-	scrollView:insert(stoneSell)
-	scrollView:insert(stoneText)
-	scrollView:insert(stoneCountText)
-	scrollView:insert(fishBox)
-	scrollView:insert(fishImg)
-	scrollView:insert(fishBuy)
-	scrollView:insert(fishSell)
-	scrollView:insert(fishText)
-	scrollView:insert(fishCountText)
-	scrollView:insert(scrapBox)
-	scrollView:insert(scrapImg)
-	scrollView:insert(scrapBuy)
-	scrollView:insert(scrapSell)
-	scrollView:insert(scrapText)
-	scrollView:insert(scrapCountText)
-	--[[scrollView:insert(eggBox)
-	scrollView:insert(eggImg)
-	scrollView:insert(eggBuy)
-	scrollView:insert(eggSell)
-	scrollView:insert(eggText)
-	scrollView:insert(eggCountText)]]
 	sceneGroup:insert(scrollView)
 end
 
@@ -472,11 +234,9 @@ end
 function buysell(event)
 	bID = event.target.id
 	
-	
-	
 	if event.phase == "ended" then
 		if bID == "HPOTIONBUY" then
-			if Variables.zoulds >= hPotionPrice then
+			if Variables.zoulds >= hpotionPrice then
 				Variables.zoulds = Variables.zoulds - hpotionPrice
 				Variables.potions = Variables.potions + 1
 			else
@@ -599,7 +359,8 @@ function scene:show(event)
 	local sceneGroup = self.view
 	local phase = event.phase
 	
-	function Update()	
+	function Update()
+		--print(displayedAmount.text)
 		zouldsText.text = "Zoulds: "..Variables.zoulds
 		potionCountText.text = "Owned: "..Variables.potions
 		inspireCountText.text = "Owned: "..Variables.inspirePotions
@@ -608,7 +369,7 @@ function scene:show(event)
 		stoneCountText.text = "Owned: "..Variables.stone
 		scrapCountText.text = "Owned: "..Variables.scrap
 		fishCountText.text = "Owned: "..Variables.fish
-		--eggCountText.text = "Owned: "..Variables.birdegg
+		eggCountText.text = "Owned: "..Variables.birdegg
 	end
 	
 	function doOverlay()

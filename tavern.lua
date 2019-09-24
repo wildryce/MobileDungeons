@@ -146,7 +146,7 @@ function scene:create(event)
 	local innText = display.newText("", display.contentCenterX, display.contentCenterY, native.systemFont, 14)
 	local marketText = display.newText("Visit Traveling Merchants", display.contentCenterX, display.contentCenterY+90, native.systemFont, 14)
 	local bountyText = display.newText("Check the Bounty Board", display.contentCenterX, display.contentCenterY+135, native.systemFont, 14)
-	zouldsText = display.newText("Zoulds: 0", 100, gHeight-50, native.systemFontBold, 14)
+	zouldsText = display.newText("Zoulds: ¤ 0", 100, gHeight-50, native.systemFontBold, 14)
 	marketButton:setFillColor(0.5)
 	bountyButton:setFillColor(0.5)
 	zouldsText:setFillColor(0)
@@ -185,7 +185,7 @@ function scene:show(event)
 	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto screen
-		updateZoulds = "Zoulds: "..Variables.zoulds
+		updateZoulds = "Zoulds: ¤ "..Variables.zoulds
 		zouldsText.text = updateZoulds
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen

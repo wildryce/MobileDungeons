@@ -35,21 +35,7 @@ function scene:create(event)
 		onRelease = leave
 	})
 	heal = widget.newButton({
-		label = "Full Heal (30 Zoulds)",
-		shape = "roundedRect",
-		fillColor = {default={0,0.75,1,1}, over={0,0.75,1,1}},
-		labelColor = {default={1}, over={1}},
-		font = native.systemFont,
-		fontSize = 14,
-		x = display.contentCenterX, 
-		y = display.contentCenterY-30, 
-		width = gWidth/2, 
-		height = 35,
-		cornerRadius = 7,
-		onRelease = innHeal
-	})
-	revive = widget.newButton({
-		label = "Revive (75 Zoulds)",
+		label = "Full Heal (¤ 30)",
 		shape = "roundedRect",
 		fillColor = {default={0,0.75,1,1}, over={0,0.75,1,1}},
 		labelColor = {default={1}, over={1}},
@@ -60,6 +46,20 @@ function scene:create(event)
 		width = gWidth/2, 
 		height = 35,
 		cornerRadius = 7,
+		onRelease = innHeal
+	})
+	revive = widget.newButton({
+		label = "Revive (¤ 75)",
+		shape = "roundedRect",
+		fillColor = {default={0,0.75,1,1}, over={0,0.75,1,1}},
+		labelColor = {default={1}, over={1}},
+		font = native.systemFont,
+		fontSize = 14,
+		x = display.contentCenterX, 
+		y = display.contentCenterY+90, 
+		width = gWidth/2, 
+		height = 35,
+		cornerRadius = 7,
 		align = "center",
 		onRelease = innRevive
 	})
@@ -67,7 +67,7 @@ function scene:create(event)
 	local healOptions = {
 		text = "", 
 		x = display.contentCenterX, 
-		y = display.contentCenterY+100, 
+		y = display.contentCenterY+140, 
 		width = gWidth-20, 
 		height = 40, 
 		font = native.systemFont, 
@@ -77,7 +77,7 @@ function scene:create(event)
 	
 	--TextBoxes
 	titleText = "You can sleep here to recover your health at a cost of 30 Zoulds or you can revive for the cost of 75 Zoulds if you have been knocked out.\n\nIf you are in battle however, it will be lost!"
-	innTitle = display.newText(titleText, display.contentCenterX, 140, gWidth - 20, 120, native.systemFontItalic, 16)
+	innTitle = display.newText(titleText, display.contentCenterX, 160, gWidth - 20, 140, native.systemFontItalic, 16)
 	healLog = display.newText(healOptions)
 	zouldsText = display.newText("Zoulds: "..Variables.zoulds, 100, gHeight-80, native.systemFontBold, 14)
 	zouldsText:setFillColor(0)

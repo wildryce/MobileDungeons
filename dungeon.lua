@@ -110,7 +110,7 @@ function scene:create(event)
 		fillColor = {default={1,0.5,0}, over={1,0.5,0}},
 		onRelease = healButtonTap
 	})	
-	levelTestButton = widget.newButton({
+	--[[levelTestButton = widget.newButton({
 		label = "Level Up",
 		shape = "rect",
 		font = native.systemFontBold,
@@ -122,7 +122,7 @@ function scene:create(event)
 		height = 30,
 		fillColor = {default={1,0,1}, over={1,0,1}},
 		onRelease = loadLevelUp
-	})
+	})]]
 	fleeButton = widget.newButton({
 		label = "FLEE",
 		shape = "rect",
@@ -186,7 +186,7 @@ function scene:create(event)
 	sceneGroup:insert(monsterHealthText)
 	sceneGroup:insert(monsterRollText)
 	sceneGroup:insert(monsterLog)
-	sceneGroup:insert(levelTestButton)
+	--sceneGroup:insert(levelTestButton)
 end
 
 -- [[ Scene Switch Event]]
