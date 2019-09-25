@@ -1,31 +1,32 @@
-V.0.1.1 - Graphics UI Hotfix
+V.0.1.1 Handlers Push Notes
 
-Sprites Folder
-+ Added settings.png for settings menu button (when implemented)
-
-CHARACTERSELECTION.LUA
-- Updated how the races buttons are displayed based on different screen ratios and sizes.
-- Added FirstTimeLoad to selection to update that the player is done their character (user coud enter name, reset app and not have a race selected)
-
-CREATECHARACTER.LUA
-- Removed FirstTimeLoad updater variable to fix skipping of race selection
+ACTIVITIES.LUA
+- Removed any instances of the expNeeded calculation handlers.
+- Removed any instances of the variable 'displayedExp'.
 
 DUNGEON.LUA
-- Disabled the levelTestButton (auto level-up button)
+- Made levelTestButton visible and functional for testing purposes. Updated how the buttons functionality works to better test.
+- Removed any instances of the expNeeded calculation handlers.
+- Removed any instances of the variable 'displayedExp'.
 
-INN.LUA
-- Changed zoulds currency symbol, updated buttons text to utilize it.
-- Changed how buttons and heal log are displayed based on different screen ratios and sizes.
-- Fixed title text to better display on different screen ratios, as it would cut off and merge into different objects.
+INVENTORY.LUA
+- Removed any instances of the variable 'displayedExp'.
+- Removed the Update() function that handled the expNeeded calculation.
+
+LEVELUP.LUA
+- Hardcoded button and text locations to handle overlapping better. There should no longer be an issue where the text every 4th level feeds under the buttons.
+- Removed player level increase handler in the script.
+- Removed unused variable 'isOn' as it broke how the functions fired.
+- Removed some function calls that caused overlaps that fed over to next overlay show.
+- Changed how buttons and text are displayed on load slightly.
+- Removed a lot of unnecessary code located in the doOverlay() function.
 
 MAIN.LUA
-- Set players starting zoulds to 20
-- Removed player starting with inspiration potions
+- Removed unused variables (loop, displayedExp)
+- Gave 10 inspire potions and 1000 zoulds on first time load of game for testing purposes.
+- Moved expNeeded calculation handler here. Modified the way the calculation is handled. Exists in the checkLevel() function
 
-SHOP.LUA
-- Completed grid layout of shop items.
-- Fixed Item count owned display updating issue
-- Implemented zoulds currency symbol
+STATS.LUA
+- Removed any instances of the expNeeded calculation handlers.
+- Removed any instances of the variable 'displayedExp'. Replaced with the variable 'experience'.
 
-TAVERN.LUA
-- Implemented zoulds currency symbol

@@ -36,6 +36,33 @@ versionText:setFillColor(0)
 --[ Text ]
 local title = display.newText(uiGroup, "Mobile Dungeons", 115, 48, "Consolas", 27)
 
+--[ Button ]
+-- Function to handle button events
+local function handleButtonEvent( event )
+ 
+    if ( "ended" == event.phase ) then
+        composer.showOverlay("settings", Overoptions)
+    end
+end
+ 
+local button1 = widget.newButton(
+    {
+        width = 50,
+        height = 50,
+        defaultFile = "Sprites/settings.png",
+        overFile = "Sprites/settings.png",
+        label = "button",
+        onEvent = handleButtonEvent
+    }
+)
+ 
+-- Center the button
+button1.x = width - 35
+button1.y = 35
+ 
+-- Change the button's label text
+button1:setLabel( "" )
+
 -- Main game variables
 function checkVars()
 	Variables.activityTime		= 0			--Controller for when Activities are running
@@ -86,7 +113,7 @@ function checkVars()
 	Variables.scrap				= 0			--Players Scrap count
 	Variables.silvercoin		= 0			--Players Silver Coin count
 	Variables.stone				= 0			--Players Stone count
-	Variables.welcomeEnabled	= 1 		--WelcomeEnabled
+	Variables.welcomeEnabled	= true	 	--WelcomeEnabled
 	Variables.wood				= 0			--Players Wood count
 	Variables.zoulds			= 20		--Players current Zoulds
 	Variables.firstTimeLoad		= 1			--FirstTimeLoad
@@ -212,7 +239,7 @@ local function onSystemEvent( event )
 	end
 	if event.type == "applicationResume" then
 		reload()
-		if difference > 250 then
+		if difference > 250 and Variables.welcomeEnabled == true then
 		composer.showOverlay("backToGame", createoptions)
 	end
 	end
@@ -319,7 +346,7 @@ if Variables.firstTimeLoad == 0 then
 	reload()
 	composer.gotoScene("dungeon")
 	composer.loadScene("tavern")
-	if difference > 250 then
+	if difference > 250 and Variables.welcomeEnabled == true then
 		composer.showOverlay("backToGame", createoptions)
 	end
 	composer.loadScene("activities")
