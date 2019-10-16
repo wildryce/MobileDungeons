@@ -39,16 +39,20 @@ local title = display.newText(uiGroup, "Mobile Dungeons", 115, 48, "Consolas", 2
 --[ Button ]
 -- Function to handle button events
 local function handleButtonEvent( event )
- 
+	local string currScene = composer.getSceneName("current")
     if ( "ended" == event.phase ) then
-        composer.showOverlay("settings", Overoptions)
+		if (currScene == "CharacterSelection" or currScene == "CreateCharacter") then
+			print("cannot open settings at this time")
+		else
+			composer.showOverlay("settings", Overoptions)
+		end
     end
 end
  
 local button1 = widget.newButton(
     {
-        width = 50,
-        height = 50,
+        width = 30,
+        height = 30,
         defaultFile = "Sprites/settings.png",
         overFile = "Sprites/settings.png",
         label = "button",
@@ -57,8 +61,8 @@ local button1 = widget.newButton(
 )
  
 -- Center the button
-button1.x = width - 35
-button1.y = 35
+button1.x = width - 20
+button1.y = 45
  
 -- Change the button's label text
 button1:setLabel( "" )
@@ -243,7 +247,6 @@ local function onSystemEvent( event )
 		composer.showOverlay("backToGame", createoptions)
 	end
 	end
-    print( "System event name and type: " .. event.name, event.type )
 end
   
 Runtime:addEventListener( "system", onSystemEvent )

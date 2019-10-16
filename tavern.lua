@@ -126,21 +126,6 @@ function scene:create(event)
 	cornerRadius = 7,
 	onRelease = swapScene})
 	
-	local clearSaveButton = widget.newButton({
-	id = "delete",
-	shape = "roundedrect",
-	label = "Delete Save",
-	fillColor = {default={1,0,0}, over={1,0,0}},
-	labelColor = {default={1}, over={1}},
-	x = gWidth - 30,
-	y = gHeight - 10, 
-	width = 60, 
-	height = 20, 
-	font = native.systemFontBold,
-	fontSize = 10,
-	cornerRadius = 4,
-	onRelease = swapScene})
-	
 	local marketButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+90, gWidth/1.5, 30, 7)
 	local bountyButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+135, gWidth/1.5, 30, 7)
 	local innText = display.newText("", display.contentCenterX, display.contentCenterY, native.systemFont, 14)
@@ -164,16 +149,11 @@ function scene:create(event)
 	sceneGroup:insert(marketText)
 	sceneGroup:insert(bountyText)
 	sceneGroup:insert(zouldsText)
-	sceneGroup:insert(clearSaveButton)
 end
 
 -- [[ Scene Switch Event]]
 function swapScene(event)
-	if event.phase == "ended" and event.target.id == "delete" then
-		filePath = system.pathForFile( "gamevariables.json", system.DocumentsDirectory )
-		os.remove(filePath)
-		os.exit()
-	elseif event.phase == "ended" then
+	if event.phase == "ended" then
 		composer.gotoScene(event.target.id)
 	end
 end
