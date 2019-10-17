@@ -1,20 +1,20 @@
-V.0.1.1 Handlers Push Notes
+V.0.1.2 Bounties Implementation
 
-CREATECHARACTER.LUA
- - Removed some print statements that served no more purpose (original purpose was for debugging)
+BOUNTIES.LUA
++ Added bounties.lua which adds the new bounty hunting mechanic. Currently in testing phases but seems to be in working order.
++ Every hour if a previous bounty was not completed, it will be overwritten by a new bounty.
++ If a player finishes a bounty a new one will generate after 30 seconds (if player closes and reopens the app it will be instantaneous generation in a sense, purposeful for the most part)
++ Players are rewarded zoulds for completing the bounties
++ Range of monsters to defeat are from 1-10
+
+DUNGEON.LUA
++ Added handler for successful hunt of a bounty monster.
++ Added loadScene statement for bounties to resume countdown on game open
 
 MAIN.LUA
- + Added handler for settings button so it cannot be opened up on the character creation screens
- + Modified size of the settings button to make it smaller. Modified positioning to account for this change.
- - Removed debugging print statement(s)
-
-SETTINGS.LUA
- + Added confirmDelete variable (as int currently) as a two step handler to catch accidental press of the button
- + Added popup to let users know they pressed the delete save button and to press again if they want to confirm deletion
- - Removed old statements that had no use (were commented out, as well as old debugging statements)
- + Modified some spacing of code
- + Added the delete save button and function.
- + Modified the deleteSave function to handle confirmation of deletion of save. User has to press it twice to confirm deletion (resets counter on close and reopen of settings overlay
++ Added CONTINUEUPDATE global variablefor bounties.lua. This is used to start the countdown timer update function (Issues arose with the timer not running or exponentially getting faster each time navigation to the page happened)
++ Added all necessary variables for Bounties implementation
++ Removed defunct code
 
 TAVERN.LUA
- - Removed clear save button and function (moved to settings.lua)
++ Added Bounty Button functionality to navigate to the bounty board

@@ -474,6 +474,11 @@ function scene:show(event)
 
 		if Variables.m_hp <= 0 and Variables.monster ~= "" and Variables.monster ~= nil and Variables.p_hp > 0 then
 			Variables.monstersKilled = Variables.monstersKilled + 1
+			
+			if Variables.monster == Variables.currentBounty then
+				Variables.bountyCount = Variables.bountyCount + 1
+			end
+			
 			if monsterAttackLog == nil then monsterAttackLog = "" end
 			monsterAttackLog = monsterAttackLog.."\n"..Variables.monster.." has been slain.\n"
 			monsterLog.text = monsterAttackLog
@@ -574,8 +579,10 @@ function scene:show(event)
 	
 	if (phase == "will") then
 		-- code runs when scene is off screen about to come onto 
+		
 	elseif (phase == "did") then
 		-- code runs when scene is entirely on screen
+		composer.loadScene("bounties")
 	end
 end
 

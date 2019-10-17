@@ -23,7 +23,7 @@ local uiGroup = display.newGroup()
 --Create Game Variables
 Variables = {}
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
-
+CONTINUEUPDATE = false
 --[ Rectangles ]
 --Display
 local r1 = display.newRect(uiGroup, display.contentCenterX, 0, display.pixelWidth, 150)
@@ -66,6 +66,7 @@ button1.y = 45
  
 -- Change the button's label text
 button1:setLabel( "" )
+
 
 -- Main game variables
 function checkVars()
@@ -121,6 +122,12 @@ function checkVars()
 	Variables.wood				= 0			--Players Wood count
 	Variables.zoulds			= 20		--Players current Zoulds
 	Variables.firstTimeLoad		= 1			--FirstTimeLoad
+	Variables.currentBounty		= ""		--Players current bounty monster
+	Variables.bountyCount		= 0			--The players bounty count
+	Variables.bountyMax			= 0			--The bounties current requirement count
+	Variables.isBounty			= false		--Bounty currently active or not
+	Variables.bountyMinutes		= 0			--Bounties minutes left
+	Variables.bountySeconds		= 0			--Bounties seconds left
 	saveTable(Variables, "gamevariables.json")
 end
 
@@ -254,8 +261,7 @@ Runtime:addEventListener( "system", onSystemEvent )
 function reload()
 	-- Seed the random number generator
 	math.randomseed( os.time() )
-	--a - math.floor(a/b)*b
-	--print(Variables.pastTime.."       "..os.time())
+
 	difference = os.difftime(os.time(), Variables.pastTime)
 	days = math.floor(difference/86400)
 	local remaining = difference % 86400
@@ -264,8 +270,6 @@ function reload()
 	minutes = math.floor(remaining/60)
 	remaining = remaining % 60
 	seconds = remaining
-	--print(difference)
-	--print(days.."D "..hours.."H "..minutes.."M "..seconds.."S ")
     monsterFlee = minutes + (hours * 60) + (days * 24)
 	awayTime = minutes + (hours*60) + (days*24)
 	offlineHealth = minutes + (hours*60) + (days*24) 
@@ -281,7 +285,7 @@ function reload()
             Variables.p_hp = Variables.p_maxhp
         end
     end
-    
+	
 	Variables.forageTime = Variables.forageTime - changeTime
     if (Variables.forageTime < 0) then
         Variables.forageTime = 0
@@ -303,12 +307,6 @@ function reload()
 		Variables.activityTime = 0
 	end 
 
-        --[[if (welcomeEnabled and (awayTime >= 30 or regainedHP > 0)) then
-            welcomeBack.enabled = true
-        else
-            welcomeBack.enabled = false
-        end]]
-		
     welcomePopup = "You have been away for "
     if (days > 0) then
         welcomePopup = welcomePopup..days.." days "
@@ -348,7 +346,8 @@ if Variables.firstTimeLoad == 0 then
 -- Dungeon Scene
 	reload()
 	composer.gotoScene("dungeon")
-	composer.loadScene("tavern")
+	composer.loadScene("tavern")	
+	composer.loadScene("bounties")
 	if difference > 250 and Variables.welcomeEnabled == true then
 		composer.showOverlay("backToGame", createoptions)
 	end

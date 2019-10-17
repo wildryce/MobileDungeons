@@ -126,14 +126,26 @@ function scene:create(event)
 	cornerRadius = 7,
 	onRelease = swapScene})
 	
+	local bountyButton = widget.newButton({
+	id = "bounties",
+	shape = "roundedrect",
+	label = "Check the Bounty Board",
+	fillColor = {default={0,0.75,1,1}, over={0,0.75,1,1}},
+	labelColor = {default={1}, over={1}},
+	x = display.contentCenterX, 
+	y = display.contentCenterY+135, 
+	width = gWidth/1.5, 
+	height = 30, 
+	font = native.systemFont,
+	fontSize = 14,
+	cornerRadius = 7,
+	onRelease = swapScene})
+	
 	local marketButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+90, gWidth/1.5, 30, 7)
-	local bountyButton = display.newRoundedRect(display.contentCenterX, display.contentCenterY+135, gWidth/1.5, 30, 7)
 	local innText = display.newText("", display.contentCenterX, display.contentCenterY, native.systemFont, 14)
 	local marketText = display.newText("Visit Traveling Merchants", display.contentCenterX, display.contentCenterY+90, native.systemFont, 14)
-	local bountyText = display.newText("Check the Bounty Board", display.contentCenterX, display.contentCenterY+135, native.systemFont, 14)
 	zouldsText = display.newText("Zoulds: ¤ 0", 100, gHeight-50, native.systemFontBold, 14)
 	marketButton:setFillColor(0.5)
-	bountyButton:setFillColor(0.5)
 	zouldsText:setFillColor(0)
 	
 	sceneGroup:insert(background)
@@ -147,7 +159,6 @@ function scene:create(event)
 	sceneGroup:insert(marketButton)
 	sceneGroup:insert(bountyButton)
 	sceneGroup:insert(marketText)
-	sceneGroup:insert(bountyText)
 	sceneGroup:insert(zouldsText)
 end
 
