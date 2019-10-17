@@ -173,7 +173,7 @@ function scene:show(event)
 		if Variables.bountySeconds < 10 then
 			timeLeft.text = timeLeft.text .. "0" .. Variables.bountySeconds
 			if Variables.bountySeconds < 0 then
-				timeLeft.text = timeLeft .. "00"
+				timeLeft.text = timeLeft.text .. "00"
 			end
 		else
 			timeLeft.text = timeLeft.text .. Variables.bountySeconds

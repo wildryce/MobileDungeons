@@ -24,6 +24,7 @@ local uiGroup = display.newGroup()
 Variables = {}
 monsterList = {kobold,goblin,pseudoDragon,imp,wolf,skeleton,fairy,ooze,ghoul,satyr,hellhound,werewolf,mimic,undeadKnight,windWraith,wanyuudoo,kappa,couatl,chimera,lich,yukiOnna}
 CONTINUEUPDATE = false
+
 --[ Rectangles ]
 --Display
 local r1 = display.newRect(uiGroup, display.contentCenterX, 0, display.pixelWidth, 150)
@@ -286,6 +287,9 @@ function reload()
         end
     end
 	
+	Variables.bountyMinutes = Variables.bountyMinutes - awayTime
+	Variables.bountySeconds = Variables.bountySeconds - changeTime
+	
 	Variables.forageTime = Variables.forageTime - changeTime
     if (Variables.forageTime < 0) then
         Variables.forageTime = 0
@@ -348,6 +352,7 @@ if Variables.firstTimeLoad == 0 then
 	composer.gotoScene("dungeon")
 	composer.loadScene("tavern")	
 	composer.loadScene("bounties")
+	COUNTINUEUPDATE = false
 	if difference > 250 and Variables.welcomeEnabled == true then
 		composer.showOverlay("backToGame", createoptions)
 	end
