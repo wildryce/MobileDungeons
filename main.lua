@@ -287,7 +287,21 @@ function reload()
         end
     end
 	
-	Variables.bountyMinutes = Variables.bountyMinutes - awayTime
+	if (changeTime > Variables.bountySeconds) then
+		if (changeTime > 60) then
+		print("changeTime = " .. changeTime)
+		testCount = 0 
+		testTime = changeTime
+			while (testTime >= 60) do
+				testCount = testCount + 1
+				testTime = testTime - 60
+				print(testCount .. "is the test Count")
+			end
+			Variables.bountyMinutes = Variables.bountyMinutes - testCount
+			print("testTime = " .. testTime)
+		end
+	end
+	
 	Variables.bountySeconds = Variables.bountySeconds - changeTime
 	
 	Variables.forageTime = Variables.forageTime - changeTime
