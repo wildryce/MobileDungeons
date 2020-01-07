@@ -256,14 +256,15 @@ function scene:show(event)
 	end
 end
 
-
-
 function activityPress(event)
 	gainedExp = math.random(1,2) * (Variables.p_surMod)
+	
 	if gainedExp <= 0 then gainedExp = 1 end
 	Variables.experience = Variables.experience + gainedExp
 	displayText = ""
+	
 	local special = math.random(1,10)
+	
 	if event.phase == "ended" and event.target.id == "chop" then
 		Variables.chopTime = 30
 		Variables.activityTime = 1
@@ -279,18 +280,22 @@ function activityPress(event)
 			
 		end
 	end
+	
 	if event.phase == "ended" and event.target.id == "forage" then
 		Variables.forageTime = 30
 		Variables.activityTime = 1
 		enable()
 		tempscrap = (math.random(1,3) + (Variables.p_surMod))
+		
 		if Variables.scrap == nil then
 			Variables.scrap = tempscrap
 		else
 			Variables.scrap = Variables.scrap + tempscrap
 		end
+		
 		displayText = "Scrap (+"..tempscrap.."), "
 		isZoulds = math.random(10)
+		
 		if isZoulds >= 9 then
 			tempZoulds = math.random(5)
 			if Variables.zoulds == nil then
@@ -301,11 +306,13 @@ function activityPress(event)
 			displayText = displayText.."Zoulds (+"..tempZoulds.."), "
 		end
 	end
+	
 	if event.phase == "ended" and event.target.id == "mine" then
 		Variables.mineTime = 30
 		Variables.activityTime = 1
 		enable()
 		tempstone = (math.random(1,3) + (Variables.p_surMod))
+		
 		if Variables.stone == 0 then
 			Variables.stone = tempstone
 		else
@@ -313,11 +320,13 @@ function activityPress(event)
 		end
 		displayText = "Stone (+"..tempstone.."), "
 	end
+	
 	if event.phase == "ended" and event.target.id == "fish" then
 		Variables.fishTime = 30
 		Variables.activityTime = 1		
 		enable()
 		tempfish = (math.random(1,3) + (Variables.p_surMod))
+		
 		if Variables.fish == nil then
 			Variables.fish = tempfish
 		else
@@ -325,10 +334,12 @@ function activityPress(event)
 		end
 		displayText = "Fish (+"..tempfish.."), "
 	end
+	
 	displayText = displayText.."Experience (+"..gainedExp..")."
 	Update()
 	table.insert(t, displayText)
 	itemCount = math.floor(itemLog.height/16)
+	
 	if table.maxn(t) > itemCount then
 		table.remove(t, 1)
 	end

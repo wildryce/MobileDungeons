@@ -10,7 +10,7 @@ local json = require("json")
 
 local fonts = native.getFontNames()
 
-local version = 'Alpha v.0.1.1'
+local version = 'Alpha v.0.1.2'
 
 --Dimensions
 local aspectRatio = display.pixelHeight / display.pixelWidth
@@ -127,7 +127,6 @@ function checkVars()
 	Variables.bountyCount		= 0			--The players bounty count
 	Variables.bountyMax			= 0			--The bounties current requirement count
 	Variables.isBounty			= false		--Bounty currently active or not
-	Variables.bountyMinutes		= 0			--Bounties minutes left
 	Variables.bountySeconds		= 0			--Bounties seconds left
 	saveTable(Variables, "gamevariables.json")
 end
@@ -288,21 +287,10 @@ function reload()
     end
 	
 	if (changeTime > Variables.bountySeconds) then
-		if (changeTime > 60) then
-		print("changeTime = " .. changeTime)
-		testCount = 0 
-		testTime = changeTime
-			while (testTime >= 60) do
-				testCount = testCount + 1
-				testTime = testTime - 60
-				print(testCount .. "is the test Count")
-			end
-			Variables.bountyMinutes = Variables.bountyMinutes - testCount
-			print("testTime = " .. testTime)
-		end
+		Variables.bountySeconds = 0
+	else
+		Variables.bountySeconds = Variables.bountySeconds - changeTime
 	end
-	
-	Variables.bountySeconds = Variables.bountySeconds - changeTime
 	
 	Variables.forageTime = Variables.forageTime - changeTime
     if (Variables.forageTime < 0) then
@@ -364,9 +352,9 @@ if Variables.firstTimeLoad == 0 then
 -- Dungeon Scene
 	reload()
 	composer.gotoScene("dungeon")
-	composer.loadScene("tavern")	
-	composer.loadScene("bounties")
+	composer.loadScene("tavern")
 	COUNTINUEUPDATE = false
+	composer.loadScene("bounties")
 	if difference > 250 and Variables.welcomeEnabled == true then
 		composer.showOverlay("backToGame", createoptions)
 	end
