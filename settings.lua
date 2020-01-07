@@ -43,21 +43,43 @@ function scene:create(event)
 
 	sceneGroup:insert(welcomeEnabledText)
 	
+	local DeleteSaveText = display.newText("Confirm Delete Save", (bBox.width + 40) - bBox.width, (bBox.height + 140) - bBox.height, native.systemFont, 12)
+	DeleteSaveText.x = DeleteSaveText.x + DeleteSaveText.width/2
+	DeleteSaveText.y = welcomeEnabledText.y + 30
+	DeleteSaveText:setFillColor(0)
+
+	sceneGroup:insert(DeleteSaveText)
+	
 		-- Handle press events for the checkbox
 	local function onSwitchPress( event )
 		local switch = event.target
-		Variables.welcomeEnabled = switch.isOn
+		if event.target.id == checkbox1 then
+			Variables.welcomeEnabled = switch.isOn
+		end
 	end
+	
+	local options = {
+		width = 49,
+		height = 49,
+		numFrames = 2,
+		sheetContentWidth = 49,
+		sheetContentHeight = 98
+	}
+
+	local radioButtonSheet = graphics.newImageSheet( "Sprites/RadioButton.png", options )
 	
 	-- Create the widget
 	local welcomeIsEnabled = widget.newSwitch({
 		x = welcomeEnabledText.x + welcomeEnabledText.width/2 + 10,
 		y = welcomeEnabledText.y,
-		width = 12,
-		height = 12,
-        style = "checkbox",
-        id = "Checkbox",
-        onPress = onSwitchPress})
+		style = "checkbox",
+        id = "checkbox1",
+		width = 15,
+		height = 15,
+		onPress = onSwitchPress,
+		sheet = radioButtonSheet,
+		frameOff = 1,
+		frameOn = 2})
 		
 	sceneGroup:insert(welcomeIsEnabled)
 
@@ -66,6 +88,21 @@ function scene:create(event)
 	else
 		welcomeIsEnabled:setState({isOn=false})
 	end
+	
+	DeleteConfirm = widget.newSwitch({
+		x = welcomeEnabledText.x + welcomeEnabledText.width/2 + 10,
+		y = welcomeEnabledText.y + 30,
+		style = "checkbox",
+        id = "checkbox2",
+		width = 15,
+		height = 15,
+		initialSwitchState=false;
+		onPress = onSwitchPress,
+		sheet = radioButtonSheet,
+		frameOff = 1,
+		frameOn = 2})
+		
+	sceneGroup:insert(DeleteConfirm)
 	
 	local clearSaveButton = widget.newButton({
 	id = "delete",
@@ -115,23 +152,14 @@ function scene:create(event)
 end
 
 function closeOverlay()
+	DeleteConfirm:setState({isOn=false})
 	composer.hideOverlay(false, "fade", 200)
-end
-
-function removeItems()
-	displaynBox:removeSelf()
-	displayLevelTitle:removeSelf()
 end
 	
 function deleteSave(event)
 	if event.phase == "ended" and event.target.id == "delete" then
-		if (confirmDelete == 0) then
-			confirmDelete = 1
-			
-			--[UI Objects] 	
-			displayLevelTitle.text = "Press 'Delete Save' again to confirm"
-			displaynBox:setFillColor(0,0,0,0.4)
-			timer.performWithDelay(2000, removeItems)
+		if (DeleteConfirm.isOn==false) then
+			--[UI Objects]
 		else
 			filePath = system.pathForFile( "gamevariables.json", system.DocumentsDirectory )
 			os.remove(filePath)

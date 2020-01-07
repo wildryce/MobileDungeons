@@ -1,15 +1,32 @@
-V.0.1.2 Bounties Timer Patch
+V.0.1.1 Handlers Push Notes
+
+ACTIVITIES.LUA
+- Removed any instances of the expNeeded calculation handlers.
+- Removed any instances of the variable 'displayedExp'.
+
+DUNGEON.LUA
+- Made levelTestButton visible and functional for testing purposes. Updated how the buttons functionality works to better test.
+- Removed any instances of the expNeeded calculation handlers.
+- Removed any instances of the variable 'displayedExp'.
+
+INVENTORY.LUA
+- Removed any instances of the variable 'displayedExp'.
+- Removed the Update() function that handled the expNeeded calculation.
+
+LEVELUP.LUA
+- Hardcoded button and text locations to handle overlapping better. There should no longer be an issue where the text every 4th level feeds under the buttons.
+- Removed player level increase handler in the script.
+- Removed unused variable 'isOn' as it broke how the functions fired.
+- Removed some function calls that caused overlaps that fed over to next overlay show.
+- Changed how buttons and text are displayed on load slightly.
+- Removed a lot of unnecessary code located in the doOverlay() function.
 
 MAIN.LUA
-- Updated how the main save data handles the bounty time (removed minutes as a variable, instead now using just seconds).
-- Updated how the passage of time handles the bounty timer
+- Removed unused variables (loop, displayedExp)
+- Gave 10 inspire potions and 1000 zoulds on first time load of game for testing purposes.
+- Moved expNeeded calculation handler here. Modified the way the calculation is handled. Exists in the checkLevel() function
 
-BOUNTIES.LUA
-- Updated where the update call for the script when loading the game is held to properly account for starting the update of the countdown timer
-- Removed BountyMinutes (replaced by displayMinutes which functions differently, and only used for display purposes)
-- Added a separate DisplaySeconds variable which takes the current BountySeconds (which now houses minutes and seconds together, meaning 60 minutes is 3600 seconds) which displays current seconds left in a given minute accordingly.
-- Updated how timer and bounty message is displayed when timer runs down to zero (when player runs out of time, the message "New bounty available soon." shows up, replacing the current bounty and completion rate).
-- Removed old minutes calculation at line 142 (now done on first line on CountDown function when it is called, line 84)
-
-
+STATS.LUA
+- Removed any instances of the expNeeded calculation handlers.
+- Removed any instances of the variable 'displayedExp'. Replaced with the variable 'experience'.
 
