@@ -37,7 +37,7 @@ function scene:create(event)
 
 	sceneGroup:insert(welcomeTitle)
 	
-	local welcomeEnabledText = display.newText("Welcome Message Enabled", (bBox.width + 40) - bBox.width, (bBox.height + 140) - bBox.height, native.systemFont, 12)
+	local welcomeEnabledText = display.newText("Welcome Message Enabled", (bBox.width + 40) - bBox.width, (bBox.height + 160) - bBox.height, native.systemFont, 12)
 	welcomeEnabledText.x = welcomeEnabledText.x + welcomeEnabledText.width/2
 	welcomeEnabledText:setFillColor(0)
 
@@ -53,7 +53,7 @@ function scene:create(event)
 		-- Handle press events for the checkbox
 	local function onSwitchPress( event )
 		local switch = event.target
-		if event.target.id == checkbox1 then
+		if event.target.id == "Checkbox1" then
 			Variables.welcomeEnabled = switch.isOn
 		end
 	end
@@ -70,13 +70,14 @@ function scene:create(event)
 	
 	-- Create the widget
 	local welcomeIsEnabled = widget.newSwitch({
-		x = welcomeEnabledText.x + welcomeEnabledText.width/2 + 10,
+		x = welcomeEnabledText.x + welcomeEnabledText.width/2 + 15,
 		y = welcomeEnabledText.y,
 		style = "checkbox",
-        id = "checkbox1",
+        id = "Checkbox1",
 		width = 15,
 		height = 15,
 		onPress = onSwitchPress,
+		initialSwitchState=Variables.WelcomeEnabled,
 		sheet = radioButtonSheet,
 		frameOff = 1,
 		frameOn = 2})
@@ -90,7 +91,7 @@ function scene:create(event)
 	end
 	
 	DeleteConfirm = widget.newSwitch({
-		x = welcomeEnabledText.x + welcomeEnabledText.width/2 + 10,
+		x = DeleteSaveText.x + DeleteSaveText.width/2 + 15,
 		y = welcomeEnabledText.y + 30,
 		style = "checkbox",
         id = "checkbox2",

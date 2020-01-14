@@ -261,7 +261,7 @@ Runtime:addEventListener( "system", onSystemEvent )
 function reload()
 	-- Seed the random number generator
 	math.randomseed( os.time() )
-
+	
 	difference = os.difftime(os.time(), Variables.pastTime)
 	days = math.floor(difference/86400)
 	local remaining = difference % 86400
